@@ -1,0 +1,25 @@
+permalink: /:year:month:day/:title
+url: globalnet626.github.io
+baseurl: /project
+
+# variables
+name: Miguel Silvino
+description: Globalnet
+google_verification: null
+
+
+# File management
+include: [".htaccess"]
+exclude: ["README.md", "LICENSE"]
+
+# Sass
+sass:
+  style: :compressed
+  sass_dir: _sass
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter_opts:
+    disable : true

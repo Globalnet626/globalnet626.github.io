@@ -1,0 +1,11 @@
+bio:
+  name: bio
+
+blog:
+  name: blog
+
+projects:
+  name: projects
+
+misc:
+  name: misc
