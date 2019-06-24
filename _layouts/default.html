@@ -45,7 +45,7 @@
 			{% unless page.date%}
 				{% if page.title == 'me' or page.title == '404...' %}
 					<ul>
-						{% for post in site.tags[page.tags] %}
+						{% for post in site.tags[page.tags[0]] %}
 						<li><a href="{{  post.url }}" title="{{ post.title }}"><img src="/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
 						{% endfor %}
 					</ul>
@@ -54,7 +54,7 @@
 				{% endif %}
 			{% else %}
 				<ul>
-					{% for post in site.tags[page.tags] %}
+					{% for post in site.tags[page.tags[0]] %}
 					<li><a href="{{  post.url }}" title="{{ post.title }}"><img src="/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
 					{% endfor %}
 				</ul>
@@ -62,7 +62,7 @@
 		</div>
 		<div class="post_total">
 			{% if page.tag %}
-				<div class="left">{{ site.tags[page.tag] | size }} object(s)</div>
+				<div class="left">{{ site.tags[page.tag | size }} object(s)</div>
 			{% else %}
 				<div class="left">{{ site.posts | size }} object(s)</div>
 			{% endif %}
