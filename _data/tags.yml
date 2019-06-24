@@ -2,10 +2,10 @@ bio:
   name: bio
 
 technical-blog:
-  name: Technical-Blog
+  name: technical-blog
 
 hobby-blog:
-  name: Hobby-Blog
+  name: hobby-blog
 
 projects:
   name: projects
