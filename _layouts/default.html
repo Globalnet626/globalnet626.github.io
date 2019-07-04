@@ -58,7 +58,7 @@
 			{% else %}
 				<ul>
 				
-					{% for post in site.tags[page.tags[$x]] %}
+					{% for post in site.tags[$x] %}
 					<li><a href="{{  post.url }}" title="{{ post.title }}"><img src="/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
 					{% endfor %}
 				</ul>
