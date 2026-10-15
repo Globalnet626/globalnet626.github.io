@@ -17,12 +17,24 @@
 		if (!heading || !sets.length) return;
 		var id = window.location.hash.replace(/^#/, "");
 		var current = id ? document.getElementById(id) : null;
-		if (!current || !current.classList.contains("gallery-set")) current = null;
+		if (!current || !current.classList.contains("tag-anchor")) current = null;
 		var label = current ? (current.getAttribute("data-label") || id) : "gallery";
 		heading.textContent = label;
 		document.title = label;
 	}
 
-	window.addEventListener("hashchange", folderTitle);
+	function pinTop() {
+		if (!document.querySelector(".tag-anchor")) return;
+		if (window.matchMedia("(max-width: 750px)").matches) {
+			window.scrollTo(0, 0);
+		}
+	}
+
+	window.addEventListener("hashchange", function () {
+		folderTitle();
+		pinTop();
+	});
+	window.addEventListener("load", pinTop);
 	folderTitle();
+	pinTop();
 })();

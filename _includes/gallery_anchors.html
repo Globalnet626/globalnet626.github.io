@@ -1,0 +1,8 @@
+{% include gallery_tags.html %}
+<div class="tag-anchors">
+	{% for gtag in gallery_tags %}
+		{% if gtag.size > 0 %}
+		<span id="{{ gtag | slugify }}" class="tag-anchor" data-label="{{ gtag | escape }}"></span>
+		{% endif %}
+	{% endfor %}
+</div>

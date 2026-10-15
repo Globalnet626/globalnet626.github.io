@@ -11,9 +11,11 @@ permalink: /tag/gallery/
 {% for gtag in gallery_tags %}
 {% if gtag.size > 0 %}
 {% assign gslug = gtag | slugify %}
-.post_list:has(#{{ gslug }}:target) ~ .post_total .gallery-count { display: none; }
-.post_list:has(#{{ gslug }}:target) ~ .post_total .gallery-count[data-for="{{ gslug }}"] { display: inline; }
-.wrapper:has(#{{ gslug }}:target) #gallery-tags a[href="/tag/gallery/#{{ gslug }}"] { background: #000080; color: #fff8ff; }
+body:has(#{{ gslug }}:target) #gallery-all { display: none; }
+body:has(#{{ gslug }}:target) .gallery-set[data-tag="{{ gslug }}"] { display: block; }
+body:has(#{{ gslug }}:target) .gallery-count { display: none; }
+body:has(#{{ gslug }}:target) .gallery-count[data-for="{{ gslug }}"] { display: inline; }
+body:has(#{{ gslug }}:target) #gallery-tags a[href="/tag/gallery/#{{ gslug }}"] { background: #000080; color: #fff8ff; }
 {% endif %}
 {% endfor %}
 </style>
@@ -30,7 +32,7 @@ permalink: /tag/gallery/
 {% for gtag in gallery_tags %}
 {% if gtag.size > 0 %}
 {% assign gslug = gtag | slugify %}
-<div class="gallery-set" id="{{ gslug }}" data-label="{{ gtag | escape }}">
+<div class="gallery-set" data-tag="{{ gslug }}" data-label="{{ gtag | escape }}">
 <ul class="gallery-files">
 	{% for photo in gallery_dated %}
 		{% if photo.tags contains gtag %}

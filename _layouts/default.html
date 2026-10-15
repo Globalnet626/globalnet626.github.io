@@ -21,6 +21,9 @@
 <body>
 
 	<div class="wrapper">
+		{% if page.gallery_folder %}
+		{% include gallery_anchors.html %}
+		{% endif %}
 		<div class="default_title{% if page.gallery_folder %} has-winbtns{% endif %}">
 			{% if page.gallery_folder %}
 			<button type="button" class="winbtn gallery-restore" aria-label="Restore window"><span class="fa fa-window-minimize"></span></button>
