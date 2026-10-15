@@ -10,3 +10,6 @@
 .post_title {
 	background: #00007f;
 }
+body:has(.photo-stack) .default_title {
+	background: #00007f;
+}

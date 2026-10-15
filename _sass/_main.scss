@@ -576,10 +576,14 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 }
 
 // 980px leaves the 70.2% file pane wide enough for four 128px thumbnails.
-.wrapper:has(.post_list_gallery) {
+.wrapper:has(.post_list_gallery),
+body:has(.photo-stack) .content {
 	width: 980px;
 }
 .wrapper.is-max:has(.post_list_gallery) {
+	width: calc(100% - 24px);
+}
+body:has(.photo-stack) .wrapper.is-max ~ .content {
 	width: calc(100% - 24px);
 }
 .wrapper:has(.post_list_gallery) .tag_list,
@@ -676,7 +680,7 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 	font-weight: bold;
 }
 
-.photo-props {
+.post_content ul.photo-props {
 	margin: 0 8px 10px;
 	padding: 0;
 	list-style: none;
@@ -685,6 +689,8 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 
 	li {
 		margin: 0 0 2px;
+		padding: 0;
+		list-style: none;
 	}
 }
 
@@ -705,15 +711,17 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 	display: none;
 }
 
-body:not(:has(.photo-anchor:target)) .photo-stack .photo-sheet:first-child {
-	display: block;
+body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
+	display: none;
 }
 
 @media only screen and (max-width: 1040px) {
-	.wrapper:has(.post_list_gallery) {
+	.wrapper:has(.post_list_gallery),
+	body:has(.photo-stack) .content {
 		width: 90%;
 	}
-	.wrapper.is-max:has(.post_list_gallery) {
+	.wrapper.is-max:has(.post_list_gallery),
+	body:has(.photo-stack) .wrapper.is-max ~ .content {
 		width: calc(100% - 12px);
 	}
 }
@@ -754,6 +762,10 @@ body:not(:has(.photo-anchor:target)) .photo-stack .photo-sheet:first-child {
 	body:has(.photo-stack) .tag_list {
 		padding-bottom: 15px;
 		box-sizing: border-box;
+	}
+	body:has(.photo-stack) .content {
+		width: calc(100% - 16px);
+		max-width: none;
 	}
 }
 @media only screen and (max-width: 480px) {

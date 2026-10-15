@@ -8,13 +8,10 @@
 
 	function currentSheet() {
 		var id = window.location.hash.replace(/^#/, "");
-		if (id) {
-			var targeted = stack.querySelector('.photo-sheet[data-slug="' + id.replace(/"/g, "") + '"]');
-			if (targeted) {
-				return targeted;
-			}
+		if (!id) {
+			return null;
 		}
-		return stack.querySelector(".photo-sheet");
+		return stack.querySelector('.photo-sheet[data-slug="' + id.replace(/"/g, "") + '"]');
 	}
 
 	function show() {

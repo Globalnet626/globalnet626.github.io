@@ -30,8 +30,8 @@
 		{% if page.gallery_view %}
 		{% include gallery_photo_anchors.html %}
 		{% endif %}
-		<div class="default_title{% if page.gallery_folder %} has-winbtns{% endif %}">
-			{% if page.gallery_folder %}
+		<div class="default_title{% if page.gallery_folder or page.gallery_view %} has-winbtns{% endif %}">
+			{% if page.gallery_folder or page.gallery_view %}
 			<button type="button" class="winbtn gallery-restore" aria-label="Restore window"><span class="fa fa-window-minimize"></span></button>
 			<button type="button" class="winbtn winbtn-max gallery-max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
 			<a class="winbtn" href="/" aria-label="Close"><span class="fa fa-times"></span></a>
@@ -116,9 +116,11 @@
 				<div class="btn btn_max"><span class="fa fa-window-maximize"></span></div>
 				<div class="btn"><span class="fa fa-window-minimize"></span></div>
 			</div>
+			{% unless page.photo %}
 			<ul class="topbar">
-				<li>{% unless page.photo %}{{ page.date | date: '%B %-d, %Y' }}{% endunless %}</li>
+				<li>{{ page.date | date: '%B %-d, %Y' }}</li>
 			</ul>
+			{% endunless %}
 			<div class="post_content">
         		{{ content }}
 				{% if page.title %}
@@ -133,7 +135,7 @@
 	{% if page.gallery_view %}
 	<script src="/assets/js/gallery.js"></script>
 	{% endif %}
-	{% if page.gallery_folder %}
+	{% if page.gallery_folder or page.gallery_view %}
 	<script src="/assets/js/gallery-folder.js"></script>
 	{% endif %}
 	<div class="footer">
