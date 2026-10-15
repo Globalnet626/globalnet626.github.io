@@ -14,7 +14,7 @@
 	function folderTitle() {
 		var heading = document.querySelector(".default_title h1");
 		var sets = document.querySelectorAll(".gallery-set");
-		if (!heading || !sets.length) return;
+		if (!heading || !sets.length || heading.querySelector(".explorer-name")) return;
 		var id = window.location.hash.replace(/^#/, "");
 		var current = id ? document.getElementById(id) : null;
 		if (!current || !current.classList.contains("tag-anchor")) current = null;

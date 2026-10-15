@@ -1,0 +1,52 @@
+{% include gallery_tags.html %}
+{% assign gallery_dated = site.data.gallery | where_exp: "item", "item.taken != nil" | sort: "taken" | reverse %}
+{% assign gallery_undated = site.data.gallery | where_exp: "item", "item.taken == nil" %}
+<style>
+{% for gtag in gallery_tags %}
+{% if gtag.size > 0 %}
+{% assign gslug = gtag | slugify %}
+body:has(#{{ gslug }}:target) #gallery-all { display: none; }
+body:has(#{{ gslug }}:target) .gallery-set[data-tag="{{ gslug }}"] { display: block; }
+body:has(#{{ gslug }}:target) .gallery-count { display: none; }
+body:has(#{{ gslug }}:target) .gallery-count[data-for="{{ gslug }}"] { display: inline; }
+body:has(#{{ gslug }}:target) #gallery-tags a[href="/tag/gallery/#{{ gslug }}"] { background: #000080; color: #fff8ff; }
+html[data-from="{{ gslug }}"] #gallery-all { display: none; }
+html[data-from="{{ gslug }}"] .gallery-set[data-tag="{{ gslug }}"] { display: block; }
+html[data-from="{{ gslug }}"] .gallery-count { display: none; }
+html[data-from="{{ gslug }}"] .gallery-count[data-for="{{ gslug }}"] { display: inline; }
+html[data-from="{{ gslug }}"] .explorer-name { display: none; }
+html[data-from="{{ gslug }}"] .explorer-name[data-for="{{ gslug }}"] { display: inline; }
+html[data-from="{{ gslug }}"] #gallery-tags a[href="/tag/gallery/#{{ gslug }}"] { background: #000080; color: #fff8ff; }
+{% endif %}
+{% endfor %}
+html[data-from="gallery"] #tag-list a.gallery-root { background: #000080; color: #fff8ff; }
+</style>
+<div class="gallery-set" id="gallery-all" data-tag="gallery" data-label="gallery">
+<ul class="gallery-files">
+	{% for photo in gallery_dated %}
+	{% include gallery_file.html photo=photo from="gallery" %}
+	{% endfor %}
+	{% for photo in gallery_undated %}
+	{% include gallery_file.html photo=photo from="gallery" %}
+	{% endfor %}
+</ul>
+</div>
+{% for gtag in gallery_tags %}
+{% if gtag.size > 0 %}
+{% assign gslug = gtag | slugify %}
+<div class="gallery-set" data-tag="{{ gslug }}" data-label="{{ gtag | escape }}">
+<ul class="gallery-files">
+	{% for photo in gallery_dated %}
+		{% if photo.tags contains gtag %}
+		{% include gallery_file.html photo=photo from=gslug %}
+		{% endif %}
+	{% endfor %}
+	{% for photo in gallery_undated %}
+		{% if photo.tags contains gtag %}
+		{% include gallery_file.html photo=photo from=gslug %}
+		{% endif %}
+	{% endfor %}
+</ul>
+</div>
+{% endif %}
+{% endfor %}

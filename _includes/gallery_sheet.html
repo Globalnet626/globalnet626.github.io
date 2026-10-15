@@ -1,6 +1,6 @@
 {% capture slug %}{% include gallery_slug.html item=include.photo %}{% endcapture %}
 {% capture full_src %}{% include gallery_src.html item=include.photo kind="full" %}{% endcapture %}
-<article class="photo-sheet" id="{{ slug | strip }}" data-caption="{{ include.photo.caption | escape }}" tabindex="-1">
+<article class="photo-sheet" data-slug="{{ slug | strip }}" data-caption="{{ include.photo.caption | escape }}" tabindex="-1">
 	<img class="photo js-photo" data-src="{{ full_src | strip }}" alt="{{ include.photo.alt | default: include.photo.caption | escape }}">
 	<noscript><img class="photo" src="{{ full_src | strip }}" alt="{{ include.photo.alt | default: include.photo.caption | escape }}"></noscript>
 	<p class="photo-caption">{{ include.photo.caption | escape }}</p>

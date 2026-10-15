@@ -6,6 +6,13 @@ gallery_view: true
 permalink: /gallery/
 ---
 
+<style>
+{% for photo in site.data.gallery %}
+{% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
+{% assign pslug = slug | strip %}
+body:has(#{{ pslug }}:target) .photo-stack .photo-sheet[data-slug="{{ pslug }}"] { display: block; }
+{% endfor %}
+</style>
 <div class="photo-stack" id="photo-stack">
 	{% assign gallery_dated = site.data.gallery | where_exp: "item", "item.taken != nil" | sort: "taken" | reverse %}
 	{% assign gallery_undated = site.data.gallery | where_exp: "item", "item.taken == nil" %}

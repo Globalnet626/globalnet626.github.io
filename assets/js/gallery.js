@@ -9,8 +9,8 @@
 	function currentSheet() {
 		var id = window.location.hash.replace(/^#/, "");
 		if (id) {
-			var targeted = document.getElementById(id);
-			if (targeted && stack.contains(targeted)) {
+			var targeted = stack.querySelector('.photo-sheet[data-slug="' + id.replace(/"/g, "") + '"]');
+			if (targeted) {
 				return targeted;
 			}
 		}
@@ -34,6 +34,15 @@
 		}
 	}
 
-	window.addEventListener("hashchange", show);
+	function pinTop() {
+		window.scrollTo(0, 0);
+	}
+
+	window.addEventListener("hashchange", function () {
+		show();
+		pinTop();
+	});
+	window.addEventListener("load", pinTop);
 	show();
+	pinTop();
 })();

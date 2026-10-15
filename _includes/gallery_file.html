@@ -5,7 +5,7 @@
 {% capture shown %}{% include gallery_src.html item=include.photo kind="full" %}{% endcapture %}
 {% endif %}
 <li>
-	<a href="/gallery/#{{ slug | strip }}" title="{{ include.photo.caption | escape }}">
+	<a href="/gallery/?from={{ include.from | default: 'gallery' }}#{{ slug | strip }}" title="{{ include.photo.caption | escape }}">
 		<span class="photo-frame"><img class="photo-thumb" src="{{ shown | strip }}" alt="" loading="lazy" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='photo-thumb is-icon';this.src=this.getAttribute('data-fallback');"></span>
 		<span class="photo-label">{{ include.photo.caption | escape }}</span>
 		<span class="photo-meta">{% if include.photo.tags %}{{ include.photo.tags | join: ", " | escape }}{% endif %}{% if include.photo.taken %}{% if include.photo.tags %} · {% endif %}{{ include.photo.taken | date: "%Y-%m-%d" }}{% endif %}</span>
