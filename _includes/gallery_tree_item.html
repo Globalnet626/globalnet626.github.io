@@ -1,6 +1,6 @@
 {% include gallery_tags.html %}
-<li class="tree-branch{% if page.gallery_folder or page.gallery_view %} is-open{% endif %}">
-	<button type="button" class="tree-toggle" aria-controls="gallery-tags" aria-expanded="{% if page.gallery_folder or page.gallery_view %}true{% else %}false{% endif %}" aria-label="{% if page.gallery_folder or page.gallery_view %}Collapse gallery{% else %}Expand gallery{% endif %}"><i></i></button>
+<li class="tree-branch is-open">
+	<button type="button" class="tree-toggle" aria-controls="gallery-tags" aria-expanded="true" aria-label="Collapse gallery"><i></i></button>
 	<a class="gallery-root" href="/tag/gallery/" title="gallery"><img src="/assets/img/folder.ico" alt="" />gallery</a>
 	<ul id="gallery-tags">
 		{% for gtag in gallery_tags %}
