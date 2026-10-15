@@ -1,31 +1,39 @@
 How to add a photo
 ==================
 
-The gallery page (/gallery/, linked as "Photos" in the top bar) reads
-its list from _data/gallery.yml. Placeholder pictures in this folder
-are here so the page works before you add your own.
+The gallery is a folder in the file list, next to the category folders
+such as bio. Open that folder to see each picture as a file. Open a
+file to view the picture in a window.
+
+Placeholder pictures in this folder are here so the gallery works
+before you add your own.
 
 1. Save an image in this folder:
 
      assets/img/gallery/
 
    JPG, PNG, GIF, and SVG all work. A wide photo around 1200 pixels
-   across looks best in the detail view.
+   across fits the window well.
 
-2. Add an entry to _data/gallery.yml, in the site root:
+2. Add a markdown file in _gallery/ (next to the other photo files).
+   The filename becomes the address, so my-photo.md opens at
+   /gallery/my-photo/.
 
-     - file: my-photo.jpg
-       alt: Short description of what is in the photo
-       caption: Title shown under the thumbnail
+     ---
+     title: Title shown on the file and in the window
+     image: my-photo.jpg
+     alt: Short description of what is in the photo
+     ---
 
-   file   Filename only, not a path. It must match the file you saved.
+   title  Label under the file icon, the window title, and the caption
+          under the picture.
+   image  Filename only, not a path. It must match the file you saved
+          in this folder.
    alt    Required. Screen readers use it, and it is shown if the
           image cannot load.
-   caption  Label under the thumbnail and in the detail view.
 
-3. Commit the image and the _data/gallery.yml change, then push.
-   GitHub Pages publishes the new photo on the next build.
+3. Commit the image and the markdown file, then push. GitHub Pages
+   publishes the new photo on the next build.
 
-To remove a photo, delete its entry from _data/gallery.yml. You can
-delete the image file as well. Removing every entry leaves a short
-empty-state note on the gallery page.
+To remove a photo, delete its file in _gallery/. You can delete the
+image from this folder as well.

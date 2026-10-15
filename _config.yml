@@ -17,6 +17,20 @@ sass:
   style: :compressed
   sass_dir: _sass
 
+# Gallery folder. One markdown file in _gallery/ per photo.
+# See assets/img/gallery/README.txt.
+collections:
+  gallery:
+    output: true
+    permalink: /gallery/:name/
+
+defaults:
+  - scope:
+      type: gallery
+    values:
+      layout: photo
+      photo: true
+
 # Markdown
 markdown: kramdown
 kramdown:

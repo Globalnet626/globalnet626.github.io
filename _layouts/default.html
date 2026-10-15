@@ -36,9 +36,17 @@
 				<li><a href="/" ><img src="/assets/img/disk.png" />(C:)</a>
 			<ul>
 				{% assign tags = site.tags | sort %}
+				{% assign gallery_shown = false %}
 				{% for tag in tags %}
+				{% if gallery_shown == false and tag[0] > 'gallery' %}
+				<li><a href="/tag/gallery/" title="gallery"><img src="/assets/img/folder.ico" />gallery</a></li>
+				{% assign gallery_shown = true %}
+				{% endif %}
 				<li><a href="/tag/{{ tag | first | slugify }}/" title="{{ tag[0] | replace:'-', ' ' }}"><img src="/assets/img/folder.ico" />{{ tag[0] | replace:'-', ' ' }}</a></li>
 				{% endfor %}
+				{% if gallery_shown == false %}
+				<li><a href="/tag/gallery/" title="gallery"><img src="/assets/img/folder.ico" />gallery</a></li>
+				{% endif %}
 			</ul>
 				</li>
 			</ul>
@@ -46,7 +54,7 @@
 		<div class="post_list">
 			{{% $x = page.tags[0]%}}
 			{% unless page.date%}
-				{% if page.title == 'me' or page.title == '404...' or page.gallery %}
+				{% if page.title == 'me' or page.title == '404...' or page.photo %}
 					<ul>
 						<li>{{$x}}</li>
 						{% for post in site.tags[$x] %}
@@ -66,7 +74,9 @@
 			{% endunless %}
 		</div>
 		<div class="post_total">
-			{% if page.tag %}
+			{% if page.gallery_folder %}
+				<div class="left">{{ site.gallery | size }} object(s)</div>
+			{% elsif page.tag %}
 				<div class="left">{{ site.tags[page.tag | size }} object(s)</div>
 			{% else %}
 				<div class="left">{{ site.posts | size }} object(s)</div>
@@ -96,9 +106,6 @@
     {% endif %}
 	<script src="/assets/js/001.js"></script>
 	<script src="/assets/js/002.js"></script>
-	{% if page.gallery %}
-	<script src="/assets/js/gallery.js"></script>
-	{% endif %}
 	<div class="footer">
 		<p style="align-content: center;"><i>The heart of the discerning acquires knowledge, for the ears of the wise seek it out. </br><b>Proverbs 18:15</b></i></p>
 	</div>
