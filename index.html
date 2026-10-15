@@ -1,7 +1,14 @@
 ---
 layout: default
+home_files: true
 ---
 <ul>
+	{% include gallery_tags.html %}
+	{% for gtag in gallery_tags %}
+		{% if gtag.size > 0 %}
+		<li class="tag-folder"><a href="/tag/gallery/#{{ gtag | slugify }}" title="{{ gtag | escape }}"><img src="/assets/img/folder-pictures.png" alt="" />{{ gtag | escape }}</a></li>
+		{% endif %}
+	{% endfor %}
 	{% for post in site.tags["bio"] %}
 	<li><a href="{{  post.url }}" title="{{ post.title }}"><img src="/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
 	{% endfor %}
