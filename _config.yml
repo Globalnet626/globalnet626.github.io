@@ -10,26 +10,20 @@ google_verification: null
 
 # File management
 include: [".htaccess"]
-exclude: ["README.md", "LICENSE"]
+exclude: ["README.md", "LICENSE", "docs"]
 
 # Sass
 sass:
   style: :compressed
   sass_dir: _sass
 
-# Gallery folder. One markdown file in _gallery/ per photo.
-# See assets/img/gallery/README.txt.
-collections:
-  gallery:
-    output: true
-    permalink: /gallery/:name/
-
-defaults:
-  - scope:
-      type: gallery
-    values:
-      layout: photo
-      photo: true
+# Public gallery images. Leave both blank to use the local placeholders
+# in assets/img/gallery/. No keys belong here. See docs/gallery-r2.md.
+# Example: https://photos.gleebsal.net
+gallery_base_url: ""
+# Optional. Relative thumb values use this, then gallery_base_url,
+# then the local placeholder folder.
+gallery_thumb_base_url: ""
 
 # Markdown
 markdown: kramdown

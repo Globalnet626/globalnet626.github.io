@@ -1,0 +1,7 @@
+{%- if include.item.slug and include.item.slug != "" -%}
+{{- include.item.slug | slugify -}}
+{%- elsif include.item.file and include.item.file != "" -%}
+{{- include.item.file | split: "." | first | slugify -}}
+{%- else -%}
+{{- include.item.caption | slugify -}}
+{%- endif -%}

@@ -5,8 +5,9 @@ gallery_folder: true
 permalink: /tag/gallery/
 ---
 <ul>
-	{% assign photos = site.gallery | sort: "title" %}
+	{% assign photos = site.data.gallery | sort: "caption" %}
 	{% for photo in photos %}
-	<li><a href="{{ photo.url }}" title="{{ photo.title }}"><img src="/assets/img/file.ico" title="{{ photo.title }}" />{{ photo.title }}</a></li>
+	{% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
+	<li><a href="/gallery/#{{ slug | strip }}" title="{{ photo.caption | escape }}">{% if photo.thumb and photo.thumb != "" %}{% capture thumb_src %}{% include gallery_src.html item=photo kind="thumb" %}{% endcapture %}<img class="photo-thumb" src="{{ thumb_src | strip }}" alt="" />{% else %}<img src="/assets/img/file.ico" title="{{ photo.caption | escape }}" />{% endif %}{{ photo.caption | escape }}</a></li>
 	{% endfor %}
 </ul>

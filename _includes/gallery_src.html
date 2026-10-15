@@ -1,0 +1,54 @@
+{%- comment -%}
+  Prints the image URL for a gallery data entry.
+  Pass item, and kind "full" (default) or "thumb".
+  Full images use item.url, then gallery_base_url + item.file,
+  then the local placeholder folder.
+  Thumbs use item.thumb with gallery_thumb_base_url, then the same fallbacks.
+{%- endcomment -%}
+{%- assign base = site.gallery_base_url | default: "" | strip -%}
+{%- assign thumb_base = site.gallery_thumb_base_url | default: "" | strip -%}
+{%- if base != "" -%}
+  {%- assign bend = base | slice: -1, 1 -%}
+  {%- if bend == "/" -%}
+    {%- assign blen = base | size | minus: 1 -%}
+    {%- assign base = base | slice: 0, blen -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if thumb_base != "" -%}
+  {%- assign tend = thumb_base | slice: -1, 1 -%}
+  {%- if tend == "/" -%}
+    {%- assign tlen = thumb_base | size | minus: 1 -%}
+    {%- assign thumb_base = thumb_base | slice: 0, tlen -%}
+  {%- endif -%}
+{%- endif -%}
+{%- assign force = false -%}
+{%- if include.kind == "thumb" -%}
+  {%- assign raw = include.item.thumb | default: "" -%}
+  {%- if thumb_base != "" -%}
+    {%- assign root = thumb_base -%}
+  {%- else -%}
+    {%- assign root = base -%}
+  {%- endif -%}
+{%- elsif include.item.url and include.item.url != "" -%}
+  {%- assign raw = include.item.url -%}
+  {%- assign root = "" -%}
+  {%- assign force = true -%}
+{%- else -%}
+  {%- assign raw = include.item.file | default: "" -%}
+  {%- assign root = base -%}
+{%- endif -%}
+{%- if force or raw contains "://" -%}
+{{- raw -}}
+{%- elsif raw != "" and root != "" -%}
+{%- if raw contains "/" -%}
+{{- root -}}/{{- raw -}}
+{%- else -%}
+{{- root -}}/{{- raw | uri_escape -}}
+{%- endif -%}
+{%- elsif raw != "" -%}
+{%- if raw contains "/" -%}
+/assets/img/gallery/{{- raw -}}
+{%- else -%}
+/assets/img/gallery/{{- raw | uri_escape -}}
+{%- endif -%}
+{%- endif -%}

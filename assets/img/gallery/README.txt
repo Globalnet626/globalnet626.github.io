@@ -1,39 +1,18 @@
-How to add a photo
+Placeholder images
 ==================
 
-The gallery is a folder in the file list, next to the category folders
-such as bio. Open that folder to see each picture as a file. Open a
-file to view the picture in a window.
+These drawings ship with the site so the gallery folder works before
+Cloudflare R2 is set up.
 
-Placeholder pictures in this folder are here so the gallery works
-before you add your own.
+While gallery_base_url in _config.yml is blank, entries in
+_data/gallery.yml load the matching filename from this folder.
+Harbor at dusk uses harbor.svg, and the other captions match the
+other filenames.
 
-1. Save an image in this folder:
+After you set gallery_base_url, those filenames are loaded from the
+bucket instead. Upload the real photos there and edit
+_data/gallery.yml. You can leave these files in the repo; they are
+only used when the base URL is blank.
 
-     assets/img/gallery/
-
-   JPG, PNG, GIF, and SVG all work. A wide photo around 1200 pixels
-   across fits the window well.
-
-2. Add a markdown file in _gallery/ (next to the other photo files).
-   The filename becomes the address, so my-photo.md opens at
-   /gallery/my-photo/.
-
-     ---
-     title: Title shown on the file and in the window
-     image: my-photo.jpg
-     alt: Short description of what is in the photo
-     ---
-
-   title  Label under the file icon, the window title, and the caption
-          under the picture.
-   image  Filename only, not a path. It must match the file you saved
-          in this folder.
-   alt    Required. Screen readers use it, and it is shown if the
-          image cannot load.
-
-3. Commit the image and the markdown file, then push. GitHub Pages
-   publishes the new photo on the next build.
-
-To remove a photo, delete its file in _gallery/. You can delete the
-image from this folder as well.
+The full steps (bucket, custom domain, upload, CORS, data file) are
+in docs/gallery-r2.md.

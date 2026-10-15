@@ -1,0 +1,41 @@
+# Gallery catalog. The folder under (C:) lists these entries.
+#
+# Images are loaded from gallery_base_url in _config.yml. While that
+# setting is blank, `file` is served from assets/img/gallery/ so the
+# placeholders below keep working.
+#
+# file     Filename on the image host, or in assets/img/gallery/.
+# url      Optional full image URL. Overrides file and gallery_base_url.
+# thumb    Optional smaller image: a filename, a path such as
+#          thumbs/photo.jpg, or a full URL. The folder listing uses it
+#          and does not load the full image. Omit it to show a file icon.
+# alt      Required. What is in the picture.
+# caption  Name on the file and under the picture.
+# slug     Optional id used in the link. Defaults to the filename
+#          without its extension.
+#
+# Cloudflare setup: docs/gallery-r2.md
+
+- file: harbor.svg
+  alt: Small boats moored in a harbor under an orange dusk sky
+  caption: Harbor at dusk
+
+- file: pines.svg
+  alt: Pine trees standing on a ridge in front of a blue mountain
+  caption: Ridge pines
+
+- file: mesa.svg
+  alt: Red rock mesas in a desert with a low sun
+  caption: Desert mesas
+
+- file: night-market.svg
+  alt: A dark street of buildings with warm yellow windows
+  caption: Night windows
+
+- file: garden.svg
+  alt: A garden path lined with red, yellow, and purple flowers
+  caption: Garden path
+
+- file: cabin.svg
+  alt: A cabin with a glowing window in a snowy pine grove
+  caption: Snow cabin

@@ -448,3 +448,26 @@ ul.topbar {
 	border: 2px solid;
 	border-color: #000000 #fff8ff #fff8ff #000000;
 }
+
+.post_list img.photo-thumb {
+	display: block;
+	width: 32px;
+	height: 32px;
+	object-fit: cover;
+	margin: 0 auto 8px;
+	background: #008082;
+	border: 2px solid;
+	border-color: #000000 #fff8ff #fff8ff #000000;
+}
+
+.photo-stack .photo-sheet {
+	display: none;
+}
+
+.photo-stack .photo-sheet:target {
+	display: block;
+}
+
+.photo-stack:not(:has(.photo-sheet:target)) .photo-sheet:first-child {
+	display: block;
+}

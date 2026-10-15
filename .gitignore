@@ -1,0 +1,4 @@
+.env
+.env.*
+rclone.conf
+.dev.vars
