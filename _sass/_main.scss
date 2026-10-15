@@ -751,6 +751,10 @@ body:not(:has(.photo-anchor:target)) .photo-stack .photo-sheet:first-child {
 		max-height: none;
 		overflow: visible;
 	}
+	body:has(.photo-stack) .tag_list {
+		padding-bottom: 15px;
+		box-sizing: border-box;
+	}
 }
 @media only screen and (max-width: 480px) {
 	.content {
