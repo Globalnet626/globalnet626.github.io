@@ -437,6 +437,12 @@ ul.topbar {
 	background-color: #cacaca;
 } /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
 
+.post_list img.picture-icon,
+.post_title img.picture-icon {
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
 .post_content img.photo {
 	display: block;
 	max-width: 100%;

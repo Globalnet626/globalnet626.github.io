@@ -8,6 +8,6 @@ permalink: /tag/gallery/
 	{% assign photos = site.data.gallery | sort: "caption" %}
 	{% for photo in photos %}
 	{% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
-	<li><a href="/gallery/#{{ slug | strip }}" title="{{ photo.caption | escape }}">{% if photo.thumb and photo.thumb != "" %}{% capture thumb_src %}{% include gallery_src.html item=photo kind="thumb" %}{% endcapture %}<img class="photo-thumb" src="{{ thumb_src | strip }}" alt="" />{% else %}<img src="/assets/img/file.ico" title="{{ photo.caption | escape }}" />{% endif %}{{ photo.caption | escape }}</a></li>
+	<li><a href="/gallery/#{{ slug | strip }}" title="{{ photo.caption | escape }}">{% if photo.thumb and photo.thumb != "" %}{% capture thumb_src %}{% include gallery_src.html item=photo kind="thumb" %}{% endcapture %}<img class="photo-thumb" src="{{ thumb_src | strip }}" alt="" />{% else %}<img class="picture-icon" src="/assets/img/picture.png" title="{{ photo.caption | escape }}" alt="" />{% endif %}{{ photo.caption | escape }}</a></li>
 	{% endfor %}
 </ul>
