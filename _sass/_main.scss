@@ -581,8 +581,20 @@ ul.topbar {
 
 .post_list.post_list_gallery .photo-label {
 	display: block;
+	max-width: 100%;
 	line-height: 1.3;
 	white-space: normal;
+	overflow-wrap: break-word;
+	text-overflow: unset;
+	text-align: center;
+}
+
+.post_title h1 {
+	max-width: calc(100% - 70px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: top;
 }
 
 .post_list.post_list_gallery .photo-meta {

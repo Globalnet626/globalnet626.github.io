@@ -21,8 +21,8 @@
 
 - file: mecha/red-zaku-sniper.webp
   thumb: mecha/thumbs/red-zaku-sniper.webp
-  caption: Red Zaku sniper
-  alt: Red Zaku model aiming a long sniper rifle from a dark mobile armor base lit in red
+  caption: "Char's Zaku II (The ORIGIN ver.) on top of Metal Gear REX"
+  alt: "Char's Zaku II (The ORIGIN ver.) aiming a long sniper rifle from a dark mobile armor base lit in red, standing on top of Metal Gear REX"
   tags: [mecha]
   taken: "2018-12-20"
   camera: Samsung Galaxy S8
@@ -30,8 +30,8 @@
 
 - file: mecha/zeta-starburst.webp
   thumb: mecha/thumbs/zeta-starburst.webp
-  caption: Zeta starburst
-  alt: Zeta Gundam model aiming a rifle against a bright starburst over a planet's horizon
+  caption: MSZ-006 Zeta Gundam
+  alt: MSZ-006 Zeta Gundam aiming a rifle against a bright starburst over a planet's horizon
   tags: [mecha]
   taken: "2023-08-17T23:54:46"
   camera: Pixel 7
@@ -39,8 +39,8 @@
 
 - file: mecha/cat-girl-skyline.webp
   thumb: mecha/thumbs/cat-girl-skyline.webp
-  caption: Cat-ear pilot over the city
-  alt: Anime girl mecha figure with cat ears and a shield leaping over a city skyline
+  caption: AVATAR Fumina Custom
+  alt: AVATAR Fumina Custom, a cat-ear mecha figure with a shield leaping over a city skyline
   tags: [mecha]
   taken: "2025-01-31T01:29:27"
   camera: Pixel 7
@@ -48,8 +48,8 @@
 
 - file: mecha/gold-hyaku-shiki.webp
   thumb: mecha/thumbs/gold-hyaku-shiki.webp
-  caption: Gold Hyaku Shiki
-  alt: Gold-plated Hyaku Shiki model with a rifle and beam saber among asteroid rubble
+  caption: Hyaku Shiki
+  alt: Hyaku Shiki, a gold-plated model with a rifle and beam saber among asteroid rubble
   tags: [mecha]
   taken: "2025-02-28T20:25:32"
   camera: Pixel 7
@@ -57,8 +57,8 @@
 
 - file: mecha/guncannon-dunes.webp
   thumb: mecha/thumbs/guncannon-dunes.webp
-  caption: Guncannon in the dunes
-  alt: Red Guncannon model holding a rifle in front of desert dunes and mountains
+  caption: Guncannon
+  alt: Guncannon holding a rifle in front of desert dunes and mountains
   tags: [mecha]
   taken: "2025-03-05T23:10:11"
   camera: Pixel 7
@@ -66,8 +66,8 @@
 
 - file: mecha/black-mecha-orbit.webp
   thumb: mecha/thumbs/black-mecha-orbit.webp
-  caption: Black mecha in orbit
-  alt: Black mecha with a long purple blade floating above a cloudy planet
+  caption: Woundwort Psycho Blade Ver.
+  alt: Woundwort Psycho Blade Ver., a black mecha with a long purple blade floating above a cloudy planet
   tags: [mecha]
   taken: "2025-03-19T00:38:17"
   camera: Pixel 7
