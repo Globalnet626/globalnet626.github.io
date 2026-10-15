@@ -21,7 +21,12 @@
 <body>
 
 	<div class="wrapper">
-		<div class="default_title">
+		<div class="default_title{% if page.gallery_folder %} has-winbtns{% endif %}">
+			{% if page.gallery_folder %}
+			<button type="button" class="winbtn gallery-restore" aria-label="Restore window"><span class="fa fa-window-minimize"></span></button>
+			<button type="button" class="winbtn winbtn-max gallery-max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
+			<a class="winbtn" href="/" aria-label="Close"><span class="fa fa-times"></span></a>
+			{% endif %}
 			<img src="/assets/img/mycomputer.png" />
 			{% if page.tag %}
 				<h1>{{ page.tag }}</h1>
@@ -108,6 +113,9 @@
 	<script src="/assets/js/002.js"></script>
 	{% if page.gallery_view %}
 	<script src="/assets/js/gallery.js"></script>
+	{% endif %}
+	{% if page.gallery_folder %}
+	<script src="/assets/js/gallery-folder.js"></script>
 	{% endif %}
 	<div class="footer">
 		<p style="align-content: center;"><i>The heart of the discerning acquires knowledge, for the ears of the wise seek it out. </br><b>Proverbs 18:15</b></i></p>

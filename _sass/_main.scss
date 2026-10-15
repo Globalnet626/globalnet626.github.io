@@ -30,6 +30,48 @@ body {
 		margin: 0 3px 0 0;
 	}
 }
+.default_title.has-winbtns {
+	h1 {
+		display: inline-block;
+	}
+
+	.winbtn {
+		background: #cccccc;
+		width: 13px;
+		height: 11px;
+		float: right;
+		border: 2px solid;
+		border-color: #fff8ff #000000 #000000 #fff8ff;
+		padding: 0;
+		color: #000000;
+		line-height: 1;
+		cursor: pointer;
+		text-decoration: none;
+		box-sizing: content-box;
+
+		span {
+			font-size: 11px;
+			position: relative;
+			left: 2px;
+			top: -2px;
+		}
+
+		.fa-window-minimize,
+		.fa-window-maximize {
+			font-size: 10px;
+			left: 1px;
+		}
+	}
+
+	.winbtn-max {
+		margin: 0 3px 0 0;
+	}
+
+	.winbtn:active {
+		width: 12px;
+		height: 10px;
+	}
+}
 .post_title {
 	h1 {
 		display: inline-block;
@@ -339,10 +381,16 @@ ul.topbar {
 	}
 }
 @media only screen and (max-width: 750px) {
-	.wrapper:has(.post_list_gallery) .tag_list {
+	.wrapper:has(.post_list_gallery) .tag_list,
+	.wrapper.is-max:has(.post_list_gallery) .tag_list {
 		height: auto;
 		min-height: 150px;
 		max-height: 150px;
+	}
+	.wrapper.is-max .post_list.post_list_gallery {
+		height: auto;
+		min-height: 280px;
+		max-height: none;
 	}
 	.tag_list {
 		width: 99%;
@@ -462,12 +510,25 @@ ul.topbar {
 	border-color: #000000 #fff8ff #fff8ff #000000;
 }
 
+// 980px leaves the 70.2% file pane wide enough for four 128px thumbnails.
+.wrapper:has(.post_list_gallery) {
+	width: 980px;
+}
+.wrapper.is-max:has(.post_list_gallery) {
+	width: calc(100% - 24px);
+}
 .wrapper:has(.post_list_gallery) .tag_list,
 .post_list.post_list_gallery {
 	height: 72vh;
 	min-height: 340px;
 	max-height: 72vh;
 	box-sizing: border-box;
+}
+.wrapper.is-max:has(.post_list_gallery) .tag_list,
+.wrapper.is-max .post_list.post_list_gallery {
+	height: calc(100vh - 118px);
+	min-height: 240px;
+	max-height: calc(100vh - 118px);
 }
 
 .post_list.post_list_gallery {
@@ -526,7 +587,7 @@ ul.topbar {
 
 @media only screen and (max-width: 520px) {
 	.post_list.post_list_gallery ul li {
-		width: calc(50% - 24px);
+		width: calc(50% - 28px);
 		max-width: 140px;
 	}
 
@@ -547,4 +608,40 @@ ul.topbar {
 
 .photo-stack:not(:has(.photo-sheet:target)) .photo-sheet:first-child {
 	display: block;
+}
+
+@media only screen and (max-width: 1040px) {
+	.wrapper:has(.post_list_gallery) {
+		width: 90%;
+	}
+	.wrapper.is-max:has(.post_list_gallery) {
+		width: calc(100% - 12px);
+	}
+}
+@media only screen and (max-width: 750px) {
+	.wrapper:has(.post_list_gallery) .tag_list,
+	.wrapper.is-max:has(.post_list_gallery) .tag_list {
+		height: auto;
+		min-height: 150px;
+		max-height: 150px;
+	}
+	.post_list.post_list_gallery,
+	.wrapper.is-max .post_list.post_list_gallery {
+		height: auto;
+		min-height: 0;
+		max-height: none;
+	}
+}
+@media only screen and (max-width: 480px) {
+	.content {
+		width: calc(100% - 12px);
+		max-width: calc(100% - 12px);
+	}
+	.post_title h1 {
+		max-width: calc(100% - 72px);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		vertical-align: top;
+	}
 }
