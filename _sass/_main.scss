@@ -101,6 +101,7 @@ ul.topbar {
 	max-height: 150px;
 	overflow-y: scroll;
 	display: inline-block;
+	vertical-align: top;
 
 	ul {
 		list-style: none;
@@ -134,6 +135,7 @@ ul.topbar {
 	max-height: 150px;
 	overflow-y: scroll;
 	display: inline-block;
+	vertical-align: top;
 
 	img {
 		height: 16px;
@@ -337,6 +339,11 @@ ul.topbar {
 	}
 }
 @media only screen and (max-width: 750px) {
+	.wrapper:has(.post_list_gallery) .tag_list {
+		height: auto;
+		min-height: 150px;
+		max-height: 150px;
+	}
 	.tag_list {
 		width: 99%;
 	}
@@ -455,9 +462,15 @@ ul.topbar {
 	border-color: #000000 #fff8ff #fff8ff #000000;
 }
 
+.wrapper:has(.post_list_gallery) .tag_list,
 .post_list.post_list_gallery {
+	height: 72vh;
 	min-height: 340px;
 	max-height: 72vh;
+	box-sizing: border-box;
+}
+
+.post_list.post_list_gallery {
 
 	ul li {
 		width: 128px;
