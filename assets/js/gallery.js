@@ -47,7 +47,7 @@
 
 	var lightbox = document.createElement("div");
 	lightbox.className = "photo-lightbox";
-	lightbox.innerHTML = '<button type="button" class="photo-lightbox-close" aria-label="Close"><span class="fa fa-times"></span></button><img alt="">';
+	lightbox.innerHTML = '<button type="button" class="photo-lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></button><img alt="">';
 	document.body.appendChild(lightbox);
 	var lightImg = lightbox.querySelector("img");
 	var closeBtn = lightbox.querySelector("button");
