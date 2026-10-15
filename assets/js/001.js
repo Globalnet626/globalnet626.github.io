@@ -32,5 +32,7 @@ function minimize () {
 	}
 }
 
-max.addEventListener('click', maximize, false);
-min.addEventListener('click', minimize, false);
+if (max && min) {
+	max.addEventListener('click', maximize, false);
+	min.addEventListener('click', minimize, false);
+}

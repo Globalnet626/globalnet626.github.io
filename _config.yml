@@ -10,12 +10,20 @@ google_verification: null
 
 # File management
 include: [".htaccess"]
-exclude: ["README.md", "LICENSE"]
+exclude: ["README.md", "LICENSE", "docs"]
 
 # Sass
 sass:
   style: :compressed
   sass_dir: _sass
+
+# Public gallery images on Cloudflare R2. No keys belong here.
+# See docs/gallery-r2.md. Leave blank only to serve files from
+# assets/img/gallery/ instead.
+gallery_base_url: https://gallery.gleebsal.net
+# Optional. Relative thumb values use this, then gallery_base_url,
+# then assets/img/gallery/.
+gallery_thumb_base_url: ""
 
 # Markdown
 markdown: kramdown

@@ -1,0 +1,6 @@
+<div class="photo-anchors">
+	{% for photo in site.data.gallery %}
+		{% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
+		<span id="{{ slug | strip }}" class="photo-anchor"></span>
+	{% endfor %}
+</div>

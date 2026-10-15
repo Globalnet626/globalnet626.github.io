@@ -1,0 +1,10 @@
+{% comment %}Unique tags from _data/gallery.yml, not a fixed list.{% endcomment %}
+{% assign gallery_tag_list = "" %}
+{% for photo in site.data.gallery %}
+	{% if photo.tags %}
+		{% for t in photo.tags %}
+			{% assign gallery_tag_list = gallery_tag_list | append: "|" | append: t %}
+		{% endfor %}
+	{% endif %}
+{% endfor %}
+{% assign gallery_tags = gallery_tag_list | split: "|" | uniq | sort %}

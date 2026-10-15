@@ -1,0 +1,74 @@
+# Gallery catalog. The folder under (C:) lists these entries.
+#
+# Images load from gallery_base_url in _config.yml. A blank base URL
+# serves `file` from assets/img/gallery/ instead.
+#
+# file     Path on the image host, or under assets/img/gallery/.
+# url      Optional full image URL. Overrides file and gallery_base_url.
+# thumb    Optional smaller image. A path is joined to the thumb base
+#          URL, then gallery_base_url. The folder listing uses it.
+# alt      Required. What is in the picture.
+# caption  Name on the file and under the picture.
+# tags     Optional list, such as [mecha]. Shown with the photo.
+# taken    Optional date (2018-12-20) or ISO datetime
+#          (2025-03-19T00:38:17). A date with no time is shown as a
+#          date only. Leave it blank when unknown. Newest first.
+# camera   Optional camera name, shown in the opened photo.
+# slug     Optional id used in the link. Defaults to the filename
+#          without its extension.
+#
+# Cloudflare setup: docs/gallery-r2.md
+
+- file: mecha/red-zaku-sniper.webp
+  thumb: mecha/thumbs/red-zaku-sniper.webp
+  caption: "Char's Zaku II (The ORIGIN ver.) on top of Metal Gear REX"
+  alt: "Char's Zaku II (The ORIGIN ver.) aiming a long sniper rifle from a dark mobile armor base lit in red, standing on top of Metal Gear REX"
+  tags: [mecha]
+  taken: "2018-12-20"
+  camera: Samsung Galaxy S8
+  slug: red-zaku-sniper
+
+- file: mecha/zeta-starburst.webp
+  thumb: mecha/thumbs/zeta-starburst.webp
+  caption: MSZ-006 Zeta Gundam
+  alt: MSZ-006 Zeta Gundam aiming a rifle against a bright starburst over a planet's horizon
+  tags: [mecha]
+  taken: "2023-08-17T23:54:46"
+  camera: Pixel 7
+  slug: zeta-starburst
+
+- file: mecha/cat-girl-skyline.webp
+  thumb: mecha/thumbs/cat-girl-skyline.webp
+  caption: AVATAR Fumina Custom
+  alt: AVATAR Fumina Custom, a cat-ear mecha figure with a shield leaping over a city skyline
+  tags: [mecha]
+  taken: "2025-01-31T01:29:27"
+  camera: Pixel 7
+  slug: cat-girl-skyline
+
+- file: mecha/gold-hyaku-shiki.webp
+  thumb: mecha/thumbs/gold-hyaku-shiki.webp
+  caption: Hyaku Shiki
+  alt: Hyaku Shiki, a gold-plated model with a rifle and beam saber among asteroid rubble
+  tags: [mecha]
+  taken: "2025-02-28T20:25:32"
+  camera: Pixel 7
+  slug: gold-hyaku-shiki
+
+- file: mecha/guncannon-dunes.webp
+  thumb: mecha/thumbs/guncannon-dunes.webp
+  caption: Guncannon
+  alt: Guncannon holding a rifle in front of desert dunes and mountains
+  tags: [mecha]
+  taken: "2025-03-05T23:10:11"
+  camera: Pixel 7
+  slug: guncannon-dunes
+
+- file: mecha/black-mecha-orbit.webp
+  thumb: mecha/thumbs/black-mecha-orbit.webp
+  caption: Woundwort Psycho Blade Ver.
+  alt: Woundwort Psycho Blade Ver., a black mecha with a long purple blade floating above a cloudy planet
+  tags: [mecha]
+  taken: "2025-03-19T00:38:17"
+  camera: Pixel 7
+  slug: black-mecha-orbit
