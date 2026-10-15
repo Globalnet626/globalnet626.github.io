@@ -802,9 +802,11 @@ body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
 	bottom: 0;
 	left: 0;
 	z-index: 30;
+	overflow: hidden;
 	background: #000;
 	align-items: center;
 	justify-content: center;
+	touch-action: none;
 }
 
 .photo-lightbox.is-open {
@@ -812,6 +814,8 @@ body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
 }
 
 .photo-lightbox img {
+	position: relative;
+	z-index: 1;
 	max-width: 100%;
 	max-height: 100%;
 	width: auto;
@@ -820,7 +824,25 @@ body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
 	margin: 0;
 	border: 0;
 	background: transparent;
-	cursor: default;
+	transform-origin: center center;
+	cursor: zoom-in;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.photo-lightbox.is-anim img {
+	transition: transform 0.16s ease-out;
+}
+
+.photo-lightbox.is-zoomed img {
+	cursor: zoom-out;
+}
+
+.photo-lightbox.is-panning img,
+.photo-lightbox.is-pinching img {
+	cursor: grabbing;
+	transition: none;
 }
 
 .photo-lightbox-close {
@@ -837,6 +859,7 @@ body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
 	color: #fff;
 	cursor: pointer;
 	z-index: 2;
+	touch-action: manipulation;
 	display: flex;
 	align-items: center;
 	justify-content: center;
