@@ -68,6 +68,11 @@
 	var TAP_PX = 28;
 
 	function allowsClickZoom(pointerType) {
+		// Touch taps must not toggle zoom. A mouse or pen is a fine pointer
+		// even when the primary device media query says otherwise.
+		if (pointerType === "mouse" || pointerType === "pen") {
+			return true;
+		}
 		if (pointerType === "touch") {
 			return false;
 		}
