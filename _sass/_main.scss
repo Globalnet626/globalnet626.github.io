@@ -585,6 +585,32 @@ ul.topbar {
 	white-space: normal;
 }
 
+.post_list.post_list_gallery .photo-meta {
+	display: block;
+	margin-top: 2px;
+	color: #404040;
+	font-size: 11px;
+	line-height: 1.2;
+	white-space: normal;
+}
+
+.photo-caption {
+	margin: 0 8px 6px;
+	font-weight: bold;
+}
+
+.photo-props {
+	margin: 0 8px 10px;
+	padding: 0;
+	list-style: none;
+	font-size: 12px;
+	line-height: 1.4;
+
+	li {
+		margin: 0 0 2px;
+	}
+}
+
 @media only screen and (max-width: 520px) {
 	.post_list.post_list_gallery ul li {
 		width: calc(50% - 28px);

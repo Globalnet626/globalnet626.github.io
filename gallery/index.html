@@ -7,13 +7,12 @@ permalink: /gallery/
 ---
 
 <div class="photo-stack" id="photo-stack">
-{% for photo in site.data.gallery %}
-	{% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
-	{% capture full_src %}{% include gallery_src.html item=photo kind="full" %}{% endcapture %}
-	<article class="photo-sheet" id="{{ slug | strip }}" data-caption="{{ photo.caption | escape }}" tabindex="-1">
-		<img class="photo js-photo" data-src="{{ full_src | strip }}" alt="{{ photo.alt | default: photo.caption | escape }}">
-		<noscript><img class="photo" src="{{ full_src | strip }}" alt="{{ photo.alt | default: photo.caption | escape }}"></noscript>
-		<p>{{ photo.caption | escape }}</p>
-	</article>
-{% endfor %}
+	{% assign gallery_dated = site.data.gallery | where_exp: "item", "item.taken != nil" | sort: "taken" | reverse %}
+	{% assign gallery_undated = site.data.gallery | where_exp: "item", "item.taken == nil" %}
+	{% for photo in gallery_dated %}
+	{% include gallery_sheet.html photo=photo %}
+	{% endfor %}
+	{% for photo in gallery_undated %}
+	{% include gallery_sheet.html photo=photo %}
+	{% endfor %}
 </div>

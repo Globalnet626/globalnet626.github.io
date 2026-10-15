@@ -2,7 +2,7 @@
   Prints the image URL for a gallery data entry.
   Pass item, and kind "full" (default) or "thumb".
   Full images use item.url, then gallery_base_url + item.file,
-  then the local placeholder folder.
+  then assets/img/gallery/.
   Thumbs use item.thumb with gallery_thumb_base_url, then the same fallbacks.
 {%- endcomment -%}
 {%- assign base = site.gallery_base_url | default: "" | strip -%}
