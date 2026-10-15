@@ -44,12 +44,10 @@
 			</ul>
 		</div>
 		<div class="post_list">
-			{{% $x = page.tags[0]%}}
 			{% unless page.date%}
 				{% if page.title == 'me' or page.title == '404...' %}
 					<ul>
-						<li>{{$x}}</li>
-						{% for post in site.tags[$x] %}
+						{% for post in site.posts %}
 						<li><a href="{{  post.url }}" title="{{ post.title }}"><img src="/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
 						{% endfor %}
 					</ul>
@@ -57,9 +55,10 @@
 					{{ content }}
 				{% endif %}
 			{% else %}
+				{% assign folder = page.tags | first %}
+				{% unless folder %}{% assign folder = page.folder %}{% endunless %}
 				<ul>
-					<li>{{$x}}</li>
-					{% for post in $x %}
+					{% for post in site.tags[folder] %}
 					<li><a href="{{  post.url }}" title="{{ post.title }}"><img src="/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
 					{% endfor %}
 				</ul>
@@ -67,7 +66,11 @@
 		</div>
 		<div class="post_total">
 			{% if page.tag %}
-				<div class="left">{{ site.tags[page.tag | size }} object(s)</div>
+				<div class="left">{{ site.tags[page.tag] | size }} object(s)</div>
+			{% elsif page.date %}
+				{% assign folder = page.tags | first %}
+				{% unless folder %}{% assign folder = page.folder %}{% endunless %}
+				<div class="left">{{ site.tags[folder] | size }} object(s)</div>
 			{% else %}
 				<div class="left">{{ site.posts | size }} object(s)</div>
 			{% endif %}
