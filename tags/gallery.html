@@ -4,9 +4,21 @@ tag: gallery
 gallery_folder: true
 permalink: /tag/gallery/
 ---
+{% include gallery_tags.html %}
+{% assign gallery_dated = site.data.gallery | where_exp: "item", "item.taken != nil" | sort: "taken" | reverse %}
+{% assign gallery_undated = site.data.gallery | where_exp: "item", "item.taken == nil" %}
+<style>
+{% for gtag in gallery_tags %}
+{% if gtag.size > 0 %}
+{% assign gslug = gtag | slugify %}
+.post_list:has(#{{ gslug }}:target) ~ .post_total .gallery-count { display: none; }
+.post_list:has(#{{ gslug }}:target) ~ .post_total .gallery-count[data-for="{{ gslug }}"] { display: inline; }
+.wrapper:has(#{{ gslug }}:target) #gallery-tags a[href="/tag/gallery/#{{ gslug }}"] { background: #000080; color: #fff8ff; }
+{% endif %}
+{% endfor %}
+</style>
+<div class="gallery-set" id="gallery-all" data-label="gallery">
 <ul class="gallery-files">
-	{% assign gallery_dated = site.data.gallery | where_exp: "item", "item.taken != nil" | sort: "taken" | reverse %}
-	{% assign gallery_undated = site.data.gallery | where_exp: "item", "item.taken == nil" %}
 	{% for photo in gallery_dated %}
 	{% include gallery_file.html photo=photo %}
 	{% endfor %}
@@ -14,3 +26,23 @@ permalink: /tag/gallery/
 	{% include gallery_file.html photo=photo %}
 	{% endfor %}
 </ul>
+</div>
+{% for gtag in gallery_tags %}
+{% if gtag.size > 0 %}
+{% assign gslug = gtag | slugify %}
+<div class="gallery-set" id="{{ gslug }}" data-label="{{ gtag | escape }}">
+<ul class="gallery-files">
+	{% for photo in gallery_dated %}
+		{% if photo.tags contains gtag %}
+		{% include gallery_file.html photo=photo %}
+		{% endif %}
+	{% endfor %}
+	{% for photo in gallery_undated %}
+		{% if photo.tags contains gtag %}
+		{% include gallery_file.html photo=photo %}
+		{% endif %}
+	{% endfor %}
+</ul>
+</div>
+{% endif %}
+{% endfor %}

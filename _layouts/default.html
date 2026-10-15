@@ -44,13 +44,13 @@
 				{% assign gallery_shown = false %}
 				{% for tag in tags %}
 				{% if gallery_shown == false and tag[0] > 'gallery' %}
-				<li><a href="/tag/gallery/" title="gallery"><img src="/assets/img/folder.ico" />gallery</a></li>
+				{% include gallery_tree_item.html %}
 				{% assign gallery_shown = true %}
 				{% endif %}
 				<li><a href="/tag/{{ tag | first | slugify }}/" title="{{ tag[0] | replace:'-', ' ' }}"><img src="/assets/img/folder.ico" />{{ tag[0] | replace:'-', ' ' }}</a></li>
 				{% endfor %}
 				{% if gallery_shown == false %}
-				<li><a href="/tag/gallery/" title="gallery"><img src="/assets/img/folder.ico" />gallery</a></li>
+				{% include gallery_tree_item.html %}
 				{% endif %}
 			</ul>
 				</li>
@@ -79,7 +79,7 @@
 		</div>
 		<div class="post_total">
 			{% if page.gallery_folder %}
-				<div class="left">{{ site.data.gallery | size }} object(s)</div>
+				<div class="left">{% include gallery_tags.html %}<span class="gallery-count" data-for="gallery-all">{{ site.data.gallery | size }} object(s)</span>{% for gtag in gallery_tags %}{% if gtag.size > 0 %}{% assign gmatch = "" %}{% for photo in site.data.gallery %}{% if photo.tags contains gtag %}{% assign gmatch = gmatch | append: "x" %}{% endif %}{% endfor %}<span class="gallery-count" data-for="{{ gtag | slugify }}">{{ gmatch | size }} object(s)</span>{% endif %}{% endfor %}</div>
 			{% elsif page.tag %}
 				<div class="left">{{ site.tags[page.tag] | size }} object(s)</div>
 			{% elsif page.date %}
@@ -112,6 +112,7 @@
 			</div>
 		</div>
     {% endif %}
+	<script src="/assets/js/gallery-tree.js"></script>
 	<script src="/assets/js/001.js"></script>
 	<script src="/assets/js/002.js"></script>
 	{% if page.gallery_view %}

@@ -214,6 +214,72 @@ ul.topbar {
     margin:4px 0 4px 13px;
     padding:0 0 0 20px;
 }
+.tag_list ul li.tree-branch {
+	overflow: visible;
+	position: relative;
+}
+.tree-branch > ul {
+	display: none;
+}
+.tree-branch.is-open > ul {
+	display: block;
+}
+.tree-toggle {
+	position: absolute;
+	left: 4px;
+	top: 3px;
+	width: 11px;
+	height: 11px;
+	padding: 0;
+	border: 1px solid #000;
+	background: #fff8ff;
+	cursor: pointer;
+	z-index: 1;
+
+	i {
+		position: absolute;
+		left: 2px;
+		right: 2px;
+		top: 4px;
+		height: 1px;
+		background: #000;
+	}
+
+	i:before {
+		content: "";
+		position: absolute;
+		top: -3px;
+		left: 3px;
+		width: 1px;
+		height: 7px;
+		background: #000;
+	}
+}
+.tree-branch.is-open > .tree-toggle i:before {
+	display: none;
+}
+.gallery-set {
+	display: none;
+}
+#gallery-all {
+	display: block;
+}
+.gallery-set:target {
+	display: block;
+}
+.post_list:has(.gallery-set:target) #gallery-all {
+	display: none;
+}
+.gallery-count {
+	display: none;
+}
+.gallery-count[data-for="gallery-all"] {
+	display: inline;
+}
+.wrapper:has(#gallery-all):not(:has(.gallery-set:target)) a.gallery-root {
+	background: #000080;
+	color: #fff8ff;
+}
 .post_total {
 	.left, .right {
 		border: 1px solid;
