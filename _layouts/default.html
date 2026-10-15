@@ -94,7 +94,7 @@
 				<div class="btn"><span class="fa fa-window-minimize"></span></div>
 			</div>
 			<ul class="topbar">
-				<li>{{ page.date | date: '%B %-d, %Y' }}</li>
+				<li>{% unless page.photo %}{{ page.date | date: '%B %-d, %Y' }}{% endunless %}</li>
 			</ul>
 			<div class="post_content">
         		{{ content }}
