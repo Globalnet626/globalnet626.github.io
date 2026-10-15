@@ -739,6 +739,18 @@ body:not(:has(.photo-anchor:target)) .photo-stack .photo-sheet:first-child {
 		max-height: none;
 		overflow: visible;
 	}
+	// An open photo only needs the tree. The thumbnail pane and its count
+	// sit under the picture window on a phone, so leave them out.
+	body:has(.photo-stack) .post_list.post_list_gallery,
+	body:has(.photo-stack) .wrapper.is-max .post_list.post_list_gallery,
+	body:has(.photo-stack) .post_total {
+		display: none;
+	}
+	body:has(.photo-stack) .post_content {
+		min-height: 0;
+		max-height: none;
+		overflow: visible;
+	}
 }
 @media only screen and (max-width: 480px) {
 	.content {
