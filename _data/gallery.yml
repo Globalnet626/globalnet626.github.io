@@ -1,0 +1,34 @@
+# Photo gallery shown on /gallery/
+#
+# To add a photo:
+#   1. Save the image in assets/img/gallery/ (jpg, png, gif, or svg).
+#   2. Copy one of the entries below and point `file` at that filename.
+#   3. Write an `alt` description (required) and a short `caption`.
+#
+# More detail is in assets/img/gallery/README.txt.
+# Delete an entry to remove that photo from the page. The pictures
+# shipped here are placeholders.
+
+- file: harbor.svg
+  alt: Small boats moored in a harbor under an orange dusk sky
+  caption: Harbor at dusk
+
+- file: pines.svg
+  alt: Pine trees standing on a ridge in front of a blue mountain
+  caption: Ridge pines
+
+- file: mesa.svg
+  alt: Red rock mesas in a desert with a low sun
+  caption: Desert mesas
+
+- file: night-market.svg
+  alt: A dark street of buildings with warm yellow windows
+  caption: Night windows
+
+- file: garden.svg
+  alt: A garden path lined with red, yellow, and purple flowers
+  caption: Garden path
+
+- file: cabin.svg
+  alt: A cabin with a glowing window in a snowy pine grove
+  caption: Snow cabin

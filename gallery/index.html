@@ -1,0 +1,40 @@
+---
+layout: default
+title: Photo Gallery
+gallery: true
+permalink: /gallery/
+---
+
+<p>Click a photo to open it. Press Escape to close, or the arrow keys to move between photos.</p>
+
+<ul class="photo-grid">
+{% for photo in site.data.gallery %}
+	<li>
+		<button type="button" class="photo-card" data-full="/assets/img/gallery/{{ photo.file | uri_escape }}" data-alt="{{ photo.alt | default: photo.caption | escape }}" data-caption="{{ photo.caption | escape }}">
+			<img src="/assets/img/gallery/{{ photo.file | uri_escape }}" alt="{{ photo.alt | default: photo.caption | escape }}" width="640" height="480">
+			<span class="photo-caption">{{ photo.caption | escape }}</span>
+		</button>
+	</li>
+{% else %}
+	<li class="photo-empty">No photos yet. Add images to assets/img/gallery and list them in _data/gallery.yml.</li>
+{% endfor %}
+</ul>
+
+<div id="photo-lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+	<div class="lightbox-window">
+		<div class="lightbox-titlebar">
+			<img src="/assets/img/file.png" alt="">
+			<h2 id="lightbox-title">Photo</h2>
+			<button type="button" class="lightbox-close" aria-label="Close photo"><span class="fa fa-times" aria-hidden="true"></span></button>
+		</div>
+		<div class="lightbox-body">
+			<img class="lightbox-photo" alt="">
+			<p class="lightbox-caption"></p>
+			<p class="lightbox-count" aria-live="polite"></p>
+			<div class="lightbox-nav">
+				<button type="button" class="lightbox-prev" aria-label="Previous photo">Previous</button>
+				<button type="button" class="lightbox-next" aria-label="Next photo">Next</button>
+			</div>
+		</div>
+	</div>
+</div>
