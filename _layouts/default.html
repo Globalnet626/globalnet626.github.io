@@ -123,9 +123,9 @@
 			{% endunless %}
 			<div class="post_content">
         		{{ content }}
-				{% if page.title %}
+				{% unless page.photo %}
 					{% include donate.html %}
-				{% endif %}
+				{% endunless %}
 			</div>
 		</div>
     {% endif %}
