@@ -4,10 +4,20 @@ tag: gallery
 gallery_folder: true
 permalink: /tag/gallery/
 ---
-<ul>
+<ul class="gallery-files">
 	{% assign photos = site.data.gallery | sort: "caption" %}
 	{% for photo in photos %}
 	{% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
-	<li><a href="/gallery/#{{ slug | strip }}" title="{{ photo.caption | escape }}">{% if photo.thumb and photo.thumb != "" %}{% capture thumb_src %}{% include gallery_src.html item=photo kind="thumb" %}{% endcapture %}<img class="photo-thumb" src="{{ thumb_src | strip }}" alt="" />{% else %}<img class="picture-icon" src="/assets/img/picture.png" title="{{ photo.caption | escape }}" alt="" />{% endif %}{{ photo.caption | escape }}</a></li>
+	{% if photo.thumb and photo.thumb != "" %}
+	{% capture shown %}{% include gallery_src.html item=photo kind="thumb" %}{% endcapture %}
+	{% else %}
+	{% capture shown %}{% include gallery_src.html item=photo kind="full" %}{% endcapture %}
+	{% endif %}
+	<li>
+		<a href="/gallery/#{{ slug | strip }}" title="{{ photo.caption | escape }}">
+			<span class="photo-frame"><img class="photo-thumb" src="{{ shown | strip }}" alt="" loading="lazy" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='photo-thumb is-icon';this.src=this.getAttribute('data-fallback');"></span>
+			<span class="photo-label">{{ photo.caption | escape }}</span>
+		</a>
+	</li>
 	{% endfor %}
 </ul>

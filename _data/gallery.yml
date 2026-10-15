@@ -8,7 +8,7 @@
 # url      Optional full image URL. Overrides file and gallery_base_url.
 # thumb    Optional smaller image: a filename, a path such as
 #          thumbs/photo.jpg, or a full URL. The folder listing uses it
-#          and does not load the full image. Omit it to show a file icon.
+#          instead of the full image. Omit it and the listing loads `file`.
 # alt      Required. What is in the picture.
 # caption  Name on the file and under the picture.
 # slug     Optional id used in the link. Defaults to the filename

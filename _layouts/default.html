@@ -51,7 +51,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="post_list">
+		<div class="post_list{% if page.gallery_folder %} post_list_gallery{% endif %}">
 			{{% $x = page.tags[0]%}}
 			{% unless page.date%}
 				{% if page.title == 'me' or page.title == '404...' or page.photo %}

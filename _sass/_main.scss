@@ -455,15 +455,73 @@ ul.topbar {
 	border-color: #000000 #fff8ff #fff8ff #000000;
 }
 
-.post_list img.photo-thumb {
-	display: block;
-	width: 32px;
-	height: 32px;
-	object-fit: cover;
-	margin: 0 auto 8px;
+.post_list.post_list_gallery {
+	min-height: 340px;
+	max-height: 72vh;
+
+	ul li {
+		width: 128px;
+		max-width: 128px;
+		margin: 8px 10px;
+		overflow: visible;
+		white-space: normal;
+		vertical-align: top;
+	}
+
+	a {
+		display: block;
+	}
+}
+
+.post_list.post_list_gallery .photo-frame {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 112px;
+	height: 112px;
+	margin: 0 auto 6px;
 	background: #008082;
 	border: 2px solid;
 	border-color: #000000 #fff8ff #fff8ff #000000;
+	overflow: hidden;
+}
+
+.post_list.post_list_gallery img.photo-thumb {
+	display: block;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	margin: 0;
+	object-fit: cover;
+	border: 0;
+	background: transparent;
+}
+
+.post_list.post_list_gallery img.photo-thumb.is-icon {
+	width: 32px;
+	height: 32px;
+	object-fit: none;
+	image-rendering: pixelated;
+}
+
+.post_list.post_list_gallery .photo-label {
+	display: block;
+	line-height: 1.3;
+	white-space: normal;
+}
+
+@media only screen and (max-width: 520px) {
+	.post_list.post_list_gallery ul li {
+		width: calc(50% - 24px);
+		max-width: 140px;
+	}
+
+	.post_list.post_list_gallery .photo-frame {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+	}
 }
 
 .photo-stack .photo-sheet {

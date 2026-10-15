@@ -104,7 +104,7 @@ Optional fields:
 ```
 
 - `url` is a full address for that one picture. It overrides `file` and `gallery_base_url`.
-- `thumb` is a smaller image used only in the folder listing, so the listing does not download the full photo. A filename or path is joined to `gallery_thumb_base_url`, or to `gallery_base_url` when that is blank. A value starting with `http://` or `https://` is used as-is. If `thumb` is omitted, the listing shows the usual file icon.
+- `thumb` is a smaller image used in the folder listing. A filename or path is joined to `gallery_thumb_base_url`, or to `gallery_base_url` when that is blank. A value starting with `http://` or `https://` is used as-is. If `thumb` is omitted, the listing uses the full image. If that image fails to load, the picture icon is shown instead.
 - `slug` is the link id (`/gallery/#harbor`). It defaults to the filename without the extension.
 
 Commit `_config.yml` and `_data/gallery.yml`, then push. GitHub Pages rebuilds the folder. You do not commit the photos themselves.
