@@ -30,11 +30,11 @@
 		{% if page.gallery_view %}
 		{% include gallery_photo_anchors.html %}
 		{% endif %}
-		<div class="default_title{% if page.gallery_folder or page.gallery_view %} has-winbtns{% endif %}">
-			{% if page.gallery_folder or page.gallery_view %}
-			<button type="button" class="winbtn gallery-restore" aria-label="Restore window"><span class="fa fa-window-minimize"></span></button>
-			<button type="button" class="winbtn winbtn-max gallery-max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
+		<div class="default_title{% if page.home_files or page.gallery_folder or page.gallery_view %} has-winbtns{% endif %}">
+			{% if page.home_files or page.gallery_folder or page.gallery_view %}
 			<a class="winbtn" href="/" aria-label="Close"><span class="fa fa-times"></span></a>
+			<button type="button" class="winbtn winbtn-max gallery-max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
+			<button type="button" class="winbtn gallery-restore" aria-label="Minimize window"><span class="fa fa-window-minimize"></span></button>
 			{% endif %}
 			<img src="/assets/img/mycomputer.png" />
 			{% if page.gallery_view %}
@@ -144,7 +144,7 @@
 	{% if page.gallery_view %}
 	<script src="/assets/js/gallery.js"></script>
 	{% endif %}
-	{% if page.gallery_folder or page.gallery_view %}
+	{% if page.home_files or page.gallery_folder or page.gallery_view %}
 	<script src="/assets/js/gallery-folder.js"></script>
 	{% endif %}
 	<div class="footer">
