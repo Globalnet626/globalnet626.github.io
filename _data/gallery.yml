@@ -98,3 +98,94 @@
   shutter: "1/38"
   focal: 6.81
   slug: black-mecha-orbit
+
+- file: dog/untitled_dog-1.webp
+  thumb: dog/thumbs/untitled_dog-1.webp
+  caption: untitled_dog-1
+  alt: untitled_dog-1
+  tags: [dog]
+  slug: untitled_dog-1
+
+- file: dog/untitled_dog-2.webp
+  thumb: dog/thumbs/untitled_dog-2.webp
+  caption: untitled_dog-2
+  alt: untitled_dog-2
+  tags: [dog]
+  slug: untitled_dog-2
+
+- file: dog/untitled_dog-3.webp
+  thumb: dog/thumbs/untitled_dog-3.webp
+  caption: untitled_dog-3
+  alt: untitled_dog-3
+  tags: [dog]
+  slug: untitled_dog-3
+
+- file: dog/untitled_dog-4.webp
+  thumb: dog/thumbs/untitled_dog-4.webp
+  caption: untitled_dog-4
+  alt: untitled_dog-4
+  tags: [dog]
+  slug: untitled_dog-4
+
+- file: dog/untitled_dog-5.webp
+  thumb: dog/thumbs/untitled_dog-5.webp
+  caption: untitled_dog-5
+  alt: untitled_dog-5
+  tags: [dog]
+  slug: untitled_dog-5
+
+- file: nightwalk/untitled_nightwalk-1.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-1.webp
+  caption: untitled_nightwalk-1
+  alt: untitled_nightwalk-1
+  tags: [nightwalk]
+  slug: untitled_nightwalk-1
+
+- file: nightwalk/untitled_nightwalk-2.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-2.webp
+  caption: untitled_nightwalk-2
+  alt: untitled_nightwalk-2
+  tags: [nightwalk]
+  slug: untitled_nightwalk-2
+
+- file: nightwalk/untitled_nightwalk-3.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-3.webp
+  caption: untitled_nightwalk-3
+  alt: untitled_nightwalk-3
+  tags: [nightwalk]
+  slug: untitled_nightwalk-3
+
+- file: nightwalk/untitled_nightwalk-4.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-4.webp
+  caption: untitled_nightwalk-4
+  alt: untitled_nightwalk-4
+  tags: [nightwalk]
+  slug: untitled_nightwalk-4
+
+- file: nightwalk/untitled_nightwalk-5.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-5.webp
+  caption: untitled_nightwalk-5
+  alt: untitled_nightwalk-5
+  tags: [nightwalk]
+  slug: untitled_nightwalk-5
+
+- file: nightwalk/untitled_nightwalk-6.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-6.webp
+  caption: untitled_nightwalk-6
+  alt: untitled_nightwalk-6
+  tags: [nightwalk]
+  slug: untitled_nightwalk-6
+
+- file: nightwalk/untitled_nightwalk-7.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-7.webp
+  caption: untitled_nightwalk-7
+  alt: untitled_nightwalk-7
+  tags: [nightwalk]
+  slug: untitled_nightwalk-7
+
+- file: nightwalk/untitled_nightwalk-8.webp
+  thumb: nightwalk/thumbs/untitled_nightwalk-8.webp
+  caption: untitled_nightwalk-8
+  alt: untitled_nightwalk-8
+  tags: [nightwalk]
+  slug: untitled_nightwalk-8
