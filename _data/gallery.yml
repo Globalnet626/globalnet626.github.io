@@ -104,9 +104,9 @@
   caption: "untitled_dog"
   alt: "untitled_dog"
   tags: [dog]
-  taken: "2026-10-15T19:19:42"
+  taken: "2026-10-15T18:58:41"
   camera: Fujifilm X-T10
-  iso: 1250
+  iso: 640
   shutter: "1/60"
   focal: 25
   slug: untitled_dog-1
@@ -146,19 +146,6 @@
   shutter: "1/60"
   focal: 25
   slug: untitled_dog-4
-
-- file: dog/untitled_dog-5.webp
-  thumb: dog/thumbs/untitled_dog-5.webp
-  caption: "untitled_dog"
-  alt: "untitled_dog"
-  tags: [dog]
-  taken: "2026-10-15T18:58:41"
-  camera: Fujifilm X-T10
-  iso: 640
-  shutter: "1/60"
-  focal: 25
-  slug: untitled_dog-5
-
 
 - file: nightwalk/untitled_nightwalk-1.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-1.webp
@@ -273,7 +260,7 @@
   caption: "Gambier Bay"
   alt: "Gambier Bay"
   tags: [figures]
-  taken: "2015-02-23T20:28:48"
+  taken: "2026-10-01T20:28:48"
   camera: Fujifilm X-T10
   lens: XC16-50mmF3.5-5.6 OIS
   fstop: 5.6
