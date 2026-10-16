@@ -102,14 +102,7 @@
 				{% unless folder %}{% assign folder = page.folder %}{% endunless %}
 				<div class="left">{{ site.tags[folder] | size }} object(s)</div>
 			{% elsif page.home_files %}
-				{% include gallery_tags.html %}
-				{% assign folder_n = 0 %}
-				{% for gtag in gallery_tags %}
-					{% if gtag.size > 0 %}
-						{% assign folder_n = folder_n | plus: 1 %}
-					{% endif %}
-				{% endfor %}
-				<div class="left">{{ site.posts | size | plus: folder_n }} object(s)</div>
+				<div class="left">{{ site.posts | size | plus: 1 }} object(s)</div>
 			{% else %}
 				<div class="left">{{ site.posts | size }} object(s)</div>
 			{% endif %}
