@@ -5,7 +5,7 @@
 	<ul id="gallery-tags">
 		{% for gtag in gallery_tags %}
 			{% if gtag.size > 0 %}
-			<li><a href="/tag/gallery/#{{ gtag | slugify }}" title="{{ gtag | escape }}"><img src="/assets/img/folder.ico" alt="" />{{ gtag | escape }}</a></li>
+			<li><a href="/tag/gallery/#{{ gtag | slugify }}" title="{{ gtag | escape }}">{% include tag_icon.html name=gtag %}{{ gtag | escape }}</a></li>
 			{% endif %}
 		{% endfor %}
 	</ul>

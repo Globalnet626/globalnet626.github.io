@@ -1,0 +1,7 @@
+{% assign tag_icon_names = "|dog|figures|mecha|nightwalk|soft_and_fumo|" %}
+{% assign tag_icon_key = include.name | prepend: "|" | append: "|" %}
+{% if tag_icon_names contains tag_icon_key %}
+<img class="tag-icon" src="/assets/img/tags/{{ include.name }}.png" alt="" />
+{% else %}
+<img src="/assets/img/folder.ico" alt="" />
+{% endif %}
