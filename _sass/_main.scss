@@ -68,48 +68,29 @@ body {
 		content: "";
 		position: absolute;
 		display: block;
+		left: 0;
+		top: 0;
+		width: 13px;
+		height: 11px;
 		font-size: 0;
 		line-height: 0;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		background-size: 13px 11px;
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
 	}
 
 	.fa-window-minimize:before {
-		width: 7px;
-		height: 2px;
-		left: 3px;
-		bottom: 1px;
-		background: #000000;
+		background-image: url("/assets/img/tb-min.svg");
 	}
 
 	.fa-window-maximize:before {
-		width: 8px;
-		height: 7px;
-		left: 2px;
-		top: 2px;
-		background: transparent;
-		border: 1px solid #000000;
-		border-top-width: 2px;
-		box-sizing: border-box;
+		background-image: url("/assets/img/tb-max.svg");
 	}
 
 	.fa-times:before {
-		width: 1px;
-		height: 1px;
-		left: 3px;
-		top: 2px;
-		background: #000000;
-		box-shadow:
-			6px 0 #000000,
-			1px 1px #000000,
-			5px 1px #000000,
-			2px 2px #000000,
-			4px 2px #000000,
-			3px 3px #000000,
-			2px 4px #000000,
-			4px 4px #000000,
-			1px 5px #000000,
-			5px 5px #000000,
-			0 6px #000000,
-			6px 6px #000000;
+		background-image: url("/assets/img/tb-close.svg");
 	}
 
 	&:active {
