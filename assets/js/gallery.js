@@ -53,6 +53,47 @@
 		return items;
 	}
 
+	function field(sheet, name) {
+		var value = sheet.getAttribute(name);
+		return value ? value.replace(/^\s+|\s+$/g, "") : "";
+	}
+
+	function labeled(name, value) {
+		return value ? name + ": " + value : name + ":";
+	}
+
+	function cameraDetails(sheet) {
+		var parts = [];
+		var camera = field(sheet, "data-camera");
+		var lens = field(sheet, "data-lens");
+		if (camera) parts.push(camera);
+		if (lens && lens.toLowerCase() !== camera.toLowerCase()) parts.push(lens);
+		var fstop = field(sheet, "data-fstop");
+		if (fstop) parts.push(fstop.slice(0, 2).toLowerCase() === "f/" ? fstop : "f/" + fstop);
+		var iso = field(sheet, "data-iso");
+		if (iso) parts.push(iso.toLowerCase().indexOf("iso") === 0 ? iso : "ISO " + iso);
+		var shutter = field(sheet, "data-shutter");
+		if (shutter) {
+			if (shutter.slice(-1).toLowerCase() !== "s") shutter += "s";
+			parts.push(shutter);
+		}
+		var focal = field(sheet, "data-focal");
+		if (focal) {
+			if (focal.slice(-2).toLowerCase() !== "mm") focal += "mm";
+			parts.push(focal);
+		}
+		return parts.join(" \u00b7 ");
+	}
+
+	function setPane(el, text) {
+		if (!el) return;
+		el.textContent = text;
+		el.removeAttribute("title");
+		if (text && el.scrollWidth > el.clientWidth + 1) {
+			el.setAttribute("title", text);
+		}
+	}
+
 	function preload(src) {
 		if (!src || preloaded[src]) {
 			return;
@@ -127,9 +168,9 @@
 		}
 		heading.textContent = label;
 		document.title = label;
-		if (statusTags) statusTags.textContent = sheet.getAttribute("data-tags") || "";
-		if (statusTaken) statusTaken.textContent = sheet.getAttribute("data-taken") || "";
-		if (statusCamera) statusCamera.textContent = sheet.getAttribute("data-camera") || "";
+		setPane(statusTaken, labeled("Date", field(sheet, "data-taken")));
+		setPane(statusCamera, labeled("Camera", cameraDetails(sheet)));
+		setPane(statusTags, labeled("Tags", field(sheet, "data-tags")));
 		markSelected(id);
 		if (items.length) {
 			var prev = items[(idx - 1 + items.length) % items.length];

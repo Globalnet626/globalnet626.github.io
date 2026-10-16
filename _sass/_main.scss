@@ -885,16 +885,13 @@ body:has(.photo-anchor:target) .photo-stack {
 	border-color: #808080 #fff8ff #fff8ff #808080;
 }
 
-.photo-status-pane:nth-child(1) {
-	flex: 1.1 1 0;
+.photo-status-pane:nth-child(1),
+.photo-status-pane:nth-child(3) {
+	flex: 0 1 auto;
 }
 
 .photo-status-pane:nth-child(2) {
-	flex: 1.7 1 0;
-}
-
-.photo-status-pane:nth-child(3) {
-	flex: 1 1 0;
+	flex: 1 1 auto;
 }
 
 body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
