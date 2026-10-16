@@ -188,6 +188,7 @@ ul.topbar {
 		li.tag-folder img {
 			width: 32px;
 			height: 32px;
+			object-fit: contain;
 			image-rendering: pixelated;
 			image-rendering: crisp-edges;
 		}
@@ -208,7 +209,8 @@ ul.topbar {
 		margin: -2px 5px;
 	}
 
-	a.gallery-root img {
+	a.gallery-root img,
+	img.tag-icon {
 		image-rendering: pixelated;
 		image-rendering: crisp-edges;
 	}
@@ -241,6 +243,29 @@ ul.topbar {
     background:transparent url(/assets/img/pixel-alt.png) repeat-x 0 8px;
     margin:4px 0 4px 13px;
     padding:0 0 0 20px;
+}
+// Tag drawings. html[data-icon-size] picks the tree size; 32 is the mock under review.
+html[data-icon-size="24"] .tag_list img.tag-icon {
+	width: 24px;
+	height: 24px;
+	margin: 0 4px;
+	vertical-align: middle;
+}
+html[data-icon-size="24"] #gallery-tags > li {
+	background-position: 0 14px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+html[data-icon-size="32"] .tag_list img.tag-icon {
+	width: 32px;
+	height: 32px;
+	margin: 2px 4px;
+	vertical-align: middle;
+}
+html[data-icon-size="32"] #gallery-tags > li {
+	background-position: 0 18px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 }
 .tag_list ul li.tree-branch {
 	overflow: visible;
@@ -680,6 +705,13 @@ body:has(.photo-stack) .wrapper.is-max ~ .content {
 }
 
 .post_list.post_list_gallery {
+
+	ul.tag-folder-mock li.tag-folder {
+		width: auto;
+		max-width: 14ch;
+		margin: 8px 10px 4px;
+		white-space: nowrap;
+	}
 
 	ul li {
 		width: 128px;
