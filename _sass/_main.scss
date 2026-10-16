@@ -208,6 +208,11 @@ ul.topbar {
 		margin: -2px 5px;
 	}
 
+	a.gallery-root img {
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+	}
+
 	a {
 		text-decoration: none;
 		color: #000000;
