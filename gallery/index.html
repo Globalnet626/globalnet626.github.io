@@ -10,7 +10,7 @@ permalink: /gallery/
 {% for photo in site.data.gallery %}
 {% capture slug %}{% include gallery_slug.html item=photo %}{% endcapture %}
 {% assign pslug = slug | strip %}
-body:has(#{{ pslug }}:target) .photo-stack .photo-sheet[data-slug="{{ pslug }}"] { display: block; }
+body:has(#{{ pslug }}:target) .photo-stack .photo-sheet[data-slug="{{ pslug }}"] { display: contents; }
 {% endfor %}
 </style>
 <div class="photo-stack" id="photo-stack">

@@ -13,7 +13,13 @@
 # taken    Optional date (2018-12-20) or ISO datetime
 #          (2025-03-19T00:38:17). A date with no time is shown as a
 #          date only. Leave it blank when unknown. Newest first.
-# camera   Optional camera name, shown in the opened photo.
+# camera   Optional camera name, shown in the status bar.
+# lens     Optional lens name. Left out of the status bar when it
+#          is the same as the camera name.
+# fstop    Optional aperture, such as 1.85. Shown as f/1.85.
+# iso      Optional ISO number, such as 66. Shown as ISO 66.
+# shutter  Optional shutter speed, such as 1/38. Shown as 1/38s.
+# focal    Optional focal length in millimeters, such as 6.81.
 # slug     Optional id used in the link. Defaults to the filename
 #          without its extension.
 #
@@ -35,6 +41,10 @@
   tags: [mecha]
   taken: "2023-08-17T23:54:46"
   camera: Pixel 7
+  fstop: 1.85
+  iso: 66
+  shutter: "1/38"
+  focal: 6.81
   slug: zeta-starburst
 
 - file: mecha/cat-girl-skyline.webp
@@ -44,6 +54,10 @@
   tags: [mecha]
   taken: "2025-01-31T01:29:27"
   camera: Pixel 7
+  fstop: 1.85
+  iso: 120
+  shutter: "1/185"
+  focal: 6.81
   slug: cat-girl-skyline
 
 - file: mecha/gold-hyaku-shiki.webp
@@ -53,6 +67,10 @@
   tags: [mecha]
   taken: "2025-02-28T20:25:32"
   camera: Pixel 7
+  fstop: 1.85
+  iso: 132
+  shutter: "1/94"
+  focal: 6.81
   slug: gold-hyaku-shiki
 
 - file: mecha/guncannon-dunes.webp
@@ -62,6 +80,10 @@
   tags: [mecha]
   taken: "2025-03-05T23:10:11"
   camera: Pixel 7
+  fstop: 1.85
+  iso: 122
+  shutter: "1/45"
+  focal: 6.81
   slug: guncannon-dunes
 
 - file: mecha/black-mecha-orbit.webp
@@ -71,4 +93,8 @@
   tags: [mecha]
   taken: "2025-03-19T00:38:17"
   camera: Pixel 7
+  fstop: 1.85
+  iso: 77
+  shutter: "1/38"
+  focal: 6.81
   slug: black-mecha-orbit
