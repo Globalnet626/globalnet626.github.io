@@ -101,91 +101,277 @@
 
 - file: dog/untitled_dog-1.webp
   thumb: dog/thumbs/untitled_dog-1.webp
-  caption: untitled_dog-1
-  alt: untitled_dog-1
+  caption: "untitled_dog"
+  alt: "untitled_dog"
   tags: [dog]
+  taken: "2026-10-15T19:19:42"
+  camera: Fujifilm X-T10
+  iso: 1250
+  shutter: "1/60"
+  focal: 25
   slug: untitled_dog-1
 
 - file: dog/untitled_dog-2.webp
   thumb: dog/thumbs/untitled_dog-2.webp
-  caption: untitled_dog-2
-  alt: untitled_dog-2
+  caption: "untitled_dog"
+  alt: "untitled_dog"
   tags: [dog]
+  taken: "2026-10-15T19:17:46"
+  camera: Fujifilm X-T10
+  iso: 1000
+  shutter: "1/60"
+  focal: 25
   slug: untitled_dog-2
 
 - file: dog/untitled_dog-3.webp
   thumb: dog/thumbs/untitled_dog-3.webp
-  caption: untitled_dog-3
-  alt: untitled_dog-3
+  caption: "untitled_dog"
+  alt: "untitled_dog"
   tags: [dog]
+  taken: "2026-10-15T19:17:31"
+  camera: Fujifilm X-T10
+  iso: 1000
+  shutter: "1/60"
+  focal: 25
   slug: untitled_dog-3
 
 - file: dog/untitled_dog-4.webp
   thumb: dog/thumbs/untitled_dog-4.webp
-  caption: untitled_dog-4
-  alt: untitled_dog-4
+  caption: "untitled_dog"
+  alt: "untitled_dog"
   tags: [dog]
+  taken: "2026-10-15T19:16:49"
+  camera: Fujifilm X-T10
+  iso: 800
+  shutter: "1/60"
+  focal: 25
   slug: untitled_dog-4
 
 - file: dog/untitled_dog-5.webp
   thumb: dog/thumbs/untitled_dog-5.webp
-  caption: untitled_dog-5
-  alt: untitled_dog-5
+  caption: "untitled_dog"
+  alt: "untitled_dog"
   tags: [dog]
+  taken: "2026-10-15T18:58:41"
+  camera: Fujifilm X-T10
+  iso: 640
+  shutter: "1/60"
+  focal: 25
   slug: untitled_dog-5
+
 
 - file: nightwalk/untitled_nightwalk-1.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-1.webp
-  caption: untitled_nightwalk-1
-  alt: untitled_nightwalk-1
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T00:04:35"
+  camera: Fujifilm X-T10
+  iso: 400
+  shutter: "1/75"
+  focal: 25
   slug: untitled_nightwalk-1
 
 - file: nightwalk/untitled_nightwalk-2.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-2.webp
-  caption: untitled_nightwalk-2
-  alt: untitled_nightwalk-2
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T00:17:07"
+  camera: Fujifilm X-T10
+  iso: 2000
+  shutter: "1/30"
+  focal: 25
   slug: untitled_nightwalk-2
 
 - file: nightwalk/untitled_nightwalk-3.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-3.webp
-  caption: untitled_nightwalk-3
-  alt: untitled_nightwalk-3
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T00:21:03"
+  camera: Fujifilm X-T10
+  iso: 640
+  shutter: "1/30"
+  focal: 25
   slug: untitled_nightwalk-3
 
 - file: nightwalk/untitled_nightwalk-4.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-4.webp
-  caption: untitled_nightwalk-4
-  alt: untitled_nightwalk-4
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T00:21:49"
+  camera: Fujifilm X-T10
+  iso: 640
+  shutter: "1/30"
+  focal: 25
   slug: untitled_nightwalk-4
 
 - file: nightwalk/untitled_nightwalk-5.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-5.webp
-  caption: untitled_nightwalk-5
-  alt: untitled_nightwalk-5
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T00:22:26"
+  camera: Fujifilm X-T10
+  iso: 500
+  shutter: "1/30"
+  focal: 25
   slug: untitled_nightwalk-5
 
 - file: nightwalk/untitled_nightwalk-6.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-6.webp
-  caption: untitled_nightwalk-6
-  alt: untitled_nightwalk-6
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T18:43:38"
+  camera: Fujifilm X-T10
+  iso: 400
+  shutter: "1/45"
+  focal: 25
   slug: untitled_nightwalk-6
 
 - file: nightwalk/untitled_nightwalk-7.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-7.webp
-  caption: untitled_nightwalk-7
-  alt: untitled_nightwalk-7
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T18:46:58"
+  camera: Fujifilm X-T10
+  iso: 400
+  shutter: "1/75"
+  focal: 25
   slug: untitled_nightwalk-7
 
 - file: nightwalk/untitled_nightwalk-8.webp
   thumb: nightwalk/thumbs/untitled_nightwalk-8.webp
-  caption: untitled_nightwalk-8
-  alt: untitled_nightwalk-8
+  caption: "untitled_nightwalk"
+  alt: "untitled_nightwalk"
   tags: [nightwalk]
+  taken: "2026-10-14T23:42:56"
+  camera: Fujifilm X-T10
+  iso: 2000
+  shutter: "1/30"
+  focal: 25
   slug: untitled_nightwalk-8
+
+- file: figures/smart-falcon.webp
+  thumb: figures/thumbs/smart-falcon.webp
+  caption: "Smart Falcon"
+  alt: "Smart Falcon"
+  tags: [figures]
+  taken: "2026-10-14T21:47:54"
+  camera: Fujifilm X-T10
+  iso: 400
+  shutter: "1/80"
+  focal: 25
+  slug: smart-falcon
+
+- file: figures/gambier-bay.webp
+  thumb: figures/thumbs/gambier-bay.webp
+  caption: "Gambier Bay"
+  alt: "Gambier Bay"
+  tags: [figures]
+  taken: "2015-02-23T20:28:48"
+  camera: Fujifilm X-T10
+  lens: XC16-50mmF3.5-5.6 OIS
+  fstop: 5.6
+  iso: 1250
+  shutter: "1/60"
+  focal: 48.4
+  slug: gambier-bay
+
+- file: figures/holo-the-wise-wolf.webp
+  thumb: figures/thumbs/holo-the-wise-wolf.webp
+  caption: "Holo the Wise Wolf"
+  alt: "Holo the Wise Wolf"
+  tags: [figures]
+  taken: "2026-10-01T21:35:13"
+  camera: Fujifilm X-T10
+  lens: XC16-50mmF3.5-5.6 OIS
+  fstop: 5.6
+  iso: 1250
+  shutter: "1/60"
+  focal: 50
+  slug: holo-the-wise-wolf
+
+- file: soft_and_fumo/yuuka-hayase.webp
+  thumb: soft_and_fumo/thumbs/yuuka-hayase.webp
+  caption: "Yuuka Hayase"
+  alt: "Yuuka Hayase"
+  tags: [soft_and_fumo]
+  taken: "2026-10-01T13:44:15"
+  camera: Fujifilm X-T10
+  lens: XC16-50mmF3.5-5.6 OIS
+  fstop: 5.6
+  iso: 400
+  shutter: "1/420"
+  focal: 43.4
+  slug: yuuka-hayase
+
+- file: soft_and_fumo/symboli-rudolf.webp
+  thumb: soft_and_fumo/thumbs/symboli-rudolf.webp
+  caption: "symboli rudolf"
+  alt: "symboli rudolf"
+  tags: [soft_and_fumo]
+  taken: "2026-10-02T18:01:24"
+  camera: Fujifilm X-T10
+  lens: XC16-50mmF3.5-5.6 OIS
+  fstop: 11
+  iso: 400
+  shutter: "1/420"
+  focal: 16
+  slug: symboli-rudolf
+
+- file: soft_and_fumo/symboli-rudolf-pasta.webp
+  thumb: soft_and_fumo/thumbs/symboli-rudolf-pasta.webp
+  caption: "symboli rudolf (Pasta)"
+  alt: "symboli rudolf (Pasta)"
+  tags: [soft_and_fumo]
+  taken: "2026-10-08T21:15:41"
+  camera: Fujifilm X-T10
+  lens: XC16-50mmF3.5-5.6 OIS
+  fstop: 3.5
+  iso: 200
+  shutter: "1/6.5"
+  focal: 16
+  slug: symboli-rudolf-pasta
+
+- file: soft_and_fumo/all-you-need.webp
+  thumb: soft_and_fumo/thumbs/all-you-need.webp
+  caption: "all you need"
+  alt: "all you need"
+  tags: [soft_and_fumo]
+  taken: "2026-10-10T18:13:05"
+  camera: Fujifilm X-T10
+  lens: XC16-50mmF3.5-5.6 OIS
+  fstop: 5.3
+  iso: 3200
+  shutter: "1/25"
+  focal: 37.1
+  slug: all-you-need
+
+- file: soft_and_fumo/manhan-cafe-1.webp
+  thumb: soft_and_fumo/thumbs/manhan-cafe-1.webp
+  caption: "Manhan Cafe"
+  alt: "Manhan Cafe"
+  tags: [soft_and_fumo]
+  taken: "2026-10-14T18:51:32"
+  camera: Fujifilm X-T10
+  iso: 800
+  shutter: "1/30"
+  focal: 25
+  slug: manhan-cafe-1
+
+- file: soft_and_fumo/manhan-cafe-2.webp
+  thumb: soft_and_fumo/thumbs/manhan-cafe-2.webp
+  caption: "Manhan Cafe"
+  alt: "Manhan Cafe"
+  tags: [soft_and_fumo]
+  taken: "2026-10-13T21:44:18"
+  camera: Fujifilm X-T10
+  iso: 3200
+  shutter: "1/56"
+  focal: 25
+  slug: manhan-cafe-2
