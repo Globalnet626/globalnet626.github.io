@@ -30,16 +30,23 @@ body {
 		margin: 0 3px 0 0;
 	}
 }
-// Upright Win95 caption glyphs inside the 13x11 button face.
-// Source order is close, maximize, minimize; float:right paints
-// minimize, maximize, close, with the gap on the maximize button.
+// Win95 caption buttons: 16x14 outer, 2px raised bevel, 12x10 face.
+// Glyphs are the SVG files. Flex order paints minimize, maximize, close.
 @mixin caption-btn {
-	background: #cccccc;
-	width: 13px;
-	height: 11px;
-	float: right;
-	border: 2px solid;
-	border-color: #fff8ff #000000 #000000 #fff8ff;
+	background-color: #cccccc;
+	background-image:
+		linear-gradient(#fff8ff, #fff8ff),
+		linear-gradient(#fff8ff, #fff8ff),
+		linear-gradient(#000000, #000000),
+		linear-gradient(#000000, #000000);
+	background-repeat: no-repeat;
+	background-size: 14px 2px, 2px 12px, 16px 2px, 2px 14px;
+	background-position: 0 0, 0 0, 0 12px, 14px 0;
+	width: 16px;
+	height: 14px;
+	float: none;
+	flex: 0 0 auto;
+	border: 0;
 	padding: 0;
 	margin: 0;
 	color: #000000;
@@ -47,17 +54,17 @@ body {
 	font-size: 0;
 	cursor: pointer;
 	text-decoration: none;
-	box-sizing: content-box;
+	box-sizing: border-box;
 	position: relative;
 	overflow: hidden;
 
 	span {
 		display: block;
-		width: 13px;
-		height: 11px;
-		position: relative;
-		left: 0;
-		top: 0;
+		width: 12px;
+		height: 10px;
+		position: absolute;
+		left: 2px;
+		top: 2px;
 		font-size: 0;
 		line-height: 0;
 	}
@@ -70,13 +77,13 @@ body {
 		display: block;
 		left: 0;
 		top: 0;
-		width: 13px;
-		height: 11px;
+		width: 12px;
+		height: 10px;
 		font-size: 0;
 		line-height: 0;
 		background-repeat: no-repeat;
 		background-position: 0 0;
-		background-size: 13px 11px;
+		background-size: 12px 10px;
 		image-rendering: pixelated;
 		image-rendering: crisp-edges;
 	}
@@ -94,42 +101,100 @@ body {
 	}
 
 	&:active {
-		border-color: #000000 #fff8ff #fff8ff #000000;
+		background-image:
+			linear-gradient(#000000, #000000),
+			linear-gradient(#000000, #000000),
+			linear-gradient(#fff8ff, #fff8ff),
+			linear-gradient(#fff8ff, #fff8ff);
+		background-size: 14px 2px, 2px 12px, 16px 2px, 2px 14px;
+		background-position: 0 0, 0 2px, 0 12px, 14px 0;
 
 		span {
-			left: 1px;
-			top: 1px;
+			left: 3px;
+			top: 3px;
 		}
 	}
 }
 .default_title.has-winbtns {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	height: 18px;
+	padding: 0 2px 0 4px;
+
 	h1 {
-		display: inline-block;
+		display: block;
+		flex: 1;
+		order: 0;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 16px;
+	}
+
+	img {
+		order: 0;
+		float: none;
 	}
 
 	.winbtn {
 		@include caption-btn;
 	}
 
+	.gallery-restore {
+		order: 1;
+	}
+
 	.winbtn-max {
-		margin: 0 3px 0 0;
+		order: 2;
+		margin: 0;
+	}
+
+	a.winbtn {
+		order: 3;
+		margin-left: 2px;
 	}
 }
 .post_title {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	height: 18px;
+	padding: 0 2px 0 4px;
+
 	h1 {
-		display: inline-block;
+		display: block;
+		flex: 1;
+		order: 0;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 16px;
+	}
+
+	img {
+		order: 0;
+		float: none;
 	}
 
 	a {
 		color: #000000;
+		order: 3;
+		display: block;
+		margin-left: 2px;
+		line-height: 0;
 	}
 
 	.btn {
 		@include caption-btn;
+		order: 1;
 	}
 
 	.btn_max {
-		margin: 0 3px 0 0;
+		order: 2;
+		margin: 0;
 	}
 }
 ul.topbar {
