@@ -120,7 +120,7 @@
         <div class="content">
 			<div class="post_title">
 				{% if page.gallery_view %}<img class="picture-icon" src="/assets/img/picture-sm.png" alt="" />{% else %}<img src="/assets/img/file.png" />{% endif %}
-				<h1{% if page.gallery_view %} id="photo-window-title"{% endif %}>{{  page.title  }}</h1>
+				<h1{% if page.gallery_view %} id="photo-window-title" aria-live="polite"{% endif %}>{{  page.title  }}</h1>
 				<a href="/"><div class="btn"><span class="fa fa-times"></span></div></a>
 				<div class="btn btn_max"><span class="fa fa-window-maximize"></span></div>
 				<div class="btn"><span class="fa fa-window-minimize"></span></div>
@@ -130,12 +130,51 @@
 				<li>{{ page.date | date: '%B %-d, %Y' }}</li>
 			</ul>
 			{% endunless %}
+			{% if page.gallery_view %}
+			<nav class="photo-menubar" id="photo-menubar" aria-label="Photo">
+				<div class="photo-menu" data-key="f">
+					<button type="button" aria-haspopup="true" aria-expanded="false"><u>F</u>ile</button>
+					<div class="photo-menu-pop" role="menu">
+						<button type="button" role="menuitem" data-act="original"><u>O</u>pen original</button>
+						<button type="button" role="menuitem" data-act="close"><u>C</u>lose</button>
+					</div>
+				</div>
+				<div class="photo-menu" data-key="a">
+					<button type="button" aria-haspopup="true" aria-expanded="false"><u>A</u>ction</button>
+					<div class="photo-menu-pop" role="menu">
+						<button type="button" role="menuitem" data-act="prev"><u>P</u>revious</button>
+						<button type="button" role="menuitem" data-act="next"><u>N</u>ext</button>
+					</div>
+				</div>
+				<div class="photo-menu" data-key="v">
+					<button type="button" aria-haspopup="true" aria-expanded="false"><u>V</u>iew</button>
+					<div class="photo-menu-pop" role="menu">
+						<button type="button" role="menuitem" data-act="full"><u>F</u>ull screen</button>
+					</div>
+				</div>
+				<div class="photo-menu" data-key="h">
+					<button type="button" aria-haspopup="true" aria-expanded="false"><u>H</u>elp</button>
+					<div class="photo-menu-pop photo-help-note">
+						<p>Left and Right move between photos.</p>
+						<p>Esc closes full screen.</p>
+						<p>Click the photo for full screen.</p>
+					</div>
+				</div>
+			</nav>
+			{% endif %}
 			<div class="post_content">
         		{{ content }}
 				{% unless page.photo %}
 					{% include donate.html %}
 				{% endunless %}
 			</div>
+			{% if page.gallery_view %}
+			<div class="photo-status" id="photo-status">
+				<div class="photo-status-pane" id="photo-status-tags"></div>
+				<div class="photo-status-pane" id="photo-status-taken"></div>
+				<div class="photo-status-pane" id="photo-status-camera"></div>
+			</div>
+			{% endif %}
 		</div>
     {% endif %}
 	<script src="/assets/js/gallery-tree.js"></script>

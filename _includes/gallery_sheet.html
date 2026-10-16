@@ -1,19 +1,7 @@
 {% capture slug %}{% include gallery_slug.html item=include.photo %}{% endcapture %}
 {% capture full_src %}{% include gallery_src.html item=include.photo kind="full" %}{% endcapture %}
-<article class="photo-sheet" data-slug="{{ slug | strip }}" data-caption="{{ include.photo.caption | escape }}" tabindex="-1">
+{% assign taken_text = include.photo.taken | append: "" %}
+<article class="photo-sheet" data-slug="{{ slug | strip }}" data-caption="{{ include.photo.caption | escape }}" data-tags="{% if include.photo.tags and include.photo.tags != empty %}{{ include.photo.tags | join: ", " | escape }}{% endif %}" data-taken="{% if include.photo.taken %}{% if taken_text contains "T" or taken_text contains ":" %}{{ include.photo.taken | date: "%B %-d, %Y, %-I:%M %p" }}{% else %}{{ include.photo.taken | date: "%B %-d, %Y" }}{% endif %}{% endif %}" data-camera="{{ include.photo.camera | escape }}" tabindex="-1">
 	<img class="photo js-photo" data-src="{{ full_src | strip }}" alt="{{ include.photo.alt | default: include.photo.caption | escape }}">
 	<noscript><img class="photo" src="{{ full_src | strip }}" alt="{{ include.photo.alt | default: include.photo.caption | escape }}"></noscript>
-	<p class="photo-caption">{{ include.photo.caption | escape }}</p>
-	<ul class="photo-props">
-		{% if include.photo.tags and include.photo.tags != empty %}
-		<li><b>Tags:</b> {{ include.photo.tags | join: ", " | escape }}</li>
-		{% endif %}
-		{% if include.photo.taken %}
-		{% assign taken_text = include.photo.taken | append: "" %}
-		<li><b>Taken:</b> {% if taken_text contains "T" or taken_text contains ":" %}{{ include.photo.taken | date: "%B %-d, %Y, %-I:%M %p" }}{% else %}{{ include.photo.taken | date: "%B %-d, %Y" }}{% endif %}</li>
-		{% endif %}
-		{% if include.photo.camera and include.photo.camera != "" %}
-		<li><b>Camera:</b> {{ include.photo.camera | escape }}</li>
-		{% endif %}
-	</ul>
 </article>
