@@ -22,13 +22,6 @@ html[data-from="{{ gslug }}"] #gallery-tags a[href="/tag/gallery/#{{ gslug }}"] 
 html[data-from="gallery"] #tag-list a.gallery-root { background: #000080; color: #fff8ff; }
 </style>
 <div class="gallery-set" id="gallery-all" data-tag="gallery" data-label="gallery">
-<ul class="tag-folder-mock">
-	{% for gtag in gallery_tags %}
-		{% if gtag.size > 0 %}
-		<li class="tag-folder"><a href="/tag/gallery/#{{ gtag | slugify }}" title="{{ gtag | escape }}">{% include tag_icon.html name=gtag %}{{ gtag | escape }}</a></li>
-		{% endif %}
-	{% endfor %}
-</ul>
 <ul class="gallery-files">
 	{% for photo in gallery_dated %}
 	{% include gallery_file.html photo=photo from="gallery" %}
