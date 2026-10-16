@@ -290,6 +290,12 @@ ul.topbar {
 	height: 0;
 	overflow: hidden;
 }
+// Hash targets live in the explorer. Keep them on the viewport origin so
+// opening a photo cannot scroll the explorer to the top of the screen.
+.photo-anchors {
+	position: fixed;
+	pointer-events: none;
+}
 .explorer-name {
 	display: none;
 }
@@ -589,11 +595,11 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 .post_content img.photo {
 	display: block;
 	max-width: 100%;
-	max-height: 75vh;
+	max-height: calc(100vh - 230px);
 	width: auto;
 	height: auto;
 	object-fit: contain;
-	margin: 4px auto 8px;
+	margin: 4px auto 6px;
 	cursor: zoom-in;
 	background: #008082;
 	border: 2px solid;
@@ -604,6 +610,7 @@ body:has(.photo-anchor:target) {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow-anchor: none;
 }
 
 body:has(.photo-anchor:target) .content {
@@ -627,6 +634,12 @@ body:has(.photo-anchor:target) .post_content {
 	min-height: 0;
 	max-height: none;
 	overflow: visible;
+}
+
+@media only screen and (min-width: 751px) {
+	body:has(.photo-anchor:target) .post_content img.photo {
+		max-height: calc(100vh - 450px);
+	}
 }
 
 // 980px leaves the 70.2% file pane wide enough for four 128px thumbnails.
@@ -730,6 +743,12 @@ body:has(.photo-stack) .wrapper.is-max ~ .content {
 	white-space: normal;
 }
 
+.post_list.post_list_gallery a.is-selected .photo-label,
+.post_list.post_list_gallery a.is-selected .photo-meta {
+	background: #000080;
+	color: #fff8ff;
+}
+
 .photo-caption {
 	margin: 0 8px 6px;
 	font-weight: bold;
@@ -762,8 +781,78 @@ body:has(.photo-stack) .wrapper.is-max ~ .content {
 	}
 }
 
+.photo-stack {
+	display: flex;
+	flex-direction: column;
+}
+
+.photo-stack .js-photo {
+	order: 1;
+}
+
+.photo-stack .photo-toolbar {
+	order: 2;
+}
+
+.photo-stack .photo-caption {
+	order: 3;
+}
+
+.photo-stack .photo-props {
+	order: 4;
+}
+
 .photo-stack .photo-sheet {
 	display: none;
+}
+
+.photo-toolbar {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+	box-sizing: border-box;
+	margin: 0 8px 8px;
+	padding: 4px;
+	background: #cccccc;
+	border: 2px solid;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+}
+
+.photo-toolbar .photo-nav-left {
+	justify-self: start;
+}
+
+.photo-toolbar .photo-nav-left button + button {
+	margin-left: 6px;
+}
+
+.photo-toolbar button {
+	font-family: inherit;
+	font-size: 12px;
+	line-height: 1.2;
+	color: #000000;
+	background: #cccccc;
+	border: 2px solid;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+	padding: 3px 12px;
+	min-height: 26px;
+	cursor: pointer;
+}
+
+.photo-toolbar button:active {
+	border-color: #000000 #fff8ff #fff8ff #000000;
+	padding: 4px 11px 2px 13px;
+}
+
+.photo-toolbar .photo-count {
+	justify-self: center;
+	font-size: 12px;
+	padding: 0 8px;
+	white-space: nowrap;
+}
+
+.photo-toolbar .photo-full {
+	justify-self: end;
 }
 
 body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
