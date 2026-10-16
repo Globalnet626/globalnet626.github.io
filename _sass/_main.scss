@@ -30,46 +30,89 @@ body {
 		margin: 0 3px 0 0;
 	}
 }
+// Upright Win95 caption glyphs inside the 13x11 button face.
+// Source order is close, maximize, minimize; float:right paints
+// minimize, maximize, close, with the gap on the maximize button.
+@mixin caption-btn {
+	background: #cccccc;
+	width: 13px;
+	height: 11px;
+	float: right;
+	border: 2px solid;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+	padding: 0;
+	margin: 0;
+	color: #000000;
+	line-height: 0;
+	font-size: 0;
+	cursor: pointer;
+	text-decoration: none;
+	box-sizing: content-box;
+	position: relative;
+	overflow: hidden;
+
+	span {
+		display: block;
+		width: 13px;
+		height: 11px;
+		position: relative;
+		left: 0;
+		top: 0;
+		font-size: 0;
+		line-height: 0;
+	}
+
+	.fa-window-minimize:before,
+	.fa-window-maximize:before,
+	.fa-times:before {
+		content: "";
+		position: absolute;
+		display: block;
+		left: 0;
+		top: 0;
+		width: 13px;
+		height: 11px;
+		font-size: 0;
+		line-height: 0;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		background-size: 13px 11px;
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+	}
+
+	.fa-window-minimize:before {
+		background-image: url("/assets/img/tb-min.svg");
+	}
+
+	.fa-window-maximize:before {
+		background-image: url("/assets/img/tb-max.svg");
+	}
+
+	.fa-times:before {
+		background-image: url("/assets/img/tb-close.svg");
+	}
+
+	&:active {
+		border-color: #000000 #fff8ff #fff8ff #000000;
+
+		span {
+			left: 1px;
+			top: 1px;
+		}
+	}
+}
 .default_title.has-winbtns {
 	h1 {
 		display: inline-block;
 	}
 
 	.winbtn {
-		background: #cccccc;
-		width: 13px;
-		height: 11px;
-		float: right;
-		border: 2px solid;
-		border-color: #fff8ff #000000 #000000 #fff8ff;
-		padding: 0;
-		color: #000000;
-		line-height: 1;
-		cursor: pointer;
-		text-decoration: none;
-		box-sizing: content-box;
-
-		span {
-			font-size: 11px;
-			position: relative;
-			left: 2px;
-			top: -2px;
-		}
-
-		.fa-window-minimize,
-		.fa-window-maximize {
-			font-size: 10px;
-			left: 1px;
-		}
+		@include caption-btn;
 	}
 
 	.winbtn-max {
 		margin: 0 3px 0 0;
-	}
-
-	.winbtn:active {
-		width: 12px;
-		height: 10px;
 	}
 }
 .post_title {
@@ -82,38 +125,11 @@ body {
 	}
 
 	.btn {
-		background: #cccccc;
-		width: 13px;
-		height: 11px;
-		float: right;
-		border: 2px solid;
-		border-color: #fff8ff #000000 #000000 #fff8ff;
-
-		span {
-			font-size: 11px;
-			position: relative;
-			left: 2px;
-			top: -2px;
-		}
-
-		.fa-window-minimize {
-			font-size: 10px;
-			left: 1px;
-		}
-
-		.fa-window-maximize {
-			font-size: 10px;
-			left: 1px;
-		}
+		@include caption-btn;
 	}
 
 	.btn_max {
 		margin: 0 3px 0 0;
-	}
-
-	.btn:active {
-		width: 12px;
-		height: 10px;
 	}
 }
 ul.topbar {
@@ -618,6 +634,7 @@ body:has(.photo-anchor:target) .post_content {
 body:has(.photo-stack) .content {
 	width: 980px;
 }
+.wrapper.is-max,
 .wrapper.is-max:has(.post_list_gallery) {
 	width: calc(100% - 24px);
 }
