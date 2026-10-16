@@ -229,6 +229,12 @@ ul.topbar {
 		}
 	}
 }
+// Home tree is 32px tag icons. Let the pane grow so all five rows show.
+.wrapper.is-home .tag_list {
+	height: auto;
+	max-height: none;
+	overflow-y: visible;
+}
 #tag-list {
     background:transparent url(/assets/img/pixel-alt.png) repeat-y 15px 0;
 }
