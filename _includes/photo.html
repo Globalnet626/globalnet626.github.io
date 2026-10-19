@@ -1,0 +1,135 @@
+{%- comment -%}
+  Embed one photo in a post.
+
+  Gallery catalog (_data/gallery.yml):
+  {% include photo.html key="nightwalk/untitled_nightwalk-3" %}
+  {% include photo.html key="nightwalk/untitled_nightwalk-3" caption="Optional caption" %}
+
+  Post-only catalog (_data/post_photos.yml). Not listed in the gallery:
+  {% include photo.html key="posts/why-photography/untitled_post-1" %}
+
+  key is checked in gallery.yml first (file path without the extension,
+  full file, or slug), then in post_photos.yml (key, file, or file
+  without the extension). caption here replaces the catalog caption.
+
+  A gallery hit uses the thumb, or the full image, and links to
+  /gallery/#… . A post-only hit uses the medium image and opens the
+  full image in the viewer on this page.
+
+  A key in neither catalog still renders: gallery_base_url plus the
+  key (with .webp added when there is no extension), and the link
+  opens that file.
+
+  Several photos: {% include photos.html keys="dog/untitled_dog-1, posts/why-photography/untitled_post-1" %}
+{%- endcomment -%}
+{%- if include.key and include.key != "" -%}
+	{%- assign gallery_key = include.key -%}
+{%- else -%}
+	{%- assign gallery_key = embed_key | default: "" -%}
+{%- endif -%}
+{%- assign gallery_key = gallery_key | strip | replace: " ", "" -%}
+{%- assign hit_file = "" -%}
+{%- assign post_hit = "" -%}
+{%- if gallery_key != "" -%}
+	{%- assign key_stem = gallery_key | split: "." | first -%}
+	{%- for item in site.data.gallery -%}
+		{%- assign file_stem = item.file | default: "" | split: "." | first -%}
+		{%- if file_stem == gallery_key or file_stem == key_stem or item.file == gallery_key or item.slug == gallery_key or item.slug == key_stem -%}
+			{%- assign hit_file = item.file -%}
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+	{%- unless hit_file != "" -%}
+		{%- for post_item in site.data.post_photos -%}
+			{%- assign post_file = post_item.file | default: "" -%}
+			{%- assign post_stem = post_file | split: "." | first -%}
+			{%- assign post_id = post_item.key | default: "" -%}
+			{%- if post_id == gallery_key or post_file == gallery_key or post_stem == gallery_key or post_stem == key_stem -%}
+				{%- assign post_hit = post_file | default: post_id -%}
+				{%- break -%}
+			{%- endif -%}
+		{%- endfor -%}
+	{%- endunless -%}
+{%- endif -%}
+{%- if gallery_key == "" -%}
+<figure class="post-photo is-missing">
+	<figcaption><span class="post-photo-caption">Missing photo key.</span></figcaption>
+</figure>
+{%- elsif hit_file != "" -%}
+	{%- for item in site.data.gallery -%}
+		{%- if item.file == hit_file -%}
+			{%- capture photo_slug %}{% include gallery_slug.html item=item %}{% endcapture -%}
+			{%- capture photo_full %}{% include gallery_src.html item=item kind="full" %}{% endcapture -%}
+			{%- if item.thumb and item.thumb != "" -%}
+				{%- capture photo_shown %}{% include gallery_src.html item=item kind="thumb" %}{% endcapture -%}
+			{%- else -%}
+				{%- assign photo_shown = photo_full -%}
+			{%- endif -%}
+			{%- assign photo_href = "/gallery/#" | append: photo_slug | strip -%}
+			{%- assign photo_alt = item.alt | default: item.caption | default: gallery_key -%}
+			{%- if include.caption and include.caption != "" -%}
+				{%- assign photo_caption = include.caption -%}
+			{%- else -%}
+				{%- assign photo_caption = item.caption | default: gallery_key -%}
+			{%- endif -%}
+			{%- capture photo_meta %}{% include photo_meta.html item=item %}{% endcapture -%}
+<figure class="post-photo">
+	<a href="{{ photo_href | strip }}"><img src="{{ photo_shown | strip }}" alt="{{ photo_alt | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='is-missing-img';this.src=this.getAttribute('data-fallback');"></a>
+	{%- if photo_caption != "" or photo_meta != "" -%}
+	<figcaption>
+		{%- if photo_caption != "" %}<span class="post-photo-caption">{{ photo_caption | escape }}</span>{% endif -%}
+		{%- if photo_meta != blank %}<span class="post-photo-meta">{{ photo_meta | strip | escape }}</span>{% endif -%}
+	</figcaption>
+	{%- endif -%}
+</figure>
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- elsif post_hit != "" -%}
+	{%- for post_item in site.data.post_photos -%}
+		{%- assign post_file = post_item.file | default: "" -%}
+		{%- assign post_id = post_item.key | default: "" -%}
+		{%- if post_file == post_hit or post_id == post_hit -%}
+			{%- assign photo_medium_path = post_item.medium | default: post_file -%}
+			{%- capture photo_shown %}{% include gallery_host_url.html path=photo_medium_path %}{% endcapture -%}
+			{%- capture photo_full %}{% include gallery_host_url.html path=post_file %}{% endcapture -%}
+			{%- assign photo_alt = post_item.alt | default: post_item.caption | default: gallery_key -%}
+			{%- if include.caption and include.caption != "" -%}
+				{%- assign photo_caption = include.caption -%}
+			{%- else -%}
+				{%- assign photo_caption = post_item.caption | default: gallery_key -%}
+			{%- endif -%}
+			{%- capture photo_meta %}{% include photo_meta.html item=post_item %}{% endcapture -%}
+			{%- capture photo_date %}{% include photo_meta.html item=post_item part="date" %}{% endcapture -%}
+<figure class="post-photo">
+	<a class="post-photo-open" href="{{ photo_full | strip }}" data-full="{{ photo_full | strip }}" data-alt="{{ photo_alt | escape }}" data-caption="{{ photo_caption | escape }}" data-date="{{ photo_date | strip | escape }}" data-camera="{{ post_item.camera | escape }}" data-lens="{{ post_item.lens | escape }}" data-fstop="{{ post_item.fstop }}" data-iso="{{ post_item.iso }}" data-shutter="{{ post_item.shutter | escape }}" data-focal="{{ post_item.focal }}"><img src="{{ photo_shown | strip }}" alt="{{ photo_alt | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='is-missing-img';this.src=this.getAttribute('data-fallback');"></a>
+	{%- if photo_caption != "" or photo_meta != "" -%}
+	<figcaption>
+		{%- if photo_caption != "" %}<span class="post-photo-caption">{{ photo_caption | escape }}</span>{% endif -%}
+		{%- if photo_meta != blank %}<span class="post-photo-meta">{{ photo_meta | strip | escape }}</span>{% endif -%}
+	</figcaption>
+	{%- endif -%}
+</figure>
+			{%- unless post_photo_viewer_placed -%}
+				{%- assign post_photo_viewer_placed = "yes" -%}
+				{%- include post_photo_viewer.html -%}
+			{%- endunless -%}
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- else -%}
+	{%- assign photo_path = gallery_key -%}
+	{%- unless photo_path contains "." or photo_path contains "://" -%}
+		{%- assign photo_path = photo_path | append: ".webp" -%}
+	{%- endunless -%}
+	{%- capture photo_src %}{% include gallery_host_url.html path=photo_path %}{% endcapture -%}
+	{%- if include.caption and include.caption != "" -%}
+		{%- assign photo_caption = include.caption -%}
+	{%- else -%}
+		{%- assign photo_caption = gallery_key -%}
+	{%- endif -%}
+<figure class="post-photo is-fallback">
+	<a href="{{ photo_src | strip }}"><img src="{{ photo_src | strip }}" alt="{{ photo_caption | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='is-missing-img';this.src=this.getAttribute('data-fallback');"></a>
+	<figcaption><span class="post-photo-caption">{{ photo_caption | escape }}</span></figcaption>
+</figure>
+{%- endif -%}

@@ -1,0 +1,20 @@
+{%- comment -%}
+  Print a gallery-host URL for include.path.
+  A path that already contains :// is returned unchanged.
+{%- endcomment -%}
+{%- assign host_path = include.path | default: "" | strip -%}
+{%- if host_path contains "://" -%}
+{{- host_path -}}
+{%- elsif host_path != "" -%}
+{%- assign host_base = site.gallery_base_url | default: "" | strip -%}
+{%- assign host_end = host_base | slice: -1, 1 -%}
+{%- if host_end == "/" -%}
+{%- assign host_blen = host_base | size | minus: 1 -%}
+{%- assign host_base = host_base | slice: 0, host_blen -%}
+{%- endif -%}
+{%- if host_base != "" -%}
+{{- host_base -}}/{{- host_path -}}
+{%- else -%}
+/assets/img/gallery/{{- host_path -}}
+{%- endif -%}
+{%- endif -%}
