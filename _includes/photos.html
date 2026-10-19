@@ -1,0 +1,18 @@
+{%- comment -%}
+  A row of gallery photos. keys is a comma-separated list of gallery keys.
+  On a narrow window the row wraps into a stack.
+
+  {% include photos.html keys="dog/untitled_dog-1, figures/smart-falcon, nightwalk/untitled_nightwalk-1" %}
+
+  Each key uses photo.html, so catalog fields and the missing-key fallback
+  are the same as a single photo.
+{%- endcomment -%}
+<div class="post-photos">
+{%- assign photo_keys = include.keys | default: "" | split: "," -%}
+{%- for raw_key in photo_keys -%}
+	{%- assign embed_key = raw_key | strip -%}
+	{%- if embed_key != "" -%}
+		{%- include photo.html -%}
+	{%- endif -%}
+{%- endfor -%}
+</div>
