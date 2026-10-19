@@ -1,0 +1,29 @@
+<div class="post-photo-viewer" id="post-photo-viewer" aria-hidden="true">
+	<div class="post-photo-viewer-window" role="dialog" aria-modal="true" aria-labelledby="post-photo-viewer-title">
+		<div class="post_title">
+			<img class="picture-icon" src="/assets/img/picture-sm.png" alt="" />
+			<h1 id="post-photo-viewer-title"></h1>
+			<button type="button" class="btn" data-act="close" aria-label="Close"><span class="fa fa-times"></span></button>
+			<button type="button" class="btn btn_max" data-act="max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
+			<button type="button" class="btn" data-act="min" aria-label="Minimize window"><span class="fa fa-window-minimize"></span></button>
+		</div>
+		<nav class="photo-menubar" aria-label="Photo">
+			<div class="photo-menu" data-key="f">
+				<button type="button" aria-haspopup="true" aria-expanded="false"><u>F</u>ile</button>
+				<div class="photo-menu-pop" role="menu">
+					<button type="button" role="menuitem" data-act="original"><u>O</u>pen original</button>
+					<button type="button" role="menuitem" data-act="close"><u>C</u>lose</button>
+				</div>
+			</div>
+		</nav>
+		<div class="post-photo-viewer-stage">
+			<img id="post-photo-viewer-img" alt="">
+		</div>
+		<div class="photo-status">
+			<div class="photo-status-pane" id="post-photo-status-date"></div>
+			<div class="photo-status-pane" id="post-photo-status-camera"></div>
+			<div class="photo-status-pane" id="post-photo-status-caption"></div>
+		</div>
+	</div>
+</div>
+<script src="/assets/js/post-photo.js"></script>

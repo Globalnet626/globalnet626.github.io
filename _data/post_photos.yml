@@ -1,0 +1,27 @@
+# Post-only photos. These are not listed in the gallery, its tag folders,
+# or the object counts. The upload script writes this list.
+#
+# Objects live on gallery_base_url (https://gallery.gleebsal.net):
+#   file   posts/<post-slug>/<name>.webp          full size, opened in the post viewer
+#   medium posts/<post-slug>/<name>-1200.webp     shown in the post
+# There is no square thumb.
+#
+# key      Path without the extension.
+#          Example: posts/why-photography/untitled_post-1
+# file     Full image.
+#          Example: posts/why-photography/untitled_post-1.webp
+# medium   In-post image.
+#          Example: posts/why-photography/untitled_post-1-1200.webp
+# alt      What is in the picture.
+# caption  Line under the picture.
+# date     Optional date (2018-12-20) or ISO datetime
+#          (2026-10-14T00:21:03). Quote it. A date with no time is
+#          shown as a date only.
+# camera   Optional camera name.
+# lens     Optional lens name. Left out when it is the same as camera.
+# fstop    Optional aperture, such as 1.85. Shown as f/1.85.
+# iso      Optional ISO number, such as 640. Shown as ISO 640.
+# shutter  Optional shutter speed, such as 1/30. Shown as 1/30s.
+# focal    Optional focal length in millimeters, such as 25.
+#          Same field name as _data/gallery.yml.
+[]

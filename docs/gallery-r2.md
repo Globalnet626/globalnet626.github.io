@@ -118,3 +118,27 @@ A date with no clock time stays a date in the window:
 Commit `_config.yml` and `_data/gallery.yml`, then push. GitHub Pages rebuilds the folder. You do not commit the photos themselves.
 
 Remove a picture by deleting its entry. With `gallery_base_url` set, a `file` value is requested from R2, not from `assets/img/gallery/`.
+
+## Post-only photos
+
+Photos that belong in a post and not in the gallery use a different list, `_data/post_photos.yml`. The gallery folder, tag folders, and object counts never read that file.
+
+R2 keys, with no square thumb:
+
+- `posts/<post-slug>/<name>.webp` full size
+- `posts/<post-slug>/<name>-1200.webp` the image shown in the post
+
+```yaml
+- key: posts/why-photography/untitled_post-1
+  file: posts/why-photography/untitled_post-1.webp
+  medium: posts/why-photography/untitled_post-1-1200.webp
+  alt: What is in the picture
+  caption: Line under the picture
+  date: "2026-10-14T00:21:03"
+  camera: Fujifilm X-T10
+  iso: 640
+  shutter: "1/30"
+  focal: 25
+```
+
+`date` is the post-photo name for the same kind of value as gallery `taken`. `camera`, `lens`, `fstop`, `iso`, `shutter`, and `focal` match `_data/gallery.yml`. In a post, `{% include photo.html key="posts/why-photography/untitled_post-1" %}` shows `medium` and opens `file` in a viewer on that page.

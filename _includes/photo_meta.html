@@ -1,0 +1,40 @@
+{%- comment -%}
+  Date and camera line for a gallery or post-only photo.
+  Pass item. Date comes from item.taken, or item.date when taken is blank.
+  part="date" prints only the formatted date.
+{%- endcomment -%}
+{%- assign photo_item = include.item -%}
+{%- assign photo_when = photo_item.taken | default: photo_item.date -%}
+{%- assign photo_when_text = photo_when | append: "" -%}
+{%- if include.part == "date" -%}
+{%- if photo_when -%}
+{%- if photo_when_text contains "T" or photo_when_text contains ":" -%}
+{{- photo_when | date: "%B %-d, %Y, %-I:%M %p" -}}
+{%- else -%}
+{{- photo_when | date: "%B %-d, %Y" -}}
+{%- endif -%}
+{%- endif -%}
+{%- else -%}
+{%- if photo_when -%}
+{%- if photo_when_text contains "T" or photo_when_text contains ":" -%}
+{{- photo_when | date: "%B %-d, %Y, %-I:%M %p" -}}
+{%- else -%}
+{{- photo_when | date: "%B %-d, %Y" -}}
+{%- endif -%}
+{%- endif -%}
+{%- if photo_item.camera -%}
+{%- if photo_when %} · {% endif -%}
+{{- photo_item.camera -}}
+{%- endif -%}
+{%- if photo_item.lens and photo_item.lens != photo_item.camera -%}
+{%- if photo_when or photo_item.camera %} · {% endif -%}
+{{- photo_item.lens -}}
+{%- endif -%}
+{%- if photo_item.fstop %} · f/{{ photo_item.fstop }}{% endif -%}
+{%- if photo_item.iso %} · ISO {{ photo_item.iso }}{% endif -%}
+{%- if photo_item.shutter -%}
+{%- assign photo_shut = photo_item.shutter | append: "" -%}
+{%- if photo_shut contains "s" %} · {{ photo_shut }}{% else %} · {{ photo_shut }}s{% endif -%}
+{%- endif -%}
+{%- if photo_item.focal %} · {{ photo_item.focal }}mm{% endif -%}
+{%- endif -%}
