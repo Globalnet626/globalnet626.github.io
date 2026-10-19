@@ -14,14 +14,14 @@
 #          Example: posts/why-photography/untitled_post-1-1200.webp
 # alt      What is in the picture.
 # caption  Line under the picture.
-# date     Optional date (2018-12-20) or ISO datetime
+# taken    Optional date (2018-12-20) or ISO datetime
 #          (2026-10-14T00:21:03). Quote it. A date with no time is
-#          shown as a date only.
-# camera   Optional camera name.
+#          shown as a date only. Same field name as gallery.yml.
+# camera   Optional camera name, shown in the status bar.
 # lens     Optional lens name. Left out when it is the same as camera.
 # fstop    Optional aperture, such as 1.85. Shown as f/1.85.
 # iso      Optional ISO number, such as 640. Shown as ISO 640.
 # shutter  Optional shutter speed, such as 1/30. Shown as 1/30s.
 # focal    Optional focal length in millimeters, such as 25.
-#          Same field name as _data/gallery.yml.
+#          Same field name as gallery.yml.
 []

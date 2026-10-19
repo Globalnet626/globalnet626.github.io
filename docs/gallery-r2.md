@@ -134,11 +134,11 @@ R2 keys, with no square thumb:
   medium: posts/why-photography/untitled_post-1-1200.webp
   alt: What is in the picture
   caption: Line under the picture
-  date: "2026-10-14T00:21:03"
+  taken: "2026-10-14T00:21:03"
   camera: Fujifilm X-T10
   iso: 640
   shutter: "1/30"
   focal: 25
 ```
 
-`date` is the post-photo name for the same kind of value as gallery `taken`. `camera`, `lens`, `fstop`, `iso`, `shutter`, and `focal` match `_data/gallery.yml`. In a post, `{% include photo.html key="posts/why-photography/untitled_post-1" %}` shows `medium` and opens `file` in a viewer on that page.
+`taken`, `camera`, `lens`, `fstop`, `iso`, `shutter`, and `focal` use the same names and formatting as `_data/gallery.yml`. In a post, `{% include photo.html key="posts/why-photography/untitled_post-1" %}` shows `medium` and opens `file` in a viewer on that page.

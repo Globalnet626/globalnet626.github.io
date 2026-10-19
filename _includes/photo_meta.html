@@ -1,10 +1,11 @@
 {%- comment -%}
   Date and camera line for a gallery or post-only photo.
-  Pass item. Date comes from item.taken, or item.date when taken is blank.
-  part="date" prints only the formatted date.
+  Pass item. Reads item.taken, camera, lens, fstop, iso, shutter, and focal,
+  the same names and formatting as a gallery.yml entry.
+  part="date" prints only the formatted taken value.
 {%- endcomment -%}
 {%- assign photo_item = include.item -%}
-{%- assign photo_when = photo_item.taken | default: photo_item.date -%}
+{%- assign photo_when = photo_item.taken -%}
 {%- assign photo_when_text = photo_when | append: "" -%}
 {%- if include.part == "date" -%}
 {%- if photo_when -%}

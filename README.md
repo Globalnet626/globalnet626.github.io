@@ -22,7 +22,7 @@ In a file under `_posts`, embed a catalog photo by its gallery key (the `file` p
 
 Caption, alt text, and the date and camera fields come from `_data/gallery.yml`. The picture is the thumb when the entry has one, otherwise the full `.webp` on `gallery_base_url`, and it loads lazily. Clicking it opens that photo in the gallery viewer (`/gallery/#…`). A key that is in neither catalog still shows an image from the same host and opens that file directly.
 
-A post-only photo is the same include, with a key from `_data/post_photos.yml` (for example `posts/why-photography/untitled_post-1`). Those objects live under `posts/<post-slug>/` on the same host: `<name>.webp` is the full image and `<name>-1200.webp` is what the post shows. They are not listed in the gallery, its tag folders, or the object counts. Clicking one opens the full image in a viewer on the post page, not in `/gallery/`.
+A post-only photo is the same include, with a key from `_data/post_photos.yml` (for example `posts/why-photography/untitled_post-1`). Those objects live under `posts/<post-slug>/` on the same host: `<name>.webp` is the full image and `<name>-1200.webp` is what the post shows. `taken`, `camera`, `lens`, `fstop`, `iso`, `shutter`, and `focal` use the same names as `_data/gallery.yml` and render the same way. They are not listed in the gallery, its tag folders, or the object counts. Clicking one opens the full image in a viewer on the post page, not in `/gallery/`.
 
 ```liquid
 {% include photo.html key="posts/why-photography/untitled_post-1" %}
