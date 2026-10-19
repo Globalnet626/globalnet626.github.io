@@ -436,7 +436,8 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 
 	.post-photo {
 		display: block;
-		max-width: 100%;
+		width: 100%;
+		max-width: 336px;
 		margin: 8px 0 14px;
 		background: #bfb8bf;
 		border: 2px solid;
@@ -453,12 +454,19 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 
 		img {
 			display: block;
+			width: 100%;
 			max-width: 100%;
-			width: auto;
 			height: auto;
 			background: #008082;
 			border: 2px solid;
 			border-color: #000 #fff8ff #fff8ff #000;
+		}
+
+		img.is-missing-img {
+			width: 32px;
+			height: 32px;
+			margin: 12px auto;
+			image-rendering: pixelated;
 		}
 
 		figcaption {
@@ -491,11 +499,19 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 		.post-photo {
 			flex: 1 1 30%;
 			min-width: 0;
+			width: auto;
+			max-width: none;
 			margin: 4px;
 		}
 
 		.post-photo img {
 			width: 100%;
+		}
+
+		.post-photo img.is-missing-img {
+			width: 32px;
+			height: 32px;
+			margin: 12px auto;
 		}
 	}
 }
@@ -537,6 +553,9 @@ body:has(#gallery-all):not(:has(.photo-stack)):not(:has(.tag-anchor:target)) a.g
 	}
 }
 @media only screen and (max-width: 480px) {
+	.post_content .post-photo {
+		max-width: 100%;
+	}
 	.post_content .post-photos .post-photo {
 		flex-basis: 100%;
 	}

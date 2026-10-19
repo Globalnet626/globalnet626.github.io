@@ -78,7 +78,7 @@
 				{%- if item.focal %} · {{ item.focal }}mm{% endif -%}
 			{%- endcapture -%}
 <figure class="post-photo">
-	<a href="{{ photo_href | strip }}"><img src="{{ photo_shown | strip }}" alt="{{ photo_alt | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.src=this.getAttribute('data-fallback');"></a>
+	<a href="{{ photo_href | strip }}"><img src="{{ photo_shown | strip }}" alt="{{ photo_alt | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='is-missing-img';this.src=this.getAttribute('data-fallback');"></a>
 	{%- if photo_caption != "" or photo_meta != "" -%}
 	<figcaption>
 		{%- if photo_caption != "" %}<span class="post-photo-caption">{{ photo_caption | escape }}</span>{% endif -%}
@@ -113,7 +113,7 @@
 		{%- assign photo_caption = gallery_key -%}
 	{%- endif -%}
 <figure class="post-photo is-fallback">
-	<a href="{{ photo_src }}"><img src="{{ photo_src }}" alt="{{ photo_caption | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.src=this.getAttribute('data-fallback');"></a>
+	<a href="{{ photo_src }}"><img src="{{ photo_src }}" alt="{{ photo_caption | escape }}" loading="lazy" decoding="async" data-fallback="/assets/img/picture.png" onerror="this.onerror=null;this.className='is-missing-img';this.src=this.getAttribute('data-fallback');"></a>
 	<figcaption><span class="post-photo-caption">{{ photo_caption | escape }}</span></figcaption>
 </figure>
 {%- endif -%}
