@@ -154,7 +154,7 @@
 		cols = Math.max(8, Math.floor(size.w / 9));
 		var visible = Math.max(4, Math.floor(size.h / 9));
 		var rows = visible + 20;
-		if (cols * rows > 2500) rows = Math.max(visible + 4, Math.floor(2500 / cols));
+		if (cols * rows > 8000) rows = Math.max(visible + 4, Math.floor(8000 / cols));
 		var n = cols * rows;
 		var badN = Math.max(2, Math.round(n * 0.012));
 		var fixedN = Math.round(n * 0.15);
