@@ -58,6 +58,7 @@
 			if (!el) return;
 			var on = key === name;
 			el.classList.toggle("is-open", on);
+			el.hidden = !on;
 			if (on) el.removeAttribute("aria-hidden");
 			else el.setAttribute("aria-hidden", "true");
 		});

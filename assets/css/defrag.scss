@@ -1,0 +1,12 @@
+---
+---
+
+// Own file so /defrag/ does not depend on a cached copy of 001.css.
+// GitHub Pages caches /assets/css/001.css for hours; this URL is versioned
+// from the layout on every build.
+@import "reset";
+@import "main";
+
+.default_title {
+	background: #00007f;
+}

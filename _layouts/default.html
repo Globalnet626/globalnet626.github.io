@@ -5,15 +5,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="/assets/css/atom-one-light.css">
+	{% assign asset_v = site.time | date: '%s' %}
     {% if page.defrag %}
         <title>Defragmenting Drive C</title>
-		<link rel="stylesheet" type="text/css" href="/assets/css/001.css">
+		<link rel="stylesheet" type="text/css" href="/assets/css/defrag.css?v={{ asset_v }}">
     {% elsif page.title or page.title == 'me' %}
         <title>{{ page.title }}</title>
-		<link rel="stylesheet" type="text/css" href="/assets/css/002.css">
+		<link rel="stylesheet" type="text/css" href="/assets/css/002.css?v={{ asset_v }}">
     {% else %}
         <title>{{ site.name }}</title>
-		<link rel="stylesheet" type="text/css" href="/assets/css/001.css">
+		<link rel="stylesheet" type="text/css" href="/assets/css/001.css?v={{ asset_v }}">
     {% endif %}
 	<link rel="stylesheet" href="/assets/css/font-awesome.min.css">
 	<link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
@@ -186,7 +187,7 @@
 	<script src="/assets/js/gallery-folder.js"></script>
 	{% endif %}
 	{% if page.defrag %}
-	<script src="/assets/js/defrag.js"></script>
+	<script src="/assets/js/defrag.js?v={{ asset_v }}"></script>
 	{% endif %}
 	<div class="footer">
 		<p style="align-content: center;"><i>The heart of the discerning acquires knowledge, for the ears of the wise seek it out. </br><b>Proverbs 18:15</b></i></p>
