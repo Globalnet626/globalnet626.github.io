@@ -11,6 +11,10 @@ Pictures are the **gallery** folder in the file list, beside the category folder
 
 Do not commit API tokens or rclone config. Setup steps: [docs/gallery-r2.md](docs/gallery-r2.md).
 
+## Disk Defragmenter
+
+`defrag.exe` in the home file list opens `/defrag/`. It is a cosmetic Windows 95 Disk Defragmenter: the cluster map, progress bar, and dialogs are drawn in the browser and nothing is read from or written to a disk. Settings has an ASMR tick, generated with the Web Audio API and off unless the checkbox is on. That choice is stored in `localStorage` under `gleebsal-defrag-asmr`. The 1× / 2× speed applies only to the current run.
+
 ### Photos in a post
 
 In a file under `_posts`, embed a catalog photo by its gallery key (the `file` path without `.webp`):
