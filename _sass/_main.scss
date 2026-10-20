@@ -185,7 +185,8 @@ ul.topbar {
 			}
 		}
 
-		li.tag-folder img {
+		li.tag-folder img,
+		li.app-icon img {
 			width: 32px;
 			height: 32px;
 			image-rendering: pixelated;
@@ -1053,6 +1054,290 @@ body:has(.photo-stack):not(:has(.photo-anchor:target)) .content {
 	.photo-help-note {
 		min-width: 0;
 		width: 220px;
+	}
+}
+
+// Disk Defragmenter sits above the explorer, the same way an open photo does.
+body:has(.defrag-window) {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.defrag-window {
+	order: -1;
+	display: flex;
+	flex-direction: column;
+	height: calc(100vh - 180px);
+	max-height: calc(100vh - 180px);
+	margin-top: 12px;
+	margin-bottom: 0;
+}
+body:has(.defrag-window) .wrapper {
+	order: 1;
+	margin-top: 16px;
+	margin-bottom: 0;
+}
+body:has(.defrag-window) .footer {
+	order: 2;
+	width: 100%;
+}
+.defrag-window .post_title {
+	flex: 0 0 auto;
+	background: #00007f;
+
+	img {
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+	}
+
+	h1 {
+		max-width: calc(100% - 78px);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		vertical-align: top;
+	}
+
+	.winbtn {
+		@include caption-btn;
+	}
+
+	.winbtn-max {
+		margin: 0 3px 0 0;
+	}
+}
+.defrag-window.is-max {
+	width: calc(100% - 24px);
+	height: calc(100vh - 16px);
+	max-height: calc(100vh - 16px);
+}
+.defrag {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	min-height: 0;
+	height: auto;
+	padding: 8px;
+	color: #000000;
+	font-size: 12px;
+}
+.defrag-map-wrap {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background: #000000;
+	border: 2px solid;
+	border-color: #808080 #ffffff #ffffff #808080;
+	box-sizing: border-box;
+}
+.defrag-map {
+	display: block;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+.defrag-status,
+.defrag-percent {
+	margin: 6px 2px 4px;
+}
+.defrag-bar {
+	height: 18px;
+	margin: 0 2px;
+	padding: 2px;
+	box-sizing: border-box;
+	background: #ffffff;
+	border: 2px solid;
+	border-color: #808080 #ffffff #ffffff #808080;
+}
+.defrag-bar-fill {
+	height: 100%;
+	width: 0%;
+	background-image: repeating-linear-gradient(90deg, #000080 0, #000080 8px, #ffffff 8px, #ffffff 10px);
+}
+.defrag-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 4px 2px 0;
+}
+button.defrag-cmd {
+	appearance: none;
+	-webkit-appearance: none;
+	font-family: inherit;
+	font-size: 12px;
+	min-width: 72px;
+	padding: 4px 12px;
+	color: #000000;
+	background: #bfb8bf;
+	border: 2px solid;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+button.defrag-cmd:focus {
+	outline: 1px dotted #000000;
+	outline-offset: -4px;
+}
+button.defrag-cmd:active:not(:disabled) {
+	border-color: #000000 #fff8ff #fff8ff #000000;
+	padding: 5px 11px 3px 13px;
+}
+button.defrag-cmd:disabled {
+	color: #7f787f;
+	cursor: default;
+}
+.defrag-dialog {
+	display: none;
+	position: fixed;
+	z-index: 20;
+	left: 50%;
+	top: 50%;
+	width: 320px;
+	max-width: calc(100% - 24px);
+	max-height: calc(100vh - 24px);
+	box-sizing: border-box;
+	background: #bfb8bf;
+	border: 2px solid;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+	transform: translate(-50%, -50%);
+}
+.defrag-dialog.is-open {
+	display: flex;
+	flex-direction: column;
+}
+.defrag-dialog-title {
+	flex: 0 0 auto;
+	overflow: hidden;
+	padding: 2px 3px 3px 4px;
+	background: #00007f;
+	color: #bfb8bf;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 16px;
+}
+.defrag-dialog .winbtn {
+	@include caption-btn;
+}
+.defrag-dialog-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: auto;
+	padding: 12px 12px 10px;
+	color: #000000;
+	font-size: 12px;
+
+	> p {
+		margin: 0 0 10px;
+	}
+}
+.defrag-drive-row {
+	margin: 0 0 12px;
+
+	label {
+		margin-right: 8px;
+	}
+
+	select {
+		font-family: inherit;
+		font-size: 12px;
+		background: #ffffff;
+		border: 2px solid;
+		border-color: #808080 #ffffff #ffffff #808080;
+	}
+}
+.defrag-dialog-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 12px;
+}
+.defrag-dialog fieldset {
+	margin: 12px 0 0;
+	padding: 8px 10px;
+	border: 2px groove #dfdfdf;
+}
+.defrag-check {
+	display: block;
+	margin: 4px 0;
+}
+.defrag-dialog-body .defrag-legend-label {
+	margin: 6px 0 2px;
+}
+.defrag-legend-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 3px 0;
+}
+.defrag-legend-row.indent {
+	margin-left: 18px;
+}
+.defrag-dialog-body .defrag-legend-foot {
+	margin: 10px 0;
+}
+.swatch {
+	flex: 0 0 auto;
+	width: 14px;
+	height: 14px;
+	box-sizing: border-box;
+	border: 1px solid #000000;
+}
+.swatch-opt { background: #000080; }
+.swatch-begin { background: #00e0e0; }
+.swatch-mid { background: #008080; }
+.swatch-end { background: #202020; }
+.swatch-free { background: #ffffff; }
+.swatch-read { background: #00c000; }
+.swatch-write { background: #ff0000; }
+.swatch-fixed {
+	background-color: #ffffff;
+	background-image: linear-gradient(135deg, transparent 42%, #ff0000 42%, #ff0000 58%, transparent 58%);
+}
+.swatch-bad {
+	background: repeating-linear-gradient(45deg, #808080 0 1px, #c0c0c0 1px 3px);
+}
+.defrag-window.is-defrag-compact,
+.defrag-window.is-max.is-defrag-compact {
+	height: auto;
+	max-height: none;
+}
+.defrag-window.is-defrag-compact .defrag-map-wrap {
+	display: none;
+}
+.defrag-window.is-defrag-compact .defrag {
+	flex: 0 0 auto;
+}
+
+@media only screen and (max-width: 750px) {
+	body:has(.defrag-window) .wrapper,
+	.content.defrag-window,
+	.content.defrag-window.is-max {
+		width: calc(100% - 16px);
+		max-width: calc(100% - 16px);
+	}
+	.defrag-window {
+		height: calc(100vh - 220px);
+		max-height: calc(100vh - 220px);
+		margin-top: 8px;
+	}
+	.defrag-window.is-max {
+		height: calc(100vh - 16px);
+		max-height: calc(100vh - 16px);
+	}
+	.defrag-window.is-defrag-compact,
+	.defrag-window.is-max.is-defrag-compact {
+		height: auto;
+		max-height: none;
+	}
+	body:has(.defrag-window) .wrapper {
+		margin-top: 8px;
+	}
+}
+@media only screen and (max-width: 480px) {
+	.defrag-actions .defrag-cmd {
+		flex: 1 1 40%;
 	}
 }
 .post-photo-viewer {
