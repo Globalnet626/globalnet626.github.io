@@ -44,8 +44,6 @@
 				<h1 id="explorer-title"><span class="explorer-name" data-for="gallery">gallery</span>{% include gallery_tags.html %}{% for gtag in gallery_tags %}{% if gtag.size > 0 %}<span class="explorer-name" data-for="{{ gtag | slugify }}">{{ gtag | escape }}</span>{% endif %}{% endfor %}</h1>
 			{% elsif page.tag %}
 				<h1>{{ page.tag }}</h1>
-			{% elsif page.defrag %}
-				<h1>Defragmenting Drive C</h1>
 			{% else %}
 				<!-- site.name-->
 				<h1>{{ site.name }}</h1>
@@ -72,7 +70,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="post_list{% if page.gallery_folder or page.gallery_view %} post_list_gallery{% endif %}{% if page.defrag %} post_list_defrag{% endif %}">
+		<div class="post_list{% if page.gallery_folder or page.gallery_view %} post_list_gallery{% endif %}">
 			{% if page.gallery_view %}
 				{% include gallery_listing.html %}
 			{% else %}
@@ -106,8 +104,6 @@
 				{% assign folder = page.tags | first %}
 				{% unless folder %}{% assign folder = page.folder %}{% endunless %}
 				<div class="left">{{ site.tags[folder] | size }} object(s)</div>
-			{% elsif page.defrag %}
-				<div class="left">Drive C</div>
 			{% elsif page.home_files %}
 				<div class="left">{{ site.posts | size | plus: 2 }} object(s)</div>
 			{% else %}
@@ -116,6 +112,9 @@
 			<div class="right">&nbsp;</div>
 		</div>
 	</div>
+	{% if page.defrag %}
+	{% include defrag_window.html %}
+	{% endif %}
 	{% if page.title %}
         <div class="content">
 			<div class="post_title">

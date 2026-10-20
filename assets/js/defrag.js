@@ -2,7 +2,7 @@
 (function () {
 	var ASM_KEY = "gleebsal-defrag-asmr";
 	var root = document.getElementById("defrag-app");
-	var wrap = document.querySelector(".wrapper");
+	var wrap = document.querySelector(".defrag-window");
 	var mapWrap = document.getElementById("defrag-map-wrap");
 	var canvas = document.getElementById("defrag-map");
 	var statusEl = document.getElementById("defrag-status");
@@ -494,6 +494,19 @@
 		var compact = wrap && wrap.classList.toggle("is-defrag-compact");
 		detailsBtn.textContent = compact ? "Show Details" : "Hide Details";
 	});
+
+	var maxBtn = document.querySelector(".defrag-max");
+	var restoreBtn = document.querySelector(".defrag-restore");
+	if (wrap && maxBtn && restoreBtn) {
+		maxBtn.addEventListener("click", function () {
+			wrap.classList.add("is-max");
+			maxBtn.setAttribute("aria-pressed", "true");
+		});
+		restoreBtn.addEventListener("click", function () {
+			wrap.classList.remove("is-max");
+			maxBtn.setAttribute("aria-pressed", "false");
+		});
+	}
 
 	asmr.addEventListener("change", function () {
 		try {

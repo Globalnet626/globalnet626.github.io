@@ -13,7 +13,7 @@ Do not commit API tokens or rclone config. Setup steps: [docs/gallery-r2.md](doc
 
 ## Disk Defragmenter
 
-`defrag.exe` in the home file list opens `/defrag/`. It is a cosmetic Windows 95 Disk Defragmenter: the cluster map, progress bar, and dialogs are drawn in the browser and nothing is read from or written to a disk. Settings has an ASMR tick, generated with the Web Audio API and off unless the checkbox is on. That choice is stored in `localStorage` under `gleebsal-defrag-asmr`. The 1× / 2× speed applies only to the current run.
+`defrag.exe` in the home file list opens `/defrag/`. The program is its own window above the explorer, the same stacking as an open gallery photo, and closing it returns to the explorer. It is a cosmetic Windows 95 Disk Defragmenter: the cluster map, progress bar, and dialogs are drawn in the browser and nothing is read from or written to a disk. Settings has an ASMR tick, generated with the Web Audio API and off unless the checkbox is on. That choice is stored in `localStorage` under `gleebsal-defrag-asmr`. The 1× / 2× speed applies only to the current run.
 
 ### Photos in a post
 
