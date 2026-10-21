@@ -370,33 +370,39 @@
 		var rows = visible;
 		if (cols * rows > 8000) rows = Math.max(4, Math.floor(8000 / cols));
 		var n = cols * rows;
-		var badN = Math.max(2, Math.round(n * 0.012));
-		var fixedN = Math.round(n * 0.15);
+		// Fixed and bad blocks never move. They used to be about 16% of the
+		// map and were sprinkled through every run. Keep about 4% of that
+		// count, in one cluster between the data and the free space, so the
+		// other blocks can consolidate instead of being skipped.
+		var oldKeep = Math.max(2, Math.round(n * 0.012)) + Math.round(n * 0.15);
+		var keep = Math.max(2, Math.round(oldKeep * 0.04));
+		var badN = 1;
+		var fixedN = keep - badN;
 		var dataN = Math.round(n * 0.55);
-		if (badN + fixedN >= n) {
-			badN = 2;
-			fixedN = Math.max(1, Math.floor(n * 0.1));
-		}
-		if (badN + fixedN + dataN > n) dataN = n - badN - fixedN;
+		if (dataN + keep >= n) dataN = Math.max(3, n - keep - 1);
 		var third = Math.floor(dataN / 3);
 		var n1 = third;
 		var n2 = third;
 		var n3 = dataN - third - third;
-		var order = [];
+		var clusterAt = dataN;
 		var i;
-		for (i = 0; i < n; i++) order.push(i);
-		shuffle(order);
 		cells = new Array(n);
 		final = new Array(n);
-		for (i = 0; i < badN; i++) {
-			cells[order[i]] = 6;
-			final[order[i]] = 6;
+		for (i = 0; i < n; i++) {
+			cells[i] = 0;
+			final[i] = 0;
 		}
 		for (i = 0; i < fixedN; i++) {
-			cells[order[badN + i]] = 5;
-			final[order[badN + i]] = 5;
+			cells[clusterAt + i] = 5;
+			final[clusterAt + i] = 5;
 		}
-		var movable = order.slice(badN + fixedN).sort(function (a, b) { return a - b; });
+		for (i = 0; i < badN; i++) {
+			cells[clusterAt + fixedN + i] = 6;
+			final[clusterAt + fixedN + i] = 6;
+		}
+		var movable = [];
+		for (i = 0; i < clusterAt; i++) movable.push(i);
+		for (i = clusterAt + keep; i < n; i++) movable.push(i);
 		var values = [];
 		for (i = 0; i < n1; i++) values.push(1);
 		for (i = 0; i < n2; i++) values.push(2);
