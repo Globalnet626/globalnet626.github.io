@@ -294,12 +294,12 @@
 		var n = cells.length;
 		if (reduced) return;
 		var max = n - 1;
-		var steps = 32;
+		var steps = 8;
 		var i, idx;
 		if (max < 1) return;
 		for (i = 0; i < steps; i++) {
 			idx = Math.round(max * i / (steps - 1));
-			tone("sine", blockFreq(idx, max), when + i * 0.015, 0.018, 0.026);
+			tone("sine", blockFreq(idx, max), when + i * 0.012, 0.016, 0.026);
 		}
 	}
 
@@ -357,7 +357,9 @@
 		var w = mapWrap.clientWidth;
 		var h = mapWrap.clientHeight;
 		if (w < 48) w = Math.max(160, root.clientWidth - 8);
-		if (h < 48) h = 210;
+		// Four rows is the shortest map that still draws. A taller fallback
+		// would be clipped by the half-height window.
+		if (h < 36) h = 36;
 		return { w: w, h: h };
 	}
 
@@ -365,36 +367,42 @@
 		var size = measureMap();
 		cols = Math.max(8, Math.floor(size.w / 9));
 		var visible = Math.max(4, Math.floor(size.h / 9));
-		var rows = visible + 20;
-		if (cols * rows > 8000) rows = Math.max(visible + 4, Math.floor(8000 / cols));
+		var rows = visible;
+		if (cols * rows > 8000) rows = Math.max(4, Math.floor(8000 / cols));
 		var n = cols * rows;
-		var badN = Math.max(2, Math.round(n * 0.012));
-		var fixedN = Math.round(n * 0.15);
+		// Fixed and bad blocks never move. They used to be about 16% of the
+		// map and were sprinkled through every run. Keep about 4% of that
+		// count, in one cluster between the data and the free space, so the
+		// other blocks can consolidate instead of being skipped.
+		var oldKeep = Math.max(2, Math.round(n * 0.012)) + Math.round(n * 0.15);
+		var keep = Math.max(2, Math.round(oldKeep * 0.04));
+		var badN = 1;
+		var fixedN = keep - badN;
 		var dataN = Math.round(n * 0.55);
-		if (badN + fixedN >= n) {
-			badN = 2;
-			fixedN = Math.max(1, Math.floor(n * 0.1));
-		}
-		if (badN + fixedN + dataN > n) dataN = n - badN - fixedN;
+		if (dataN + keep >= n) dataN = Math.max(3, n - keep - 1);
 		var third = Math.floor(dataN / 3);
 		var n1 = third;
 		var n2 = third;
 		var n3 = dataN - third - third;
-		var order = [];
+		var clusterAt = dataN;
 		var i;
-		for (i = 0; i < n; i++) order.push(i);
-		shuffle(order);
 		cells = new Array(n);
 		final = new Array(n);
-		for (i = 0; i < badN; i++) {
-			cells[order[i]] = 6;
-			final[order[i]] = 6;
+		for (i = 0; i < n; i++) {
+			cells[i] = 0;
+			final[i] = 0;
 		}
 		for (i = 0; i < fixedN; i++) {
-			cells[order[badN + i]] = 5;
-			final[order[badN + i]] = 5;
+			cells[clusterAt + i] = 5;
+			final[clusterAt + i] = 5;
 		}
-		var movable = order.slice(badN + fixedN).sort(function (a, b) { return a - b; });
+		for (i = 0; i < badN; i++) {
+			cells[clusterAt + fixedN + i] = 6;
+			final[clusterAt + fixedN + i] = 6;
+		}
+		var movable = [];
+		for (i = 0; i < clusterAt; i++) movable.push(i);
+		for (i = clusterAt + keep; i < n; i++) movable.push(i);
 		var values = [];
 		for (i = 0; i < n1; i++) values.push(1);
 		for (i = 0; i < n2; i++) values.push(2);
@@ -548,7 +556,14 @@
 	}
 
 	function stepMs() {
-		return interval / speed;
+		return interval;
+	}
+
+	// One frame stays at the old 1× pace so the bar and the flash stay smooth.
+	// Speed is how many blocks that frame settles. A shorter timeout cannot
+	// actually double the old per-cell clock.
+	function blocksThisFrame() {
+		return 4 * speed;
 	}
 
 	function doStep() {
@@ -569,16 +584,27 @@
 			else schedule(doStep, 32);
 			return;
 		}
-		var move = peek();
+		var budget = blocksThisFrame();
+		var i, move;
+		for (i = 0; i < budget - 1; i++) {
+			move = peek();
+			if (!move) break;
+			commit(move);
+		}
+		move = peek();
 		if (!move) {
+			updateProgress();
+			draw();
 			finish();
 			return;
 		}
 		flash = move;
+		updateProgress();
 		draw();
 		var wait = stepMs();
 		var flashMs = Math.min(40, wait * 0.6);
 		if (flashMs < 8) flashMs = Math.min(8, wait);
+		// One tone for the whole frame, so a faster run does not pile up voices.
 		sonifyStep(move, flashMs / 1000);
 		schedule(function () {
 			if (phase !== "run") return;
@@ -598,6 +624,10 @@
 		ensureAudio();
 		buildGrid();
 		var mismatches = countMismatches();
+		// Frame length follows however many blocks are out of place
+		// (40000/mismatches, clamped to 16–60ms). Each frame still settles
+		// 4×speed of them, so a shorter map stays about a quarter of the
+		// old one-block-per-frame run for that same map.
 		interval = Math.max(16, Math.min(60, 40000 / Math.max(1, mismatches)));
 		phase = "run";
 		restoreSelect = false;

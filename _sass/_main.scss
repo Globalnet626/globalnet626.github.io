@@ -1067,8 +1067,11 @@ body:has(.defrag-window) {
 	order: -1;
 	display: flex;
 	flex-direction: column;
-	height: calc(100vh - 180px);
-	max-height: calc(100vh - 180px);
+	// About half the previous window. 50vh - 90px is (100vh - 180px) / 2.
+	// The floor keeps the title, status, bar, and buttons inside on a short phone.
+	height: calc(50vh - 90px);
+	max-height: calc(50vh - 90px);
+	min-height: 240px;
 	margin-top: 12px;
 	margin-bottom: 0;
 }
@@ -1125,8 +1128,7 @@ body:has(.defrag-window) .footer {
 .defrag-map-wrap {
 	flex: 1 1 auto;
 	min-height: 0;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow: hidden;
 	background: #000000;
 	border: 2px solid;
 	border-color: #808080 #ffffff #ffffff #808080;
@@ -1302,6 +1304,7 @@ button.defrag-cmd:disabled {
 .defrag-window.is-max.is-defrag-compact {
 	height: auto;
 	max-height: none;
+	min-height: 0;
 }
 .defrag-window.is-defrag-compact .defrag-map-wrap {
 	display: none;
@@ -1318,8 +1321,9 @@ button.defrag-cmd:disabled {
 		max-width: calc(100% - 16px);
 	}
 	.defrag-window {
-		height: calc(100vh - 220px);
-		max-height: calc(100vh - 220px);
+		// (100vh - 220px) / 2, written without a slash so Sass leaves it alone.
+		height: calc(50vh - 110px);
+		max-height: calc(50vh - 110px);
 		margin-top: 8px;
 	}
 	.defrag-window.is-max {
@@ -1330,6 +1334,7 @@ button.defrag-cmd:disabled {
 	.defrag-window.is-max.is-defrag-compact {
 		height: auto;
 		max-height: none;
+		min-height: 0;
 	}
 	body:has(.defrag-window) .wrapper {
 		margin-top: 8px;
