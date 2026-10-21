@@ -23,15 +23,23 @@
 	}
 
 	function playerApi() {
-		var player = playerWindow();
-		return player && player.flyby ? player.flyby : null;
+		try {
+			var player = playerWindow();
+			return player && player.flyby ? player.flyby : null;
+		} catch (err) {
+			return null;
+		}
 	}
 
 	function hidePlayerChrome() {
-		var player = playerWindow();
-		var doc = player && player.document;
-		var chrome = doc && doc.getElementById("chrome");
-		if (chrome) chrome.style.display = "none";
+		try {
+			var player = playerWindow();
+			var doc = player && player.document;
+			var chrome = doc && doc.getElementById("chrome");
+			if (chrome) chrome.style.display = "none";
+		} catch (err) {
+			return;
+		}
 	}
 
 	function setSpeedVisible(on) {
