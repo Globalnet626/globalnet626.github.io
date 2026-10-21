@@ -10,6 +10,9 @@
 		<div class="flyby-menu" id="flyby-file">
 			<button type="button" aria-haspopup="true" aria-expanded="false"><u>F</u>ile</button>
 			<div class="flyby-menu-pop" role="menu">
+				<div class="flyby-sub" id="flyby-plane">
+					<button type="button" class="flyby-sub-btn" aria-haspopup="true" aria-expanded="false">Plane</button>
+					<div class="flyby-submenu" role="menu">
 				<button type="button" role="menuitemradio" aria-checked="true" data-plane="random">Random</button>
 				<div class="flyby-menu-sep"></div>
 				<button type="button" role="menuitemradio" data-plane="a6">A-6</button>
@@ -41,15 +44,21 @@
 				<button type="button" role="menuitemradio" data-plane="thunder">Thunderbirds</button>
 				<button type="button" role="menuitemradio" data-plane="viggen">Viggen</button>
 				<button type="button" role="menuitemradio" data-plane="f22mobius">F-22 Mobius</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="flyby-menu" id="flyby-edit">
 			<button type="button" aria-haspopup="true" aria-expanded="false"><u>E</u>dit</button>
 			<div class="flyby-menu-pop" role="menu">
-				<p class="flyby-menu-label">Speed</p>
-				<button type="button" role="menuitemradio" aria-checked="true" data-speed="1">1×</button>
-				<button type="button" role="menuitemradio" data-speed="2">2×</button>
-				<button type="button" role="menuitemradio" data-speed="4">4×</button>
+				<div class="flyby-sub" id="flyby-speed">
+					<button type="button" class="flyby-sub-btn" aria-haspopup="true" aria-expanded="false">Speed</button>
+					<div class="flyby-submenu" role="menu">
+						<button type="button" role="menuitemradio" aria-checked="true" data-speed="1">1×</button>
+						<button type="button" role="menuitemradio" data-speed="2">2×</button>
+						<button type="button" role="menuitemradio" data-speed="4">4×</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="flyby-menu" id="flyby-about-menu">
@@ -71,11 +80,11 @@
 		About FLYBY2
 	</div>
 	<div class="defrag-dialog-body">
+		<img class="flyby-about-logo" src="/assets/img/flyby/grunder-logo.png" width="314" height="344" alt="Gründer, North Osea Grunder Industries" />
 		<p>This window runs the HTML5 port of Soji Yamakawa’s FLYBY2 screensaver (CaptainYS).</p>
 		<p>Copyright 2022 Soji Yamakawa. The original flight code and aircraft are BSD 3-Clause. The port adds seven aircraft. The supplied F-22 model has no license in its archive.</p>
 		<p><a href="https://github.com/Globalnet626/FLYBY2-web">github.com/Globalnet626/FLYBY2-web</a></p>
 		<p><a href="https://github.com/captainys/FLYBY2">github.com/captainys/FLYBY2</a></p>
-		<div class="flyby-logo-slot">Logo</div>
 		<div class="defrag-dialog-actions">
 			<button type="button" class="defrag-cmd" id="flyby-about-ok">OK</button>
 		</div>
