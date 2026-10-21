@@ -134,16 +134,43 @@
 			return;
 		}
 		t = audioCtx.currentTime;
+		if (master) {
+			try {
+				master.gain.value = 0;
+				master.gain.cancelScheduledValues(t);
+				master.gain.setValueAtTime(0, t);
+			} catch (e) {}
+		}
 		for (i = 0; i < liveOsc.length; i++) {
 			slot = liveOsc[i];
-			if (slot.end <= t) continue;
+			if (slot.timer) {
+				clearTimeout(slot.timer);
+				slot.timer = 0;
+			}
 			try {
 				g = slot.gain.gain;
+				g.value = 0;
 				g.cancelScheduledValues(t);
-				g.setTargetAtTime(0.0001, t, 0.005);
+				g.setValueAtTime(0, t);
+				slot.gain.disconnect();
+			} catch (e) {}
+			try {
+				// stop(now) keeps an oscillator that has not started from ever starting.
+				slot.osc.stop(t);
 			} catch (e) {}
 		}
 		liveOsc = [];
+	}
+
+	function releaseMaster() {
+		var t;
+		if (!master || !audioCtx) return;
+		t = audioCtx.currentTime;
+		try {
+			master.gain.cancelScheduledValues(t);
+			master.gain.value = 1;
+			master.gain.setValueAtTime(1, t);
+		} catch (e) {}
 	}
 
 	// Pitch follows the block index. Callers pass blockCount - 1 as max.
@@ -186,6 +213,7 @@
 		// That tail still counts as a sounding oscillator.
 		if (!claimVoice(when, end + 0.01)) return false;
 		try {
+			releaseMaster();
 			osc = audioCtx.createOscillator();
 			gain = audioCtx.createGain();
 			attack = Math.min(0.005, dur * 0.28);
@@ -193,19 +221,29 @@
 			if (attack > dur * 0.45) attack = dur * 0.45;
 			osc.type = type;
 			osc.frequency.setValueAtTime(hz, when);
+			// Own the value immediately. A future setValueAtTime leaves the default of 1
+			// in place until then, and cancelling that event brings the default back.
+			gain.gain.value = 0;
+			gain.gain.setValueAtTime(0, audioCtx.currentTime);
 			gain.gain.setValueAtTime(0.0001, when);
 			gain.gain.exponentialRampToValueAtTime(peak, when + attack);
 			gain.gain.exponentialRampToValueAtTime(0.0001, end);
 			osc.connect(gain);
 			gain.connect(master || audioCtx.destination);
 			osc.start(when);
-			osc.stop(end + 0.01);
 			now = audioCtx.currentTime;
 			kept = [];
 			for (i = 0; i < liveOsc.length; i++) {
 				if (liveOsc[i].end > now) kept.push(liveOsc[i]);
 			}
-			kept.push({ gain: gain, end: end + 0.01 });
+			kept.push({
+				osc: osc,
+				gain: gain,
+				end: end + 0.01,
+				timer: setTimeout(function () {
+					try { osc.stop(end + 0.01); } catch (e2) {}
+				}, Math.max(0, (end + 0.01 - now) * 1000))
+			});
 			liveOsc = kept;
 			return true;
 		} catch (e) {
