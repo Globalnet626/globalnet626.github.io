@@ -59,7 +59,10 @@
 		if (api && typeof api.setSpeed === "function") api.setSpeed(wantSpeed);
 	}
 
+	var watchStarted = false;
 	function watchPlayer() {
+		if (watchStarted) return;
+		watchStarted = true;
 		hidePlayerChrome();
 		var tries = 0;
 		var timer = setInterval(function () {
@@ -80,7 +83,19 @@
 		}, 200);
 	}
 
+	function playerDocumentComplete() {
+		try {
+			var doc = frame.contentDocument;
+			var href = frame.contentWindow && frame.contentWindow.location.href;
+			return !!(doc && doc.readyState === "complete" && href && href.indexOf("/flyby/player/") !== -1);
+		} catch (err) {
+			return false;
+		}
+	}
+
 	frame.addEventListener("load", watchPlayer);
+	frame.src = "/flyby/player/";
+	if (playerDocumentComplete()) watchPlayer();
 
 	function setExpanded(menu, open) {
 		menu.classList.toggle("is-open", open);
