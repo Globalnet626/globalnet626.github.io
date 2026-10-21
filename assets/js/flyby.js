@@ -67,7 +67,10 @@
 		var bar = document.querySelector(".flyby-splash-bar");
 		if (!img || !bar) return;
 		var w = img.getBoundingClientRect().width;
-		if (w > 40) bar.style.width = Math.round(w) + "px";
+		if (w > 0) {
+			bar.style.width = (w * 1070 / 1119) + "px";
+			bar.style.marginLeft = (w * 49 / 1119) + "px";
+		}
 	}
 
 	function readPlayerProgress() {
