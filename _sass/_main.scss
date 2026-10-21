@@ -1576,8 +1576,8 @@ body:has(.flyby-window) .footer {
 	flex: 0 1 auto;
 	min-height: 0;
 	max-width: 100%;
-	max-height: calc(100% - 26px);
-	width: auto;
+	max-height: calc(50% - 12px);
+	width: max(50%, min(260px, 100%));
 	height: auto;
 	object-fit: contain;
 	image-rendering: crisp-edges;
@@ -1614,9 +1614,6 @@ body:has(.flyby-window) .footer {
 		animation: none;
 		transform: none;
 	}
-}
-.flyby-splash.is-failed .flyby-splash-art img {
-	max-height: calc(100% - 112px);
 }
 .flyby-splash.is-failed .flyby-splash-bar {
 	display: none;

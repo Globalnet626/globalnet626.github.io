@@ -39,3 +39,5 @@ assets/meshes/viggen.json
 assets/pc2/runway.json
 assets/pc2/signal.json
 assets/ter/sample.json
+# Local patch: assets/main-4QDcw11F.js draws blue ground grid lines twice,
+# with the second pass offset one device pixel; reapply after re-vendoring.

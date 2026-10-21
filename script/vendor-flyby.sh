@@ -5,6 +5,8 @@
 # absolute /assets/... URLs, so the build's dist/assets tree is copied into
 # assets/. Sourcemaps are left out. flyby/player/VENDOR.txt lists the copied
 # paths so the next run can remove them.
+# Reapply the local ground-grid line thickness patch noted in VENDOR.txt
+# after replacing the player bundle.
 #
 # From GitHub (after the speed API branch is pushed):
 #   script/vendor-flyby.sh cursor/flyby-speed-f72b
@@ -113,6 +115,7 @@ cp "$STAGE/flyby/player/SOURCE.txt" "$PLAYER/SOURCE.txt"
 if [ -f "$LIST" ]; then
 	while IFS= read -r old; do
 		[ -n "$old" ] || continue
+		case "$old" in \#*) continue ;; esac
 		if ! grep -Fxq "$old" "$STAGE/flyby/player/VENDOR.txt"; then
 			rm -f "$ROOT/$old"
 		fi
