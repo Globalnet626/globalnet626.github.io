@@ -95,36 +95,85 @@
 		splashFill.style.width = pct + "%";
 	}
 
-	function hideSplash() {
-		if (splash) splash.hidden = true;
+	var splashFail = document.getElementById("flyby-splash-fail");
+	var splashStatus = document.getElementById("flyby-splash-status");
+	var splashRetry = document.getElementById("flyby-splash-retry");
+	var watchTimer = null;
+	var watchStartedAt = 0;
+	var splashFailed = false;
+	var SPLASH_WAIT_MS = 30000;
+
+	function setSplashStatus(text) {
+		if (splashStatus) splashStatus.textContent = text;
 	}
 
-	var watchStarted = false;
-	function watchPlayer() {
-		if (watchStarted) return;
-		watchStarted = true;
+	function resetSplashBar() {
+		if (!splashFill) return;
+		splashFill.classList.add("is-indet");
+		splashFill.style.transform = "";
+		splashFill.style.width = "";
+	}
+
+	function showSplashLoading() {
+		splashFailed = false;
+		if (splash) {
+			splash.hidden = false;
+			splash.classList.remove("is-failed");
+		}
+		if (splashFail) splashFail.hidden = true;
+		resetSplashBar();
+		setSplashStatus("Loading");
+	}
+
+	function showSplashFailure() {
+		if (splashFailed) return;
+		splashFailed = true;
+		if (splash) splash.classList.add("is-failed");
+		if (splashFail) splashFail.hidden = false;
+		setSplashStatus("FLYBY2 failed to load");
+		if (splashRetry) splashRetry.focus();
+	}
+
+	function hideSplash() {
+		if (splash) splash.hidden = true;
+		setSplashStatus("");
+	}
+
+	function adoptPlayer(api) {
+		if (watchTimer) {
+			clearInterval(watchTimer);
+			watchTimer = null;
+		}
 		hidePlayerChrome();
-		updateSplash();
-		var tries = 0;
-		var timer = setInterval(function () {
-			tries += 1;
-			hidePlayerChrome();
-			updateSplash();
-			var api = playerApi();
-			if (api) {
-				clearInterval(timer);
-				hideSplash();
-				setSpeedVisible(typeof api.setSpeed === "function");
-				pushAircraft();
-				if (wantSpeed !== 1) pushSpeed();
-				return;
-			}
-			if (tries > 150) {
-				clearInterval(timer);
-				hideSplash();
-				setSpeedVisible(false);
-			}
-		}, 200);
+		hideSplash();
+		setSpeedVisible(typeof api.setSpeed === "function");
+		pushAircraft();
+		if (wantSpeed !== 1) pushSpeed();
+	}
+
+	function tickPlayer() {
+		hidePlayerChrome();
+		if (!splashFailed) updateSplash();
+		var api = playerApi();
+		if (api) {
+			adoptPlayer(api);
+			return;
+		}
+		if (!splashFailed && watchStartedAt && Date.now() - watchStartedAt >= SPLASH_WAIT_MS) {
+			showSplashFailure();
+		}
+	}
+
+	function ensureWatch() {
+		if (watchTimer) return;
+		watchTimer = setInterval(tickPlayer, 200);
+	}
+
+	function reloadPlayer() {
+		showSplashLoading();
+		watchStartedAt = Date.now();
+		ensureWatch();
+		frame.src = "/flyby/player/?retry=" + Date.now();
 	}
 
 	function playerDocumentComplete() {
@@ -137,9 +186,16 @@
 		}
 	}
 
-	frame.addEventListener("load", watchPlayer);
+	frame.addEventListener("load", function () {
+		hidePlayerChrome();
+		if (!splashFailed) updateSplash();
+	});
+	if (splashRetry) splashRetry.addEventListener("click", reloadPlayer);
+	showSplashLoading();
+	watchStartedAt = Date.now();
+	ensureWatch();
 	frame.src = "/flyby/player/";
-	if (playerDocumentComplete()) watchPlayer();
+	if (playerDocumentComplete()) tickPlayer();
 
 	function setExpanded(menu, open) {
 		menu.classList.toggle("is-open", open);
