@@ -40,6 +40,8 @@
 	var voiceUntil = [];
 	var lastFragment = -1;
 	var lastSweep = -1;
+	var pendingSweep = null;
+	var sweepTimer = 0;
 	var stepSerial = 0;
 	var reduced = false;
 	// A full run is this long at 1×, half of that at 2×, on any map size.
@@ -140,6 +142,11 @@
 
 	function stopVoices() {
 		var t, i, slot, g;
+		pendingSweep = null;
+		if (sweepTimer) {
+			clearTimeout(sweepTimer);
+			sweepTimer = 0;
+		}
 		voiceUntil = [];
 		if (!audioCtx) {
 			liveOsc = [];
@@ -346,18 +353,54 @@
 		writeBlip(move.write, when + flashSec, fast);
 	}
 
+	function sweepGap() {
+		return speed > 1 ? 0.12 : 0.2;
+	}
+
+	function startSweep(region, when) {
+		lastSweep = when;
+		regionSweep(region.from, region.to, when);
+	}
+
+	function armSweep(readyAt) {
+		var wait;
+		if (sweepTimer) return;
+		wait = Math.max(0, (readyAt - audioCtx.currentTime) * 1000);
+		sweepTimer = setTimeout(flushSweep, wait);
+	}
+
+	function flushSweep() {
+		var region, when, readyAt;
+		sweepTimer = 0;
+		region = pendingSweep;
+		pendingSweep = null;
+		if (!region || !soundOn()) return;
+		when = audioCtx.currentTime;
+		readyAt = lastSweep + sweepGap();
+		if (when + 0.005 < readyAt) {
+			pendingSweep = region;
+			armSweep(readyAt);
+			return;
+		}
+		// claimVoice inside the sweep keeps this inside the four-voice cap.
+		startSweep(region, Math.max(when, readyAt));
+	}
+
 	function sonifyCommit(move) {
-		var when, region, gap;
+		var when, region, readyAt;
 		if (!soundOn()) return;
 		when = audioCtx.currentTime;
 		region = regionJustFinished(move.write);
 		if (!region) return;
-		// One sweep per frame. A batch can finish several runs; the rest wait
-		// so the four-voice cap stays on the blips already sounding.
-		gap = speed > 1 ? 0.12 : 0.2;
-		if (when - lastSweep < gap) return;
-		lastSweep = when;
-		regionSweep(region.from, region.to, when + 0.08);
+		// One sweep at a time. A second region finished inside the gap is
+		// held, and only the latest one plays when the gap ends.
+		readyAt = lastSweep + sweepGap();
+		if (lastSweep >= 0 && when < readyAt) {
+			pendingSweep = { from: region.from, to: region.to };
+			armSweep(readyAt);
+			return;
+		}
+		startSweep(region, when + 0.08);
 	}
 
 	function shuffle(list) {
