@@ -142,12 +142,12 @@
 		return true;
 	}
 
-	function tone(type, hz, when, dur, peak) {
+	function tone(type, hz, when, dur, peak, reserved) {
 		if (!soundOn()) return false;
 		if (!(hz > 40) || !(dur > 0) || !(peak > 0)) return false;
 		if (when < audioCtx.currentTime) when = audioCtx.currentTime;
 		var end = when + dur;
-		if (!claimVoice(when, end)) return false;
+		if (!reserved && !claimVoice(when, end)) return false;
 		try {
 			var osc = audioCtx.createOscillator();
 			var gain = audioCtx.createGain();
@@ -180,8 +180,11 @@
 	function writeBlip(index, when, fast) {
 		var hz = blockFreq(index, cells.length - 1);
 		var dur = fast ? 0.016 : 0.026;
-		tone("sine", hz, when, dur, 0.02);
-		tone("square", hz, when, dur, 0.008);
+		if (!soundOn()) return;
+		if (when < audioCtx.currentTime) when = audioCtx.currentTime;
+		if (!claimVoice(when, when + dur)) return;
+		tone("sine", hz, when, dur, 0.02, true);
+		tone("square", hz, when, dur, 0.008, true);
 	}
 
 	function fragmentFound(index, when) {
@@ -228,21 +231,22 @@
 		return { from: a, to: b };
 	}
 
-	// Speed sets the gap between these events. At 2×, drop move blips and
-	// sample reads so the four-voice cap stays intelligible.
-	function sonifyStep(move, flashSec, wait) {
+	// The step timer sets the rhythm. At 2×, drop move blips and sample
+	// reads so the four-voice cap stays intelligible.
+	function sonifyStep(move, flashSec) {
 		var when, fast;
 		if (!soundOn()) return;
 		when = audioCtx.currentTime;
-		fast = speed > 1 || wait < 24;
-		writeBlip(move.write, when + flashSec, fast);
+		fast = speed > 1;
 		stepSerial++;
 		if (!fast || stepSerial % 2 === 0) readBlip(move.read, when);
-		if (!fast) moveBlip(move.read, when + 0.012);
 		if (Math.abs(move.read - move.write) > cols * 2 && when - lastFragment > (fast ? 0.5 : 0.22)) {
 			lastFragment = when;
 			fragmentFound(move.read, when + 0.018);
+		} else if (!fast) {
+			moveBlip(move.read, when + 0.012);
 		}
+		writeBlip(move.write, when + flashSec, fast);
 	}
 
 	function sonifyCommit(move) {
@@ -490,7 +494,7 @@
 		var wait = stepMs();
 		var flashMs = Math.min(40, wait * 0.6);
 		if (flashMs < 8) flashMs = Math.min(8, wait);
-		sonifyStep(move, flashMs / 1000, wait);
+		sonifyStep(move, flashMs / 1000);
 		schedule(function () {
 			if (phase !== "run") return;
 			commit(move);
