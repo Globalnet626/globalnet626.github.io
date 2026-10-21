@@ -34,14 +34,26 @@
 	var restoreSelect = false;
 	var resumeAfterNo = false;
 	var speed = 1;
-	var interval = 40;
 	var audioCtx = null;
 	var master = null;
 	var liveOsc = [];
 	var voiceUntil = [];
 	var lastFragment = -1;
+	var lastSweep = -1;
 	var stepSerial = 0;
 	var reduced = false;
+	// A full run is this long at 1×, half of that at 2×, on any map size.
+	var RUN_MS = 6000;
+	var FRAME_MS = 32;
+	var swaps = 0;
+	var fixes = 0;
+	var pace = 0;
+	var workMs = 0;
+	var clockStamp = 0;
+	var pctGoal = 0;
+	var pctShown = 0;
+	var pctT0 = 0;
+	var paintRaf = 0;
 
 	try {
 		reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -335,11 +347,17 @@
 	}
 
 	function sonifyCommit(move) {
-		var when, region;
+		var when, region, gap;
 		if (!soundOn()) return;
 		when = audioCtx.currentTime;
 		region = regionJustFinished(move.write);
-		if (region) regionSweep(region.from, region.to, when + 0.03);
+		if (!region) return;
+		// One sweep per frame. A batch can finish several runs; the rest wait
+		// so the four-voice cap stays on the blips already sounding.
+		gap = speed > 1 ? 0.12 : 0.2;
+		if (when - lastSweep < gap) return;
+		lastSweep = when;
+		regionSweep(region.from, region.to, when + 0.08);
 	}
 
 	function shuffle(list) {
@@ -431,6 +449,21 @@
 		ctx = canvas.getContext("2d");
 		badPat = null;
 		if (ctx) ctx.imageSmoothingEnabled = false;
+		fitMap();
+	}
+
+	// The bitmap stays the grid from when the run started. Maximize and
+	// restore only change how big those cells are drawn, so every row stays
+	// on screen and the map area does not go blank.
+	function fitMap() {
+		var w, h;
+		if (!cols) return;
+		w = mapWrap.clientWidth;
+		h = mapWrap.clientHeight;
+		if (w < 8 || h < 8) return;
+		if (Math.abs(canvas.clientWidth - w) < 2 && Math.abs(canvas.clientHeight - h) < 2) return;
+		canvas.style.width = w + "px";
+		canvas.style.height = h + "px";
 	}
 
 	function countMismatches() {
@@ -455,9 +488,13 @@
 	}
 
 	function commit(move) {
+		var displaced = cells[move.write];
 		var tmp = cells[move.write];
 		cells[move.write] = cells[move.read];
 		cells[move.read] = tmp;
+		swaps++;
+		// The write slot is settled by construction. The read slot sometimes is too.
+		fixes += displaced === final[move.read] ? 2 : 1;
 	}
 
 	function ensureBad() {
@@ -538,58 +575,148 @@
 		pct = total ? Math.floor(settled * 100 / total) : 0;
 		if (phase !== "done" && pct > 99 && settled < total) pct = 99;
 		if (phase === "done") pct = 100;
-		percentEl.textContent = pct + "% Complete";
-		barFill.style.width = pct + "%";
+		pctGoal = pct;
+		if (!pctT0) {
+			pctShown = pctGoal;
+			pctT0 = performance.now();
+			renderPct(true);
+			return;
+		}
+		pctT0 = performance.now();
+		kickPaint();
+	}
+
+	function renderPct(snap) {
+		var shown, width, gap, step;
+		if (snap || phase === "done" || phase === "stopped" || phase === "paused") pctShown = pctGoal;
+		else if (pctShown < pctGoal) {
+			gap = pctGoal - pctShown;
+			// One point per paint unless the bar is several points behind.
+			step = gap > 4 ? gap * 0.5 : 1;
+			if (step > gap) step = gap;
+			pctShown += step;
+		} else pctShown = pctGoal;
+		shown = Math.round(pctShown);
+		if (phase !== "done" && shown > 99 && pctGoal < 100) shown = 99;
+		if (phase === "done") {
+			shown = 100;
+			pctShown = 100;
+		}
+		percentEl.textContent = shown + "% Complete";
+		width = phase === "done" ? 100 : pctShown;
+		barFill.style.width = width + "%";
+	}
+
+	function kickPaint() {
+		if (paintRaf) return;
+		var tick = function () {
+			var snap = phase === "done" || phase === "stopped" || phase === "paused";
+			renderPct(snap);
+			if (!snap && pctGoal - pctShown > 0.2) paintRaf = requestAnimationFrame(tick);
+			else paintRaf = 0;
+		};
+		paintRaf = requestAnimationFrame(tick);
 	}
 
 	function finish() {
 		if (phase === "done" || phase === "stopped") return;
 		phase = "done";
 		clearTimer();
+		pauseClock();
 		flash = null;
 		setStatus("Defragmentation complete.");
 		setRunningButtons(false);
 		updateProgress();
+		renderPct(true);
 		draw();
 		if (soundOn()) verifyScan(audioCtx.currentTime + 0.04);
 		show("done");
 	}
 
 	function stepMs() {
-		return interval;
+		return FRAME_MS;
 	}
 
-	// One frame stays at the old 1× pace so the bar and the flash stay smooth.
-	// Speed is how many blocks that frame settles. A shorter timeout cannot
-	// actually double the old per-cell clock.
+	function elapsedWork() {
+		if (!clockStamp) return workMs;
+		return workMs + (performance.now() - clockStamp) * speed;
+	}
+
+	function pauseClock() {
+		if (!clockStamp) return;
+		workMs += (performance.now() - clockStamp) * speed;
+		clockStamp = 0;
+	}
+
+	function resumeClock() {
+		clockStamp = performance.now();
+	}
+
+	function swapsLeft() {
+		// A swap usually settles the write and sometimes the read too.
+		// Start from that ratio so a short map does not burn its swaps
+		// in the first frames and finish early.
+		var rate = swaps > 0 ? fixes / swaps : 1.7;
+		var left = countMismatches();
+		if (!(rate >= 1)) rate = 1;
+		if (left <= 0) return 0;
+		return Math.ceil(left / rate);
+	}
+
+	// Spread the remaining swaps across the time still left in the run.
+	// 2× burns the same 6s budget twice as fast, so it finishes in about 3s.
 	function blocksThisFrame() {
-		return 4 * speed;
+		var left = swapsLeft();
+		var remain, frames, budget;
+		if (left <= 0) return 0;
+		remain = RUN_MS - elapsedWork();
+		if (remain <= FRAME_MS) return left;
+		frames = (remain / speed) / FRAME_MS;
+		if (!(frames > 0)) return left;
+		budget = left / frames;
+		// A short map has less than one swap per frame. Skip some frames
+		// so it still fills the same 6s instead of ending early.
+		if (budget < 1) {
+			pace += budget;
+			if (pace >= 1) {
+				pace -= 1;
+				return 1;
+			}
+			return 0;
+		}
+		return Math.min(left, Math.ceil(budget));
 	}
 
 	function doStep() {
 		if (phase !== "run") return;
+		var budget = blocksThisFrame();
+		var i, move;
+		if (budget < 1) {
+			schedule(doStep, FRAME_MS);
+			return;
+		}
 		if (reduced) {
-			var n, batch, last = null;
-			for (n = 0; n < 25; n++) {
-				batch = peek();
-				if (!batch) break;
-				commit(batch);
-				last = batch;
+			var last = null;
+			for (i = 0; i < budget; i++) {
+				move = peek();
+				if (!move) break;
+				commit(move);
+				sonifyCommit(move);
+				last = move;
 			}
 			flash = null;
 			updateProgress();
 			draw();
 			if (last && audioCtx) writeBlip(last.write, audioCtx.currentTime, true);
 			if (!peek()) finish();
-			else schedule(doStep, 32);
+			else schedule(doStep, FRAME_MS);
 			return;
 		}
-		var budget = blocksThisFrame();
-		var i, move;
 		for (i = 0; i < budget - 1; i++) {
 			move = peek();
 			if (!move) break;
 			commit(move);
+			sonifyCommit(move);
 		}
 		move = peek();
 		if (!move) {
@@ -604,7 +731,8 @@
 		var wait = stepMs();
 		var flashMs = Math.min(40, wait * 0.6);
 		if (flashMs < 8) flashMs = Math.min(8, wait);
-		// One tone for the whole frame, so a faster run does not pile up voices.
+		// One read/write tone for the whole frame. Region sweeps from the
+		// batched commits above already went through sonifyCommit.
 		sonifyStep(move, flashMs / 1000);
 		schedule(function () {
 			if (phase !== "run") return;
@@ -623,12 +751,13 @@
 		readSpeed();
 		ensureAudio();
 		buildGrid();
-		var mismatches = countMismatches();
-		// Frame length follows however many blocks are out of place
-		// (40000/mismatches, clamped to 16–60ms). Each frame still settles
-		// 4×speed of them, so a shorter map stays about a quarter of the
-		// old one-block-per-frame run for that same map.
-		interval = Math.max(16, Math.min(60, 40000 / Math.max(1, mismatches)));
+		swaps = 0;
+		fixes = 0;
+		pace = 0;
+		workMs = 0;
+		clockStamp = performance.now();
+		pctShown = 0;
+		pctGoal = 0;
 		phase = "run";
 		restoreSelect = false;
 		setStatus("Defragmenting file system...");
@@ -636,13 +765,17 @@
 		show("none");
 		updateProgress();
 		draw();
-		schedule(doStep, reduced ? 32 : stepMs());
+		requestAnimationFrame(fitMap);
+		schedule(doStep, FRAME_MS);
 	}
 
 	function pauseSim() {
 		clearTimer();
 		flash = null;
+		pauseClock();
 		stopVoices();
+		if (cells.length) updateProgress();
+		renderPct(true);
 		draw();
 	}
 
@@ -662,7 +795,10 @@
 			stopBtn.disabled = false;
 			pauseBtn.disabled = false;
 		}
-		if (resumeAfterNo && phase === "run") schedule(doStep, stepMs());
+		if (resumeAfterNo && phase === "run") {
+			resumeClock();
+			schedule(doStep, stepMs());
+		}
 		resumeAfterNo = false;
 	}
 
@@ -732,6 +868,7 @@
 			setStatus("Defragmenting file system...");
 			pauseBtn.textContent = "Pause";
 			if (asmr && asmr.checked) ensureAudio();
+			resumeClock();
 			schedule(doStep, stepMs());
 		}
 	});
@@ -739,6 +876,7 @@
 	detailsBtn.addEventListener("click", function () {
 		var compact = wrap && wrap.classList.toggle("is-defrag-compact");
 		detailsBtn.textContent = compact ? "Show Details" : "Hide Details";
+		if (!compact) requestAnimationFrame(fitMap);
 	});
 
 	var maxBtn = document.querySelector(".defrag-max");
@@ -747,11 +885,20 @@
 		maxBtn.addEventListener("click", function () {
 			wrap.classList.add("is-max");
 			maxBtn.setAttribute("aria-pressed", "true");
+			requestAnimationFrame(fitMap);
 		});
 		restoreBtn.addEventListener("click", function () {
 			wrap.classList.remove("is-max");
 			maxBtn.setAttribute("aria-pressed", "false");
+			requestAnimationFrame(fitMap);
 		});
+	}
+	if (window.ResizeObserver) {
+		new ResizeObserver(function () {
+			fitMap();
+		}).observe(mapWrap);
+	} else {
+		window.addEventListener("resize", fitMap);
 	}
 
 	asmr.addEventListener("change", function () {
@@ -768,6 +915,10 @@
 
 	Array.prototype.forEach.call(document.querySelectorAll('input[name="defrag-speed"]'), function (input) {
 		input.addEventListener("change", function () {
+			if (clockStamp) {
+				workMs += (performance.now() - clockStamp) * speed;
+				clockStamp = performance.now();
+			}
 			readSpeed();
 			if (phase === "run" && !flash) schedule(doStep, stepMs());
 		});
