@@ -362,3 +362,15 @@
   shutter: "1/56"
   focal: 25
   slug: manhan-cafe-2
+
+- file: figures/machu-in-pajamas.webp
+  thumb: figures/thumbs/machu-in-pajamas.webp
+  caption: "machu_in_pajamas"
+  alt: "machu_in_pajamas"
+  tags: [figures]
+  taken: "2026-10-20T20:44:59"
+  camera: Fujifilm X-T10
+  iso: 2000
+  shutter: "1/180"
+  focal: 25
+  slug: machu-in-pajamas
