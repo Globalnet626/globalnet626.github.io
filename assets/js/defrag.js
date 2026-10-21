@@ -357,7 +357,9 @@
 		var w = mapWrap.clientWidth;
 		var h = mapWrap.clientHeight;
 		if (w < 48) w = Math.max(160, root.clientWidth - 8);
-		if (h < 48) h = 210;
+		// Four rows is the shortest map that still draws. A taller fallback
+		// would be clipped by the half-height window.
+		if (h < 36) h = 36;
 		return { w: w, h: h };
 	}
 
@@ -365,8 +367,8 @@
 		var size = measureMap();
 		cols = Math.max(8, Math.floor(size.w / 9));
 		var visible = Math.max(4, Math.floor(size.h / 9));
-		var rows = visible + 20;
-		if (cols * rows > 8000) rows = Math.max(visible + 4, Math.floor(8000 / cols));
+		var rows = visible;
+		if (cols * rows > 8000) rows = Math.max(4, Math.floor(8000 / cols));
 		var n = cols * rows;
 		var badN = Math.max(2, Math.round(n * 0.012));
 		var fixedN = Math.round(n * 0.15);
@@ -616,6 +618,10 @@
 		ensureAudio();
 		buildGrid();
 		var mismatches = countMismatches();
+		// Frame length follows however many blocks are out of place
+		// (40000/mismatches, clamped to 16–60ms). Each frame still settles
+		// 4×speed of them, so a shorter map stays about a quarter of the
+		// old one-block-per-frame run for that same map.
 		interval = Math.max(16, Math.min(60, 40000 / Math.max(1, mismatches)));
 		phase = "run";
 		restoreSelect = false;
