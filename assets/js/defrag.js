@@ -36,6 +36,8 @@
 	var speed = 1;
 	var interval = 40;
 	var audioCtx = null;
+	var master = null;
+	var liveOsc = [];
 	var voiceUntil = [];
 	var lastFragment = -1;
 	var stepSerial = 0;
@@ -105,11 +107,43 @@
 
 	function ensureAudio() {
 		var AC = window.AudioContext || window.webkitAudioContext;
+		var pending;
 		if (!AC) return;
 		try {
-			if (!audioCtx) audioCtx = new AC();
-			if (audioCtx.state === "suspended") audioCtx.resume();
+			if (!audioCtx || audioCtx.state === "closed") {
+				audioCtx = new AC();
+				master = audioCtx.createGain();
+				master.gain.value = 1;
+				master.connect(audioCtx.destination);
+				liveOsc = [];
+				voiceUntil = [];
+			}
+			// 'interrupted' (WebKit) as well as 'suspended'.
+			if (audioCtx.state !== "running") {
+				pending = audioCtx.resume();
+				if (pending && pending.catch) pending.catch(function () {});
+			}
 		} catch (e) {}
+	}
+
+	function stopVoices() {
+		var t, i, slot, g;
+		voiceUntil = [];
+		if (!audioCtx) {
+			liveOsc = [];
+			return;
+		}
+		t = audioCtx.currentTime;
+		for (i = 0; i < liveOsc.length; i++) {
+			slot = liveOsc[i];
+			if (slot.end <= t) continue;
+			try {
+				g = slot.gain.gain;
+				g.cancelScheduledValues(t);
+				g.setTargetAtTime(0.0001, t, 0.005);
+			} catch (e) {}
+		}
+		liveOsc = [];
 	}
 
 	// Pitch follows the block index. Callers pass blockCount - 1 as max.
@@ -142,16 +176,19 @@
 		return true;
 	}
 
-	function tone(type, hz, when, dur, peak, reserved) {
+	function tone(type, hz, when, dur, peak) {
+		var osc, gain, attack, end, now, i, kept;
 		if (!soundOn()) return false;
 		if (!(hz > 40) || !(dur > 0) || !(peak > 0)) return false;
 		if (when < audioCtx.currentTime) when = audioCtx.currentTime;
-		var end = when + dur;
-		if (!reserved && !claimVoice(when, end)) return false;
+		end = when + dur;
+		// stop() is 10 ms after the envelope so the release is not cut off.
+		// That tail still counts as a sounding oscillator.
+		if (!claimVoice(when, end + 0.01)) return false;
 		try {
-			var osc = audioCtx.createOscillator();
-			var gain = audioCtx.createGain();
-			var attack = Math.min(0.005, dur * 0.28);
+			osc = audioCtx.createOscillator();
+			gain = audioCtx.createGain();
+			attack = Math.min(0.005, dur * 0.28);
 			if (attack < 0.002) attack = 0.002;
 			if (attack > dur * 0.45) attack = dur * 0.45;
 			osc.type = type;
@@ -160,9 +197,16 @@
 			gain.gain.exponentialRampToValueAtTime(peak, when + attack);
 			gain.gain.exponentialRampToValueAtTime(0.0001, end);
 			osc.connect(gain);
-			gain.connect(audioCtx.destination);
+			gain.connect(master || audioCtx.destination);
 			osc.start(when);
 			osc.stop(end + 0.01);
+			now = audioCtx.currentTime;
+			kept = [];
+			for (i = 0; i < liveOsc.length; i++) {
+				if (liveOsc[i].end > now) kept.push(liveOsc[i]);
+			}
+			kept.push({ gain: gain, end: end + 0.01 });
+			liveOsc = kept;
 			return true;
 		} catch (e) {
 			return false;
@@ -180,11 +224,23 @@
 	function writeBlip(index, when, fast) {
 		var hz = blockFreq(index, cells.length - 1);
 		var dur = fast ? 0.016 : 0.026;
-		if (!soundOn()) return;
-		if (when < audioCtx.currentTime) when = audioCtx.currentTime;
-		if (!claimVoice(when, when + dur)) return;
-		tone("sine", hz, when, dur, 0.02, true);
-		tone("square", hz, when, dur, 0.008, true);
+		// Sine and square each take a slot, so the mix cannot slip past the cap.
+		tone("sine", hz, when, dur, 0.02);
+		tone("square", hz, when, dur, 0.008);
+	}
+
+	// A fragment is this data value living in more than one contiguous run.
+	function isFragment(index) {
+		var v, a, b, i;
+		v = cells[index];
+		if (v < 1 || v > 3) return false;
+		a = index;
+		while (a > 0 && cells[a - 1] === v) a--;
+		b = index;
+		while (b + 1 < cells.length && cells[b + 1] === v) b++;
+		for (i = 0; i < a; i++) if (cells[i] === v) return true;
+		for (i = b + 1; i < cells.length; i++) if (cells[i] === v) return true;
+		return false;
 	}
 
 	function fragmentFound(index, when) {
@@ -240,7 +296,7 @@
 		fast = speed > 1;
 		stepSerial++;
 		if (!fast || stepSerial % 2 === 0) readBlip(move.read, when);
-		if (Math.abs(move.read - move.write) > cols * 2 && when - lastFragment > (fast ? 0.5 : 0.22)) {
+		if (isFragment(move.read) && when - lastFragment > (fast ? 0.5 : 0.22)) {
 			lastFragment = when;
 			fragmentFound(move.read, when + 0.018);
 		} else if (!fast) {
@@ -527,6 +583,7 @@
 	function pauseSim() {
 		clearTimer();
 		flash = null;
+		stopVoices();
 		draw();
 	}
 
@@ -615,6 +672,7 @@
 			phase = "run";
 			setStatus("Defragmenting file system...");
 			pauseBtn.textContent = "Pause";
+			if (asmr && asmr.checked) ensureAudio();
 			schedule(doStep, stepMs());
 		}
 	});
@@ -642,7 +700,12 @@
 			localStorage.setItem(ASM_KEY, asmr.checked ? "1" : "0");
 		} catch (e) {}
 		if (asmr.checked) ensureAudio();
+		else stopVoices();
 	});
+
+	document.addEventListener("click", function () {
+		if (asmr && asmr.checked) ensureAudio();
+	}, true);
 
 	Array.prototype.forEach.call(document.querySelectorAll('input[name="defrag-speed"]'), function (input) {
 		input.addEventListener("change", function () {
