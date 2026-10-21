@@ -36,7 +36,9 @@
 	var speed = 1;
 	var interval = 40;
 	var audioCtx = null;
-	var lastTick = 0;
+	var voiceUntil = [];
+	var lastFragment = -1;
+	var stepSerial = 0;
 	var reduced = false;
 
 	try {
@@ -110,24 +112,145 @@
 		} catch (e) {}
 	}
 
-	function playTick() {
-		if (!asmr.checked) return;
-		var now = (window.performance && performance.now) ? performance.now() : Date.now();
-		if (now - lastTick < 50) return;
-		if (!audioCtx) return;
-		lastTick = now;
+	// Pitch follows the block index. Callers pass blockCount - 1 as max.
+	function blockFreq(index, max) {
+		var minHz = 180;
+		var maxHz = 1800;
+		if (!(max > 0)) max = 1;
+		var norm = index / max;
+		if (!(norm >= 0)) norm = 0;
+		else if (norm > 1) norm = 1;
+		return minHz * Math.pow(maxHz / minHz, norm);
+	}
+
+	function soundOn() {
+		return !!(asmr && asmr.checked && audioCtx && audioCtx.state !== "closed");
+	}
+
+	function claimVoice(start, end) {
+		var now = audioCtx.currentTime;
+		var i, live = [], overlap = 0, slot;
+		for (i = 0; i < voiceUntil.length; i++) {
+			slot = voiceUntil[i];
+			if (slot.end < now - 0.02) continue;
+			live.push(slot);
+			if (slot.start < end && start < slot.end) overlap++;
+		}
+		voiceUntil = live;
+		if (overlap >= 4) return false;
+		voiceUntil.push({ start: start, end: end });
+		return true;
+	}
+
+	function tone(type, hz, when, dur, peak) {
+		if (!soundOn()) return false;
+		if (!(hz > 40) || !(dur > 0) || !(peak > 0)) return false;
+		if (when < audioCtx.currentTime) when = audioCtx.currentTime;
+		var end = when + dur;
+		if (!claimVoice(when, end)) return false;
 		try {
 			var osc = audioCtx.createOscillator();
 			var gain = audioCtx.createGain();
-			osc.type = "sine";
-			osc.frequency.value = 900;
-			gain.gain.value = 0.035;
+			var attack = Math.min(0.005, dur * 0.28);
+			if (attack < 0.002) attack = 0.002;
+			if (attack > dur * 0.45) attack = dur * 0.45;
+			osc.type = type;
+			osc.frequency.setValueAtTime(hz, when);
+			gain.gain.setValueAtTime(0.0001, when);
+			gain.gain.exponentialRampToValueAtTime(peak, when + attack);
+			gain.gain.exponentialRampToValueAtTime(0.0001, end);
 			osc.connect(gain);
 			gain.connect(audioCtx.destination);
-			var t = audioCtx.currentTime;
-			osc.start(t);
-			osc.stop(t + 0.03);
-		} catch (e) {}
+			osc.start(when);
+			osc.stop(end + 0.01);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
+	function readBlip(index, when) {
+		tone("sine", blockFreq(index, cells.length - 1), when, 0.02, 0.03);
+	}
+
+	function moveBlip(index, when) {
+		tone("triangle", blockFreq(index, cells.length - 1), when, 0.03, 0.028);
+	}
+
+	function writeBlip(index, when, fast) {
+		var hz = blockFreq(index, cells.length - 1);
+		var dur = fast ? 0.016 : 0.026;
+		tone("sine", hz, when, dur, 0.02);
+		tone("square", hz, when, dur, 0.008);
+	}
+
+	function fragmentFound(index, when) {
+		var hz = blockFreq(index, cells.length - 1);
+		tone("sine", hz, when, 0.04, 0.03);
+		tone("sine", hz * 0.67, when + 0.05, 0.045, 0.026);
+	}
+
+	function regionSweep(from, to, when) {
+		var steps = 7;
+		if (reduced) return;
+		var i, idx, span;
+		span = to - from;
+		if (span < 1) span = 1;
+		for (i = 0; i < steps; i++) {
+			idx = from + Math.round(span * i / (steps - 1));
+			tone("sine", blockFreq(idx, cells.length - 1), when + i * 0.022, 0.028, 0.028);
+		}
+	}
+
+	function verifyScan(when) {
+		var n = cells.length;
+		if (reduced) return;
+		var max = n - 1;
+		var steps = 32;
+		var i, idx;
+		if (max < 1) return;
+		for (i = 0; i < steps; i++) {
+			idx = Math.round(max * i / (steps - 1));
+			tone("sine", blockFreq(idx, max), when + i * 0.015, 0.018, 0.026);
+		}
+	}
+
+	function regionJustFinished(index) {
+		var v, a, b;
+		v = final[index];
+		if (v < 1 || v > 3 || cells[index] !== v) return null;
+		a = index;
+		while (a > 0 && final[a - 1] === v && cells[a - 1] === v) a--;
+		b = index;
+		while (b + 1 < cells.length && final[b + 1] === v && cells[b + 1] === v) b++;
+		if (b !== index || b - a + 1 < 8) return null;
+		if (b + 1 < cells.length && final[b + 1] === v) return null;
+		return { from: a, to: b };
+	}
+
+	// Speed sets the gap between these events. At 2×, drop move blips and
+	// sample reads so the four-voice cap stays intelligible.
+	function sonifyStep(move, flashSec, wait) {
+		var when, fast;
+		if (!soundOn()) return;
+		when = audioCtx.currentTime;
+		fast = speed > 1 || wait < 24;
+		writeBlip(move.write, when + flashSec, fast);
+		stepSerial++;
+		if (!fast || stepSerial % 2 === 0) readBlip(move.read, when);
+		if (!fast) moveBlip(move.read, when + 0.012);
+		if (Math.abs(move.read - move.write) > cols * 2 && when - lastFragment > (fast ? 0.5 : 0.22)) {
+			lastFragment = when;
+			fragmentFound(move.read, when + 0.018);
+		}
+	}
+
+	function sonifyCommit(move) {
+		var when, region;
+		if (!soundOn()) return;
+		when = audioCtx.currentTime;
+		region = regionJustFinished(move.write);
+		if (region) regionSweep(region.from, region.to, when + 0.03);
 	}
 
 	function shuffle(list) {
@@ -331,6 +454,7 @@
 		setRunningButtons(false);
 		updateProgress();
 		draw();
+		if (soundOn()) verifyScan(audioCtx.currentTime + 0.04);
 		show("done");
 	}
 
@@ -341,17 +465,17 @@
 	function doStep() {
 		if (phase !== "run") return;
 		if (reduced) {
-			var n, moved = false;
+			var n, batch, last = null;
 			for (n = 0; n < 25; n++) {
-				var batch = peek();
+				batch = peek();
 				if (!batch) break;
 				commit(batch);
-				moved = true;
+				last = batch;
 			}
 			flash = null;
 			updateProgress();
 			draw();
-			if (moved) playTick();
+			if (last && audioCtx) writeBlip(last.write, audioCtx.currentTime, true);
 			if (!peek()) finish();
 			else schedule(doStep, 32);
 			return;
@@ -363,14 +487,15 @@
 		}
 		flash = move;
 		draw();
-		playTick();
 		var wait = stepMs();
 		var flashMs = Math.min(40, wait * 0.6);
 		if (flashMs < 8) flashMs = Math.min(8, wait);
+		sonifyStep(move, flashMs / 1000, wait);
 		schedule(function () {
 			if (phase !== "run") return;
 			commit(move);
 			flash = null;
+			sonifyCommit(move);
 			updateProgress();
 			draw();
 			if (!peek()) finish();
