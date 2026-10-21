@@ -143,10 +143,6 @@
 		}
 		for (i = 0; i < liveOsc.length; i++) {
 			slot = liveOsc[i];
-			if (slot.timer) {
-				clearTimeout(slot.timer);
-				slot.timer = 0;
-			}
 			try {
 				g = slot.gain.gain;
 				g.value = 0;
@@ -231,19 +227,14 @@
 			osc.connect(gain);
 			gain.connect(master || audioCtx.destination);
 			osc.start(when);
+			// Audio-clock stop. Pause may call stop() again with an earlier time.
+			osc.stop(end + 0.01);
 			now = audioCtx.currentTime;
 			kept = [];
 			for (i = 0; i < liveOsc.length; i++) {
 				if (liveOsc[i].end > now) kept.push(liveOsc[i]);
 			}
-			kept.push({
-				osc: osc,
-				gain: gain,
-				end: end + 0.01,
-				timer: setTimeout(function () {
-					try { osc.stop(end + 0.01); } catch (e2) {}
-				}, Math.max(0, (end + 0.01 - now) * 1000))
-			});
+			kept.push({ osc: osc, gain: gain, end: end + 0.01 });
 			liveOsc = kept;
 			return true;
 		} catch (e) {
