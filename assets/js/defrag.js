@@ -294,12 +294,12 @@
 		var n = cells.length;
 		if (reduced) return;
 		var max = n - 1;
-		var steps = 32;
+		var steps = 8;
 		var i, idx;
 		if (max < 1) return;
 		for (i = 0; i < steps; i++) {
 			idx = Math.round(max * i / (steps - 1));
-			tone("sine", blockFreq(idx, max), when + i * 0.015, 0.018, 0.026);
+			tone("sine", blockFreq(idx, max), when + i * 0.012, 0.016, 0.026);
 		}
 	}
 
@@ -548,7 +548,14 @@
 	}
 
 	function stepMs() {
-		return interval / speed;
+		return interval;
+	}
+
+	// One frame stays at the old 1× pace so the bar and the flash stay smooth.
+	// Speed is how many blocks that frame settles. A shorter timeout cannot
+	// actually double the old per-cell clock.
+	function blocksThisFrame() {
+		return 4 * speed;
 	}
 
 	function doStep() {
@@ -569,16 +576,27 @@
 			else schedule(doStep, 32);
 			return;
 		}
-		var move = peek();
+		var budget = blocksThisFrame();
+		var i, move;
+		for (i = 0; i < budget - 1; i++) {
+			move = peek();
+			if (!move) break;
+			commit(move);
+		}
+		move = peek();
 		if (!move) {
+			updateProgress();
+			draw();
 			finish();
 			return;
 		}
 		flash = move;
+		updateProgress();
 		draw();
 		var wait = stepMs();
 		var flashMs = Math.min(40, wait * 0.6);
 		if (flashMs < 8) flashMs = Math.min(8, wait);
+		// One tone for the whole frame, so a faster run does not pile up voices.
 		sonifyStep(move, flashMs / 1000);
 		schedule(function () {
 			if (phase !== "run") return;
