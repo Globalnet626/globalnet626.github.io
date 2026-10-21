@@ -1,5 +1,7 @@
 <style>
 .flyby-about[hidden]{display:none !important}
+.flyby-splash[hidden]{display:none !important}
+.flyby-splash-fail[hidden]{display:none !important}
 .flyby-window .post_title{background:#00007f}
 .flyby-window .post_title h1{color:#bfb8bf}
 </style>
@@ -72,6 +74,20 @@
 	</nav>
 	<div class="flyby-stage">
 		<iframe class="flyby-frame" id="flyby-frame" title="FLYBY2"></iframe>
+		<div class="flyby-splash" id="flyby-splash">
+			<div class="flyby-splash-card">
+				<picture class="flyby-splash-art">
+					<source srcset="/assets/img/flyby/splash.webp" type="image/webp">
+					<img src="/assets/img/flyby/splash.png" alt="" width="1119" height="630">
+				</picture>
+				<div class="flyby-splash-bar" aria-hidden="true"><div class="flyby-splash-fill is-indet" id="flyby-splash-fill"></div></div>
+				<div class="flyby-splash-fail" id="flyby-splash-fail" hidden>
+					<p id="flyby-splash-fail-text">FLYBY2 failed to load</p>
+					<button type="button" class="flyby-splash-retry" id="flyby-splash-retry" aria-describedby="flyby-splash-fail-text">Retry</button>
+				</div>
+			</div>
+			<p class="sr-only" id="flyby-splash-status" role="status">Loading</p>
+		</div>
 	</div>
 	<div class="flyby-status">
 		<div class="flyby-status-pane" id="flyby-status-plane">Random</div>
