@@ -8,6 +8,9 @@
     {% if page.defrag %}
         <title>Defragmenting Drive C</title>
 		<link rel="stylesheet" type="text/css" href="/assets/css/001.css">
+    {% elsif page.flyby %}
+        <title>FLYBY2</title>
+		<link rel="stylesheet" type="text/css" href="/assets/css/001.css">
     {% elsif page.title or page.title == 'me' %}
         <title>{{ page.title }}</title>
 		<link rel="stylesheet" type="text/css" href="/assets/css/002.css">
@@ -33,8 +36,8 @@
 		{% if page.gallery_view %}
 		{% include gallery_photo_anchors.html %}
 		{% endif %}
-		<div class="default_title{% if page.home_files or page.gallery_folder or page.gallery_view or page.defrag %} has-winbtns{% endif %}">
-			{% if page.home_files or page.gallery_folder or page.gallery_view or page.defrag %}
+		<div class="default_title{% if page.home_files or page.gallery_folder or page.gallery_view or page.defrag or page.flyby %} has-winbtns{% endif %}">
+			{% if page.home_files or page.gallery_folder or page.gallery_view or page.defrag or page.flyby %}
 			<a class="winbtn" href="/" aria-label="Close"><span class="fa fa-times"></span></a>
 			<button type="button" class="winbtn winbtn-max gallery-max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
 			<button type="button" class="winbtn gallery-restore" aria-label="Minimize window"><span class="fa fa-window-minimize"></span></button>
@@ -105,7 +108,7 @@
 				{% unless folder %}{% assign folder = page.folder %}{% endunless %}
 				<div class="left">{{ site.tags[folder] | size }} object(s)</div>
 			{% elsif page.home_files %}
-				<div class="left">{{ site.posts | size | plus: 2 }} object(s)</div>
+				<div class="left">{{ site.posts | size | plus: 3 }} object(s)</div>
 			{% else %}
 				<div class="left">{{ site.posts | size }} object(s)</div>
 			{% endif %}
@@ -114,6 +117,9 @@
 	</div>
 	{% if page.defrag %}
 	{% include defrag_window.html %}
+	{% endif %}
+	{% if page.flyby %}
+	{% include flyby_window.html %}
 	{% endif %}
 	{% if page.title %}
         <div class="content">
@@ -182,11 +188,14 @@
 	{% if page.gallery_view %}
 	<script src="/assets/js/gallery.js"></script>
 	{% endif %}
-	{% if page.home_files or page.gallery_folder or page.gallery_view or page.defrag %}
+	{% if page.home_files or page.gallery_folder or page.gallery_view or page.defrag or page.flyby %}
 	<script src="/assets/js/gallery-folder.js"></script>
 	{% endif %}
 	{% if page.defrag %}
 	<script src="/assets/js/defrag.js"></script>
+	{% endif %}
+	{% if page.flyby %}
+	<script src="/assets/js/flyby-mock.js"></script>
 	{% endif %}
 	<div class="footer">
 		<p style="align-content: center;"><i>The heart of the discerning acquires knowledge, for the ears of the wise seek it out. </br><b>Proverbs 18:15</b></i></p>

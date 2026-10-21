@@ -1,0 +1,75 @@
+<div class="content flyby-window">
+	<div class="post_title">
+		<a class="winbtn" href="/" aria-label="Close"><span class="fa fa-times"></span></a>
+		<button type="button" class="winbtn winbtn-max flyby-max" aria-label="Maximize window"><span class="fa fa-window-maximize"></span></button>
+		<button type="button" class="winbtn flyby-restore" aria-label="Restore window"><span class="fa fa-window-minimize"></span></button>
+		<img src="/assets/img/file.png" alt="" />
+		<h1>FLYBY2</h1>
+	</div>
+	<nav class="flyby-menubar" aria-label="FLYBY2">
+		<div class="flyby-menu" id="flyby-file">
+			<button type="button" aria-haspopup="true" aria-expanded="false"><u>F</u>ile</button>
+			<div class="flyby-menu-pop" role="menu">
+				<button type="button" role="menuitemradio" aria-checked="true" data-plane="random">Random</button>
+				<div class="flyby-menu-sep"></div>
+				<button type="button" role="menuitemradio" data-plane="a6">A-6</button>
+				<button type="button" role="menuitemradio" data-plane="angels">Angels</button>
+				<button type="button" role="menuitemradio" data-plane="av8b">AV-8B</button>
+				<button type="button" role="menuitemradio" data-plane="ea6b">EA-6B</button>
+				<button type="button" role="menuitemradio" data-plane="f1">F-1</button>
+				<button type="button" role="menuitemradio" data-plane="f117a">F-117A</button>
+				<button type="button" role="menuitemradio" data-plane="f14sprd">F-14 wings spread</button>
+				<button type="button" role="menuitemradio" data-plane="f14swbk">F-14 wings swept</button>
+				<button type="button" role="menuitemradio" data-plane="f15">F-15</button>
+				<button type="button" role="menuitemradio" data-plane="f16">F-16</button>
+				<button type="button" role="menuitemradio" data-plane="f18">F-18</button>
+				<button type="button" role="menuitemradio" data-plane="f86blue">F-86</button>
+				<button type="button" role="menuitemradio" data-plane="mig21">MiG-21</button>
+				<button type="button" role="menuitemradio" data-plane="mig23spd">MiG-23 wings spread</button>
+				<button type="button" role="menuitemradio" data-plane="mig23wbk">MiG-23 wings swept</button>
+				<button type="button" role="menuitemradio" data-plane="mrg2000">Mirage 2000</button>
+				<button type="button" role="menuitemradio" data-plane="su27">Su-27</button>
+				<button type="button" role="menuitemradio" data-plane="t2blue">T-2</button>
+				<button type="button" role="menuitemradio" data-plane="t400">T-400</button>
+				<button type="button" role="menuitemradio" data-plane="t4blue">T-4</button>
+				<button type="button" role="menuitemradio" data-plane="thunder">Thunderbirds</button>
+				<button type="button" role="menuitemradio" data-plane="viggen">Viggen</button>
+			</div>
+		</div>
+		<div class="flyby-menu" id="flyby-edit">
+			<button type="button" aria-haspopup="true" aria-expanded="false"><u>E</u>dit</button>
+			<div class="flyby-menu-pop" role="menu">
+				<p class="flyby-menu-label">Speed</p>
+				<button type="button" role="menuitemradio" aria-checked="true" data-speed="1">1×</button>
+				<button type="button" role="menuitemradio" data-speed="2">2×</button>
+				<button type="button" role="menuitemradio" data-speed="4">4×</button>
+			</div>
+		</div>
+		<div class="flyby-menu" id="flyby-about-menu">
+			<button type="button" id="flyby-about-btn"><u>A</u>bout</button>
+		</div>
+	</nav>
+	<div class="flyby-stage">
+		<canvas class="flyby-view" id="flyby-view" width="640" height="360" aria-label="FLYBY2 flight view mockup"></canvas>
+	</div>
+	<div class="flyby-status">
+		<div class="flyby-status-pane" id="flyby-status-plane">Random</div>
+		<div class="flyby-status-pane" id="flyby-status-speed">1×</div>
+	</div>
+</div>
+
+<div class="defrag-dialog flyby-about" id="flyby-about" role="dialog" aria-modal="true" aria-labelledby="flyby-about-title" hidden>
+	<div class="defrag-dialog-title" id="flyby-about-title">
+		<button type="button" class="winbtn" id="flyby-about-x" aria-label="Close"><span class="fa fa-times"></span></button>
+		About FLYBY2
+	</div>
+	<div class="defrag-dialog-body">
+		<p>FLYBY2 is a screensaver written by Soji Yamakawa (CaptainYS).</p>
+		<p>Copyright 2022 Soji Yamakawa. The flight code and aircraft are from that project, under the BSD 3-Clause license.</p>
+		<p><a href="https://github.com/captainys/FLYBY2">github.com/captainys/FLYBY2</a></p>
+		<div class="flyby-logo-slot">Logo</div>
+		<div class="defrag-dialog-actions">
+			<button type="button" class="defrag-cmd" id="flyby-about-ok">OK</button>
+		</div>
+	</div>
+</div>
