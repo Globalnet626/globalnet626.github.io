@@ -1,70 +1,86 @@
-// Visual mock only. The canvas is a still stand-in, not the FLYBY2 engine.
+// Win95 chrome around the vendored FLYBY2 player iframe.
 (function () {
 	var win = document.querySelector(".flyby-window");
-	var view = document.getElementById("flyby-view");
+	var frame = document.getElementById("flyby-frame");
 	var about = document.getElementById("flyby-about");
 	var planeStatus = document.getElementById("flyby-status-plane");
 	var speedStatus = document.getElementById("flyby-status-speed");
-	if (!win || !view) return;
+	var speedMenu = document.getElementById("flyby-speed");
+	var editMenu = document.getElementById("flyby-edit");
+	if (!win || !frame) return;
 
-	function draw() {
-		var w = view.clientWidth || 640;
-		var h = view.clientHeight || 360;
-		if (w < 2 || h < 2) return;
-		view.width = w;
-		view.height = h;
-		var ctx = view.getContext("2d");
-		var sky = h * 0.46;
-		ctx.fillStyle = "#7eb6d8";
-		ctx.fillRect(0, 0, w, sky);
-		ctx.fillStyle = "#2f6a32";
-		ctx.fillRect(0, sky, w, h - sky);
-		ctx.strokeStyle = "#14306e";
-		ctx.lineWidth = 1;
-		var i, t, y, x;
-		for (i = 1; i <= 8; i++) {
-			t = i / 8;
-			y = sky + (h - sky) * t * t;
-			ctx.beginPath();
-			ctx.moveTo(0, y);
-			ctx.lineTo(w, y);
-			ctx.stroke();
+	var wantPlane = null;
+	var planeChosen = false;
+	var wantSpeed = 1;
+	var speedReady = false;
+
+	function playerWindow() {
+		try {
+			return frame.contentWindow;
+		} catch (err) {
+			return null;
 		}
-		for (i = -6; i <= 6; i++) {
-			ctx.beginPath();
-			ctx.moveTo(w / 2, sky);
-			ctx.lineTo(w / 2 + i * w * 0.16, h);
-			ctx.stroke();
-		}
-		ctx.fillStyle = "#d0d4d8";
-		ctx.strokeStyle = "#1c1c1c";
-		ctx.lineWidth = 1;
-		x = w * 0.62;
-		y = h * 0.42;
-		ctx.beginPath();
-		ctx.moveTo(x + 46, y);
-		ctx.lineTo(x - 10, y - 8);
-		ctx.lineTo(x - 36, y - 3);
-		ctx.lineTo(x - 18, y + 4);
-		ctx.lineTo(x + 8, y + 6);
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(x - 4, y - 2);
-		ctx.lineTo(x - 28, y - 22);
-		ctx.lineTo(x + 6, y + 1);
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(x - 8, y + 3);
-		ctx.lineTo(x - 22, y + 16);
-		ctx.lineTo(x + 2, y + 5);
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
 	}
+
+	function playerApi() {
+		var player = playerWindow();
+		return player && player.flyby ? player.flyby : null;
+	}
+
+	function hidePlayerChrome() {
+		var player = playerWindow();
+		var doc = player && player.document;
+		var chrome = doc && doc.getElementById("chrome");
+		if (chrome) chrome.style.display = "none";
+	}
+
+	function setSpeedVisible(on) {
+		speedReady = on;
+		if (speedMenu) speedMenu.hidden = !on;
+		if (editMenu) editMenu.hidden = !on;
+	}
+
+	function pushAircraft() {
+		if (!planeChosen) return;
+		var api = playerApi();
+		if (api && typeof api.setAircraft === "function") {
+			api.setAircraft(wantPlane == null ? "random" : wantPlane);
+			return;
+		}
+		var player = playerWindow();
+		var sel = player && player.document && player.document.getElementById("aircraftSelect");
+		if (!sel || !sel.options || sel.options.length < 2) return;
+		sel.value = wantPlane == null ? "" : String(wantPlane);
+		sel.dispatchEvent(new Event("change"));
+	}
+
+	function pushSpeed() {
+		var api = playerApi();
+		if (api && typeof api.setSpeed === "function") api.setSpeed(wantSpeed);
+	}
+
+	function watchPlayer() {
+		hidePlayerChrome();
+		var tries = 0;
+		var timer = setInterval(function () {
+			tries += 1;
+			hidePlayerChrome();
+			var api = playerApi();
+			if (api) {
+				clearInterval(timer);
+				setSpeedVisible(typeof api.setSpeed === "function");
+				pushAircraft();
+				if (wantSpeed !== 1) pushSpeed();
+				return;
+			}
+			if (tries > 150) {
+				clearInterval(timer);
+				setSpeedVisible(false);
+			}
+		}, 200);
+	}
+
+	frame.addEventListener("load", watchPlayer);
 
 	function setExpanded(menu, open) {
 		menu.classList.toggle("is-open", open);
@@ -123,22 +139,30 @@
 		});
 	});
 
+	var planeIndex = 0;
 	Array.prototype.forEach.call(document.querySelectorAll("[data-plane]"), function (item) {
+		var chosen = item.getAttribute("data-plane") === "random" ? null : planeIndex++;
 		item.addEventListener("click", function () {
 			Array.prototype.forEach.call(document.querySelectorAll("[data-plane]"), function (other) {
 				other.setAttribute("aria-checked", other === item ? "true" : "false");
 			});
 			if (planeStatus) planeStatus.textContent = item.textContent;
+			wantPlane = chosen;
+			planeChosen = true;
+			pushAircraft();
 			closeMenus();
 		});
 	});
 
 	Array.prototype.forEach.call(document.querySelectorAll("[data-speed]"), function (item) {
 		item.addEventListener("click", function () {
+			if (!speedReady) return;
 			Array.prototype.forEach.call(document.querySelectorAll("[data-speed]"), function (other) {
 				other.setAttribute("aria-checked", other === item ? "true" : "false");
 			});
 			if (speedStatus) speedStatus.textContent = item.textContent;
+			wantSpeed = Number(item.getAttribute("data-speed")) || 1;
+			pushSpeed();
 			closeMenus();
 		});
 	});
@@ -173,19 +197,6 @@
 
 	var maxBtn = document.querySelector(".flyby-max");
 	var restoreBtn = document.querySelector(".flyby-restore");
-	if (maxBtn) {
-		maxBtn.addEventListener("click", function () {
-			win.classList.add("is-max");
-			requestAnimationFrame(draw);
-		});
-	}
-	if (restoreBtn) {
-		restoreBtn.addEventListener("click", function () {
-			win.classList.remove("is-max");
-			requestAnimationFrame(draw);
-		});
-	}
-
-	window.addEventListener("resize", draw);
-	draw();
+	if (maxBtn) maxBtn.addEventListener("click", function () { win.classList.add("is-max"); });
+	if (restoreBtn) restoreBtn.addEventListener("click", function () { win.classList.remove("is-max"); });
 })();

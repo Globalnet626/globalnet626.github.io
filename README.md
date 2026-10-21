@@ -15,6 +15,10 @@ Do not commit API tokens or rclone config. Setup steps: [docs/gallery-r2.md](doc
 
 `defrag.exe` in the home file list opens `/defrag/`. The program is its own window above the explorer, the same stacking as an open gallery photo, and closing it returns to the explorer. It is a cosmetic Windows 95 Disk Defragmenter: the cluster map, progress bar, and dialogs are drawn in the browser and nothing is read from or written to a disk. Settings has an ASMR tick, generated with the Web Audio API and off unless the checkbox is on. That choice is stored in `localStorage` under `gleebsal-defrag-asmr`. The 1× / 2× speed applies only to the current run.
 
+## FLYBY2
+
+`flyby.exe` in the home file list opens `/flyby/`. The program is its own window above the explorer, and closing it returns to the explorer. The view is a same-origin iframe of `/flyby/player/`, a static build of [Globalnet626/FLYBY2-web](https://github.com/Globalnet626/FLYBY2-web). File → Plane and Edit → Speed call `window.flyby` inside that frame. Speed stays hidden when that build has no `setSpeed`. Refresh the player with `script/vendor-flyby.sh` (see the script for the ref and the local-build override). The page loads `flyby.css?v=` from the build time so it does not depend on a cached `001.css`.
+
 ### Photos in a post
 
 In a file under `_posts`, embed a catalog photo by its gallery key (the `file` path without `.webp`):

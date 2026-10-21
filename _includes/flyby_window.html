@@ -1,3 +1,8 @@
+<style>
+.flyby-about[hidden]{display:none !important}
+.flyby-window .post_title{background:#00007f}
+.flyby-window .post_title h1{color:#bfb8bf}
+</style>
 <div class="content flyby-window">
 	<div class="post_title">
 		<a class="winbtn" href="/" aria-label="Close"><span class="fa fa-times"></span></a>
@@ -66,7 +71,7 @@
 		</div>
 	</nav>
 	<div class="flyby-stage">
-		<canvas class="flyby-view" id="flyby-view" width="640" height="360" aria-label="FLYBY2 flight view mockup"></canvas>
+		<iframe class="flyby-frame" id="flyby-frame" src="/flyby/player/" title="FLYBY2"></iframe>
 	</div>
 	<div class="flyby-status">
 		<div class="flyby-status-pane" id="flyby-status-plane">Random</div>

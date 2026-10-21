@@ -9,8 +9,9 @@
         <title>Defragmenting Drive C</title>
 		<link rel="stylesheet" type="text/css" href="/assets/css/001.css">
     {% elsif page.flyby %}
+        {% assign asset_v = site.time | date: '%s' %}
         <title>FLYBY2</title>
-		<link rel="stylesheet" type="text/css" href="/assets/css/001.css">
+		<link rel="stylesheet" type="text/css" href="/assets/css/flyby.css?v={{ asset_v }}">
     {% elsif page.title or page.title == 'me' %}
         <title>{{ page.title }}</title>
 		<link rel="stylesheet" type="text/css" href="/assets/css/002.css">
@@ -195,7 +196,7 @@
 	<script src="/assets/js/defrag.js"></script>
 	{% endif %}
 	{% if page.flyby %}
-	<script src="/assets/js/flyby-mock.js"></script>
+	<script src="/assets/js/flyby.js?v={{ asset_v }}"></script>
 	{% endif %}
 	<div class="footer">
 		<p style="align-content: center;"><i>The heart of the discerning acquires knowledge, for the ears of the wise seek it out. </br><b>Proverbs 18:15</b></i></p>
