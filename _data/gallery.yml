@@ -386,3 +386,15 @@
   shutter: "1/42"
   focal: 25
   slug: manhan-cafe
+
+- file: dog/untitled_dog-5.webp
+  thumb: dog/thumbs/untitled_dog-5.webp
+  caption: "untitled_dog"
+  alt: "untitled_dog"
+  tags: [dog]
+  taken: "2026-10-18T18:37:02"
+  camera: Fujifilm X-T10
+  iso: 500
+  shutter: "1/60"
+  focal: 25
+  slug: untitled_dog-5
