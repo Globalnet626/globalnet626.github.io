@@ -10,7 +10,7 @@ google_verification: null
 
 # File management
 include: [".htaccess"]
-exclude: ["README.md", "LICENSE", "docs"]
+exclude: ["README.md", "LICENSE", "docs", "test"]
 
 # Sass
 sass:

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>photo frame</title>
+	<link rel="stylesheet" href="/assets/css/photo-frame.css">
+	<link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+	<div class="frame-stage" id="frame-stage">
+		<img class="frame-photo is-shown" alt="" draggable="false">
+		<img class="frame-photo" alt="" draggable="false" aria-hidden="true">
+	</div>
+	<div class="frame-clock">
+		<div class="frame-clock-title">Clock</div>
+		<div class="frame-clock-body">
+			<div class="frame-clock-time"></div>
+			<div class="frame-clock-date"></div>
+		</div>
+	</div>
+	{% assign gallery_dated = site.data.gallery | where_exp: "item", "item.taken != nil" | sort: "taken" | reverse %}
+	{% assign gallery_undated = site.data.gallery | where_exp: "item", "item.taken == nil" %}
+	<script type="application/json" id="frame-photos">[
+		{%- for photo in gallery_dated -%}
+		{%- capture full_src -%}{% include gallery_src.html item=photo kind="full" %}{%- endcapture -%}
+		{"src":{{ full_src | strip | jsonify }},"alt":{{ photo.alt | default: photo.caption | default: "" | jsonify }}}{% unless forloop.last %},{% endunless %}
+		{%- endfor -%}
+		{%- if gallery_dated.size > 0 and gallery_undated.size > 0 -%},{%- endif -%}
+		{%- for photo in gallery_undated -%}
+		{%- capture full_src -%}{% include gallery_src.html item=photo kind="full" %}{%- endcapture -%}
+		{"src":{{ full_src | strip | jsonify }},"alt":{{ photo.alt | default: photo.caption | default: "" | jsonify }}}{% unless forloop.last %},{% endunless %}
+		{%- endfor -%}
+	]</script>
+	<script src="/assets/js/photo-frame.js"></script>
+</body>
+</html>
