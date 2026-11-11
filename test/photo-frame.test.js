@@ -1,5 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("fs");
+const path = require("path");
 const frame = require("../assets/js/photo-frame.js");
 
 function fakeTimers() {
@@ -129,6 +131,22 @@ test("one photo does not schedule a slideshow loop", function () {
 	assert.equal(h.slides[0].count, 1);
 	assert.equal(h.timers.timeouts.length, 0);
 	assert.equal(h.timers.intervals.length, 1);
+});
+
+test("the clock window is inset from the bottom left", function () {
+	const css = fs.readFileSync(path.join(__dirname, "../assets/css/photo-frame.css"), "utf8");
+	const clock = css.slice(css.indexOf(".frame-clock {"), css.indexOf(".frame-clock-title"));
+	assert.match(clock, /bottom:\s*24px/);
+	assert.match(clock, /left:\s*24px/);
+	assert.match(clock, /bottom:\s*max\(24px,\s*env\(safe-area-inset-bottom,\s*0px\)\)/);
+	assert.match(clock, /left:\s*max\(24px,\s*env\(safe-area-inset-left,\s*0px\)\)/);
+	assert.doesNotMatch(clock, /top:\s*50%/);
+	assert.doesNotMatch(clock, /translate\(-50%/);
+	const narrow = css.slice(css.indexOf("@media (max-width: 600px)"));
+	assert.match(narrow, /bottom:\s*16px/);
+	assert.match(narrow, /left:\s*16px/);
+	assert.match(narrow, /env\(safe-area-inset-bottom/);
+	assert.match(narrow, /env\(safe-area-inset-left/);
 });
 
 test("an empty gallery still shows one clock", function () {
