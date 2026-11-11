@@ -54,17 +54,6 @@
 			{% endif %}
 		</div>
 		{% include topbar.html %}
-		{% if page.gallery_folder or page.gallery_view %}
-		<div class="gallery-display-bar">
-			<button type="button" class="gallery-display-entry" id="gallery-display-entry" aria-label="Display photos full screen">
-				<img src="/assets/img/picture-sm.png" alt="" />
-				<span class="gallery-display-copy">
-					<span class="gallery-display-name">Display</span>
-					<span class="gallery-display-hint">Full screen</span>
-				</span>
-			</button>
-		</div>
-		{% endif %}
 		<div class="tag_list">
 			<ul id="tag-list">
 				<li><a href="/" ><img src="/assets/img/disk.png" />(C:)</a>
@@ -148,7 +137,6 @@
 			</ul>
 			{% endunless %}
 			{% if page.gallery_view %}
-			<div class="photo-toolbar">
 			<nav class="photo-menubar" id="photo-menubar" aria-label="Photo">
 				<div class="photo-menu" data-key="f">
 					<button type="button" aria-haspopup="true" aria-expanded="false"><u>F</u>ile</button>
@@ -167,7 +155,6 @@
 				<div class="photo-menu" data-key="v">
 					<button type="button" aria-haspopup="true" aria-expanded="false"><u>V</u>iew</button>
 					<div class="photo-menu-pop" role="menu">
-						<button type="button" role="menuitem" data-act="display"><u>D</u>isplay</button>
 						<button type="button" role="menuitem" data-act="full"><u>F</u>ull screen</button>
 					</div>
 				</div>
@@ -177,19 +164,9 @@
 						<p>Left and Right move between photos.</p>
 						<p>Esc closes full screen.</p>
 						<p>Click the photo for full screen.</p>
-						<p>Display fills the screen and shows the clock.</p>
-						<p>In Display, Space pauses and Esc exits.</p>
 					</div>
 				</div>
 			</nav>
-			<button type="button" class="gallery-display-entry" id="gallery-display-entry-photo" aria-label="Display photos full screen">
-				<img src="/assets/img/picture-sm.png" alt="" />
-				<span class="gallery-display-copy">
-					<span class="gallery-display-name">Display</span>
-					<span class="gallery-display-hint">Full screen</span>
-				</span>
-			</button>
-			</div>
 			{% endif %}
 			<div class="post_content">
         		{{ content }}
@@ -209,9 +186,6 @@
 	<script src="/assets/js/gallery-tree.js"></script>
 	<script src="/assets/js/001.js"></script>
 	<script src="/assets/js/002.js"></script>
-	{% if page.gallery_folder or page.gallery_view %}
-	<script src="/assets/js/gallery-display.js"></script>
-	{% endif %}
 	{% if page.gallery_view %}
 	<script src="/assets/js/gallery.js"></script>
 	{% endif %}

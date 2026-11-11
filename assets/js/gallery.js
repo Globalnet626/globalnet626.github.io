@@ -669,7 +669,6 @@
 	function runAct(name) {
 		if (name === "prev") step(-1);
 		else if (name === "next") step(1);
-		else if (name === "display" && window.galleryDisplay && window.galleryDisplay.open) window.galleryDisplay.open();
 		else if (name === "full") openCurrent();
 		else if (name === "original") openOriginal();
 		else if (name === "close") window.location.href = "/";
@@ -740,9 +739,6 @@
 	}
 
 	document.addEventListener("keydown", function (event) {
-		if (document.body.classList.contains("gallery-frame-open")) {
-			return;
-		}
 		var key = event.key || "";
 		if (key === "Escape" || event.keyCode === 27) {
 			if (menuIsOpen()) {
