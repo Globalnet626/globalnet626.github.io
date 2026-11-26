@@ -28,7 +28,7 @@
 	<script>document.documentElement.setAttribute("data-from", new URLSearchParams(location.search).get("from") || "gallery");</script>
 	{% endif %}
 </head>
-<body>
+<body{% if page.flyby %} data-screensaver="off"{% endif %}>
 
 	<div class="wrapper">
 		{% if page.gallery_folder %}
@@ -109,7 +109,7 @@
 				{% unless folder %}{% assign folder = page.folder %}{% endunless %}
 				<div class="left">{{ site.tags[folder] | size }} object(s)</div>
 			{% elsif page.home_files %}
-				<div class="left">{{ site.posts | size | plus: 3 }} object(s)</div>
+				<div class="left">{{ site.posts | size | plus: 4 }} object(s)</div>
 			{% else %}
 				<div class="left">{{ site.posts | size }} object(s)</div>
 			{% endif %}
@@ -186,6 +186,8 @@
 	<script src="/assets/js/gallery-tree.js"></script>
 	<script src="/assets/js/001.js"></script>
 	<script src="/assets/js/002.js"></script>
+	<script src="/assets/js/screensaver-music.js"></script>
+	<script src="/assets/js/screensaver.js"></script>
 	{% if page.gallery_view %}
 	<script src="/assets/js/gallery.js"></script>
 	{% endif %}

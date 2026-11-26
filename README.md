@@ -41,3 +41,9 @@ A row that wraps on a narrow screen. Keys may mix both catalogs:
 ```liquid
 {% include photos.html keys="dog/untitled_dog-1, figures/smart-falcon, nightwalk/untitled_nightwalk-1" %}
 ```
+
+## Screensaver
+
+`gleebsal.scr` in the home file list starts the screensaver right away. It also starts after five minutes without input on explorer pages. Move the mouse, click, tap, scroll the wheel, or press any key to return to the explorer. Automatic launch waits while the tab is hidden, the page is full screen, or an embedded player has focus. `/flyby/` skips automatic launch, and the photo frame and standalone FLYBY2 player do not load it. The demo is drawn in `assets/js/screensaver.js`, and the icon is `assets/img/screensaver.png`.
+
+The chiptune is synthesized live in `assets/js/screensaver-music.js`. It plays when the browser allows audio and stays silent until the page has had a click or key press.
